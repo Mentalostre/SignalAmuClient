@@ -9,6 +9,7 @@ import { StyleSheet,
     TouchableOpacity,
     KeyboardAvoidingView, } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage/';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const LoginScreen = ({navigation}) => {
@@ -18,17 +19,20 @@ const LoginScreen = ({navigation}) => {
   const [isSubmited, setIsSubmited] = useState(false)
 
   return(
-    <View style = {styles.mainBody}>
-      <KeyboardAvoidingView enabled> 
+    <SafeAreaView style = {styles.mainBody}>
+      <KeyboardAvoidingView behavior='padding'> 
         <View>
-          <Text style={styles.logo}>TODO</Text>
+          <Image style={styles.logo} source={require('../assets/Logo.png')}/>
+          <Text style = {styles.appName}>
+            Signal'AMU
+          </Text>
         </View>
-        <View style={styles.inputView}>
-          <TextInput style={styles.textInput} placeholder='Email' onChangeText={(userEmail) => setUserEmail(userEmail)}/>
-        </View>
-        <View style={styles.inputView}>
-          <TextInput style={styles.textInput} placeholder='Mot de passe' secureTextEntry={true} onChangeText={(userPassword) => setUserPassword(userPassword)}/>
-        </View>
+          <View style={styles.inputView}>
+            <TextInput style={styles.textInput} keyboardType="email-address" placeholder='Email' onChangeText={(userEmail) => setUserEmail(userEmail)} />
+          </View>
+          <View style={styles.inputView}>
+            <TextInput style={styles.textInput} placeholder='Mot de passe' secureTextEntry={true} onChangeText={(userPassword) => setUserPassword(userPassword)}/>
+          </View>
         <TouchableOpacity>
           <Text style={styles.forgotButton}>Mot de passe oublié ?</Text>
         </TouchableOpacity>
@@ -39,7 +43,7 @@ const LoginScreen = ({navigation}) => {
           <Text style={styles.loginButton}>Se connecter</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
-    </View>
+    </SafeAreaView>
   )
 };
 
@@ -47,18 +51,23 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
     logo:{
-      justifyContent: 'center',
-      alignContent: 'center',
-      marginBottom: 100,
-      marginLeft: 175
+      width: '35%',
+      height: undefined,
+      marginLeft: 125,
+      aspectRatio: 1,
     },
     mainBody: {
       flex: 1,
       justifyContent: 'center',
       alignContent: 'center',
     },
+    appName:{
+      textAlign: 'center',
+      fontWeight: 'bold',
+      fontSize: 18,
+      paddingBottom: 100,
+    },
     inputView: {
-      backgroundColor: "#2b71ff",
       borderRadius: 30,
       width: "70%",
       height: 45,
@@ -67,9 +76,11 @@ const styles = StyleSheet.create({
       marginLeft: 55
     },
     textInput: {
-      color: '#FFFFFF',
-      paddingVertical: 10,
-      fontSize: 16,
+      borderColor: "gray",
+      width: "100%",
+      borderWidth: 1,
+      borderRadius: 10,
+      padding: 10,
     },
     forgotButton:{
       height: 30,
