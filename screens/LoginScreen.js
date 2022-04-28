@@ -20,7 +20,7 @@ const LoginScreen = ({navigation}) => {
 
   return(
     <SafeAreaView style = {styles.mainBody}>
-      <KeyboardAvoidingView behavior='padding'> 
+      <KeyboardAvoidingView behavior='padding'>
         <View>
           <Image style={styles.logo} source={require('../assets/Logo.png')}/>
           <Text style = {styles.appName}>
@@ -63,8 +63,8 @@ const styles = StyleSheet.create({
     },
     appName:{
       textAlign: 'center',
-      fontWeight: 'bold',
-      fontSize: 18,
+      fontFamily: 'Roboto-Bold',
+      fontSize: 21,
       paddingBottom: 100,
     },
     inputView: {
