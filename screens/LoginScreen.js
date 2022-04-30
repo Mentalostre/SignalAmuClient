@@ -7,7 +7,8 @@ import { StyleSheet,
     Image,
     Keyboard,
     TouchableOpacity,
-    KeyboardAvoidingView, } from 'react-native';
+    KeyboardAvoidingView,
+    ImageBackground } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage/';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -22,27 +23,27 @@ const LoginScreen = ({navigation}) => {
     <SafeAreaView style = {styles.mainBody}>
       <KeyboardAvoidingView behavior='padding'>
         <View>
-          <Image style={styles.logo} source={require('../assets/Logo.png')}/>
+          <Image style={styles.logo} source={require('../assets/logo.png')}/>
           <Text style = {styles.appName}>
             Signal'AMU
           </Text>
         </View>
           <View style={styles.inputView}>
-            <TextInput style={styles.textInput} keyboardType="email-address" placeholder='Email' onChangeText={(userEmail) => setUserEmail(userEmail)} />
+            <TextInput style={styles.textInput} placeholderTextColor="#3983cd" textAlign={'center'} keyboardType="email-address" placeholder='Email' onChangeText={(userEmail) => setUserEmail(userEmail)} />
           </View>
           <View style={styles.inputView}>
-            <TextInput style={styles.textInput} placeholder='Mot de passe' secureTextEntry={true} onChangeText={(userPassword) => setUserPassword(userPassword)}/>
+            <TextInput style={styles.textInput}  placeholderTextColor="#3983cd" textAlign={'center'} placeholder='Mot de passe' secureTextEntry={true} onChangeText={(userPassword) => setUserPassword(userPassword)}/>
           </View>
-        <TouchableOpacity>
-          <Text style={styles.forgotButton}>Mot de passe oublié ?</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('MainScreen')}>
+          <Text style={styles.loginButton}>Se connecter</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
           <Text style={styles.registerButton}>S'inscrire</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
-          <Text style={styles.loginButton}>Se connecter</Text>
-        </TouchableOpacity>
       </KeyboardAvoidingView>
+      <TouchableOpacity>
+          <Text style={styles.forgotButton}>Mot de passe oublié ?</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   )
 };
@@ -68,54 +69,50 @@ const styles = StyleSheet.create({
       paddingBottom: 100,
     },
     inputView: {
-      borderRadius: 30,
-      width: "70%",
+      borderRadius: 10,
+      width: "90%",
       height: 45,
       marginBottom: 20,
       alignItems: "center",
-      marginLeft: 55
+      alignSelf: 'center'
     },
     textInput: {
-      borderColor: "gray",
+      borderColor: "black",
       width: "100%",
-      borderWidth: 1,
-      borderRadius: 10,
+      borderWidth: 2,
+      borderRadius: 0,
       padding: 10,
+      color: "black"
+    },
+    loginButton:{
+      marginTop:60,
+      paddingTop:10,
+      paddingBottom:10,
+      marginLeft:60,
+      marginRight:60,
+      borderRadius:19,
+      borderWidth: 3,
+      borderColor: '#0066cc',
+      textAlign: 'center'
+    },
+    registerButton:{
+      marginTop:15,
+      paddingTop:10,
+      paddingBottom:10,
+      marginLeft:60,
+      marginRight:60,
+      borderRadius:19,
+      borderWidth: 3,
+      borderColor: '#0066cc',
+      textAlign: 'center'
     },
     forgotButton:{
       height: 30,
-      marginBottom: 30,
+      marginTop: 90,
       alignItems: "center",
+      color:"#0066cc",
       paddingHorizontal: 125,
+      alignSelf: "center"
     },
-    loginButton:{
-      backgroundColor: '#004ae1',
-      borderWidth: 0,
-      color: '#FFFFFF',
-      borderColor: '#7DE24E',
-      height: 40,
-      alignItems: 'center',
-      borderRadius: 30,
-      marginLeft: 35,
-      marginRight: 35,
-      marginTop: 20,
-      marginBottom: 25,
-      paddingVertical: 10,
-      paddingHorizontal: 120,
-    },
-    registerButton:{
-      backgroundColor: '#004ae1',
-      borderWidth: 0,
-      color: '#FFFFFF',
-      borderColor: '#7DE24E',
-      height: 40,
-      alignItems: 'center',
-      borderRadius: 30,
-      marginLeft: 35,
-      marginRight: 35,
-      marginTop: 20,
-      marginBottom: 25,
-      paddingVertical: 10,
-      paddingHorizontal: 125,
-    },
+
 });
