@@ -11,6 +11,7 @@ import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import HomeScreen from "./screens/HomeScreen";
 import DrawerNavigationRoutes from "./screens/DrawerNavigationRoute";
+import ReportScreen from "./screens/ReportScreen"
 
 
 const Stack = createStackNavigator();
@@ -21,10 +22,20 @@ const Auth = () => {
     <Stack.Navigator initialRouteName="LoginScreen">
       <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown: false}} />
       <Stack.Screen name ="RegisterScreen" component={RegisterScreen} options={{headerShown: false}}/>
-      <Stack.Screen name ="HomeScreen" component={HomeScreen} options={{headerShown: false}}/>
+      <Stack.Screen name = "MainScreen" component={MainScreen} options={{headerShown: false}}/>
     </Stack.Navigator>
   );
 };
+
+const MainScreen = () => {
+    return(
+        <Stack.Navigator initialRouteName="HomeScreen">
+            <Stack.Screen name = "HomeScreen" component={HomeScreen} options={{headerShown: false, title: "Carte"}}/>
+            <Stack.Screen name = "ReportScreen" component={ReportScreen} options={{headerShown: true, title: "Signalement d'un incident"}}/>
+        </Stack.Navigator>
+    )
+}
+
 
 const getFonts = () =>
     Font.loadAsync({
@@ -53,7 +64,7 @@ const App = () => {
                     <Stack.Screen name="SplashScreen" component={SplashScreen} options={{headerShown: false}}/>
                     <Stack.Screen name="Auth" component={Auth} options={{headerShown: false}}/>
                     <Stack.Screen name="DrawerNavigationRoutes" component={DrawerNavigationRoutes}
-                                  options={{headerShown: false}}/>
+                                  options={{headerShown: false}}/>              
                 </Stack.Navigator>
             </NavigationContainer>
         );
@@ -69,5 +80,6 @@ const App = () => {
         );
     }
 }
+
 
 export default App;

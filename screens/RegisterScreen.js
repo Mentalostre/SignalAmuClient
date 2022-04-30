@@ -11,7 +11,7 @@ import {
   KeyboardAvoidingView,
   SafeAreaView,
 } from 'react-native';
-
+import { AntDesign } from '@expo/vector-icons'; 
 
 const RegisterScreen = ({navigation}) => {
     const [userEmail, setUserEmail] = useState(" ")
@@ -22,24 +22,27 @@ const RegisterScreen = ({navigation}) => {
 
     return(
         <SafeAreaView style = {styles.mainBody}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.iconStyle}>
+            <AntDesign name="arrowleft" size={32} color="#0066cc"/>
+          </TouchableOpacity>
         <KeyboardAvoidingView behavior='padding'> 
           <View>
-            <Image style={styles.logo} source={require('../assets/Logo.png')}/>
+            <Image style={styles.logo} source={require('../assets/logo.png')}/>
             <Text style = {styles.appName}>
               Signal'AMU
             </Text>
           </View>
             <View style={styles.inputView}>
-              <TextInput style={styles.textInput} keyboardType="email-address" placeholder='Email' onChangeText={(userEmail) => setUserEmail(userEmail)} />
+              <TextInput style={styles.textInput} placeholderTextColor="#3983cd" textAlign={'center'} keyboardType="email-address" placeholder='Email' onChangeText={(userEmail) => setUserEmail(userEmail)} />
             </View>
             <View style={styles.inputView}>
-              <TextInput style={styles.textInput} keyboardType="email-address" placeholder="Confirmer l'adresse email" onChangeText={(userEmail) => setUserEmail(userEmail)} />
+              <TextInput style={styles.textInput} placeholderTextColor="#3983cd" textAlign={'center'} keyboardType="email-address" placeholder="Confirmer l'adresse email" onChangeText={(userEmail) => setUserEmail(userEmail)} />
             </View>
             <View style={styles.inputView}>
-              <TextInput style={styles.textInput} placeholder='Mot de passe' secureTextEntry={true} onChangeText={(userPassword) => setUserPassword(userPassword)}/>
+              <TextInput style={styles.textInput} placeholderTextColor="#3983cd" textAlign={'center'} placeholder='Mot de passe' secureTextEntry={true} onChangeText={(userPassword) => setUserPassword(userPassword)}/>
             </View>
             <View style={styles.inputView}>
-              <TextInput style={styles.textInput} placeholder='Confirmer le mot de passe' secureTextEntry={true} onChangeText={(userPassword) => setUserPassword(userPassword)}/>
+              <TextInput style={styles.textInput} placeholderTextColor="#3983cd" textAlign={'center'} placeholder='Confirmer le mot de passe' secureTextEntry={true} onChangeText={(userPassword) => setUserPassword(userPassword)}/>
             </View>
           <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
             <Text style={styles.registerButton}>S'inscrire</Text>
@@ -70,33 +73,34 @@ const styles = StyleSheet.create({
         paddingBottom: 100,
       },
       inputView: {
-        borderRadius: 30,
-        width: "70%",
+        borderRadius: 10,
+        width: "90%",
         height: 45,
         marginBottom: 20,
         alignItems: "center",
-        marginLeft: 55
+        alignSelf: 'center'
       },
       textInput: {
-        borderColor: "gray",
+        borderColor: "black",
         width: "100%",
-        borderWidth: 1,
-        borderRadius: 10,
+        borderWidth: 2,
+        borderRadius: 150,
         padding: 10,
+        color: "black",
       },
       registerButton:{
-        backgroundColor: '#004ae1',
-        borderWidth: 0,
-        color: '#FFFFFF',
-        borderColor: '#7DE24E',
-        height: 40,
-        alignItems: 'center',
-        borderRadius: 30,
-        marginLeft: 35,
-        marginRight: 35,
-        marginTop: 20,
-        marginBottom: 25,
-        paddingVertical: 10,
-        paddingHorizontal: 125,
+        marginTop:60,
+        paddingTop:10,
+        paddingBottom:10,
+        marginLeft:60,
+        marginRight:60,
+        borderRadius:10,
+        borderWidth: 3,
+        borderColor: '#0066cc',
+        textAlign: 'center'
       },
+      iconStyle:{
+        marginTop: -90,
+        marginLeft: 15
+      }
 })

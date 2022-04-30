@@ -38,7 +38,7 @@ const SplashScreen = ({navigation}) => {
     return (
         <View style={styles.container}>
           <ActivityIndicator animating={animating} color="#FFFFFF" size="large" style={styles.activityIndicator}/>
-          <Image style = {styles.splashImage} source={require('../assets/Logo.png')}/>
+          <Image style = {styles.splashImage} source={require('../assets/logo.png')}/>
             <Text style = {styles.logo}>
                 Signal’AMU
             </Text>
