@@ -1,11 +1,13 @@
 import React from 'react';
-import { Text, View, SafeAreaView, FlatList } from 'react-native';
-import { useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+import MapScreen from './MapScreen';
+
 
 const DrawerNavigationRoutes = () => {
     return(
-        <SafeAreaView style={{flex: 1}}>
-            
+        <SafeAreaView>
+
         </SafeAreaView>
     )
 }
