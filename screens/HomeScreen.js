@@ -9,7 +9,7 @@ import {
   Keyboard,
   TouchableOpacity,
   KeyboardAvoidingView,
-  ImageBackground,
+  ImageBackground, Dimensions,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage/";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -20,64 +20,107 @@ const HomeScreen = ({ navigation }) => {
       <View style={styles.imageView}>
         <Image
           style={styles.imageStyle}
-          source={require("../assets/ICANT.png")}
+          source={require("../assets/handphone.png")}
         />
       </View>
       <View style={styles.textView}>
-        <Text style={styles.textStyle}>
-          "Quand la fac ça devient tb, on est là pour vous aider"
+        <Text style={styles.titleText}>
+          Prenez soin {'\n'} de votre campus
+        </Text>
+        <Text style={styles.aboutText}>
+          Découvrez Signal’AMU, l’application qui vous permet de prendre soin de votre campus en quelques clics.
+          Publier un signalement pour régler les problèmes que vous pouvez rencontrer tous les jours !
         </Text>
       </View>
       <View style={styles.buttonView}>
-        <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
-          <Text style={styles.loginButton}>Se connecter</Text>
+        <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate("LoginScreen")}>
+          <Text style={styles.loginText}>Se connecter</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}>
-          <Text style={styles.registerButton}>S'inscrire</Text>
+        <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate("RegisterScreen")}>
+          <Text style={styles.registerText}>S'inscrire</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
+
 const styles = StyleSheet.create({
   mainView: {
     flex: 1,
     justifyContent: "center",
-    alignContent: "center",
   },
   imageView: {
+    backgroundColor: "#0066cc",
+    width: screenWidth - 18,
+    marginHorizontal: 9,
+    marginTop: 40,
+    height: screenHeight * 0.50,
     alignItems: "center",
+    borderRadius: 45,
+    borderWidth: 0,
+    borderColor: "#fff",
   },
-  imageStyle: {},
+  imageStyle: {
+    width: screenWidth - 18,
+    height: screenHeight * 0.50,
+
+  },
   textView: {
-    marginTop: 150,
+    marginTop: 10,
   },
-  textStyle: {
+  titleText:{
     textAlign: "center",
+    fontFamily: "Outfit-Bold",
+    fontSize: 30,
+    padding: 10,
+  },
+  aboutText: {
+    textAlign: "center",
+    fontFamily: "Outfit-Light",
+    fontSize: 13,
+    padding: 10,
   },
   buttonView: {
-    marginTop: 150,
+    flex: 1,
+    marginBottom: 30,
     flexDirection: "row",
     alignItems: "flex-end",
     justifyContent: "center",
   },
   loginButton: {
     backgroundColor: "#0066cc",
-    color: "#fff",
-    height: 77,
+    height: 65,
     width: 170,
+    borderBottomLeftRadius: 15,
+    borderTopLeftRadius: 15,
+    borderWidth: 0,
+    borderColor: "#fff",
+  },
+  loginText: {
+    paddingTop: 19,
     textAlign: "center",
-    paddingTop: 30,
+    color: "#fff",
+    fontFamily: "Outfit-Bold",
+    fontSize: 20,
   },
   registerButton: {
-    marginBottom: 1,
-    paddingTop: 30,
     backgroundColor: "#cacbcd",
-    color: "#000",
-    height: 75,
+    height: 65,
     width: 170,
+    borderBottomRightRadius: 15,
+    borderTopRightRadius: 15,
+    borderWidth: 0,
+    borderColor: "#fff",
+  },
+  registerText: {
+    paddingTop: 19,
     textAlign: "center",
+    color: "#000",
+    fontFamily: "Outfit-Bold",
+    fontSize: 20,
   },
 });
 
