@@ -9,11 +9,12 @@ import {
   Keyboard,
   TouchableOpacity,
   KeyboardAvoidingView,
-  ImageBackground,
+  ImageBackground, Dimensions,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage/";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
+import {LinearGradient} from "expo-linear-gradient";
 
 const LoginScreen = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState(" ");
@@ -23,16 +24,14 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.mainBody}>
-      <View style={styles.backButtonView}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.backButtonStyle}
-        >
-          <AntDesign name="arrowleft" size={32} color="#0066cc" />
-        </TouchableOpacity>
-      </View>
       <KeyboardAvoidingView behavior="padding">
         <View style={styles.logoView}>
+          <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={styles.backButtonStyle}
+          >
+            <AntDesign name="arrowleft" size={32} color="#0066cc" />
+          </TouchableOpacity>
           <Image
             style={styles.logoStyle}
             source={require("../assets/logo.png")}
@@ -43,15 +42,15 @@ const LoginScreen = ({ navigation }) => {
           <TextInput
             style={styles.textInputStyle}
             placeholderTextColor="#3983cd"
-            textAlign={"center"}
+            textAlign={"left"}
             keyboardType="email-address"
-            placeholder="Email"
+            placeholder="E-mail"
             onChangeText={(userEmail) => setUserEmail(userEmail)}
           />
           <TextInput
             style={styles.textInputStyle}
             placeholderTextColor="#3983cd"
-            textAlign={"center"}
+            textAlign={"left"}
             placeholder="Mot de passe"
             secureTextEntry={true}
             onChangeText={(userPassword) => setUserPassword(userPassword)}
@@ -59,97 +58,141 @@ const LoginScreen = ({ navigation }) => {
         </View>
       </KeyboardAvoidingView>
       <View style={styles.buttonView}>
-        <TouchableOpacity onPress={() => navigation.navigate("MainScreen")}>
-          <Text style={styles.loginButtonStyle}>Se connecter</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}>
-          <Text style={styles.registerButtonStyle}>S'inscrire</Text>
-        </TouchableOpacity>
         <TouchableOpacity>
           <Text style={styles.forgotButtonStyle}>Mot de passe oublié ?</Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("MainScreen")}>
+          <Text style={styles.loginButtonStyle}>Se connecter</Text>
+        </TouchableOpacity>
       </View>
+      <View style={styles.registerView}>
+        <LinearGradient colors={['#FFFFFF', '#0066CC']} style={styles.forgotLeft}
+                        start={[0, 0]}
+                        end={[1, 0]}>
+          <Text> </Text></LinearGradient>
+
+        <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}>
+          <Text style={styles.registerButtonStyle}>Pas encore inscrit ?</Text>
+        </TouchableOpacity>
+
+        <LinearGradient colors={['#0066CC', '#FFFFFF' ]} style={styles.forgotRight}
+                        start={[0, 0]}
+                        end={[1, 0]}>
+          <Text> </Text></LinearGradient>
+      </View>
+
+
     </SafeAreaView>
   );
 };
 
 export default LoginScreen;
 
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
+
 const styles = StyleSheet.create({
-  mainBody: {
-    flex: 1,
-    justifyContent: "center",
-    alignContent: "center",
+  mainBody: {},
+  backButtonStyle: {
+    position: "absolute",
+    left: 20,
   },
-  backButtonView: {
-    marginLeft: 20,
+  logoView: {
+    marginTop: 20,
+    alignItems: "center",
   },
-  backButtonStyle: {},
-  logoView: {},
   logoStyle: {
-    width: "35%",
-    height: undefined,
-    marginLeft: 125,
-    aspectRatio: 1,
+    width: 100,
+    height: 100,
   },
   appNameStyle: {
     textAlign: "center",
-    fontFamily: "Roboto-Bold",
-    fontSize: 21,
-    paddingBottom: 100,
+    fontFamily: "Outfit-Bold",
+    fontSize: 30,
+    paddingBottom: 50,
   },
 
   textInputView: {
-    width: "90%",
-    height: 55,
-    marginBottom: 20,
-    alignItems: "center",
     alignSelf: "center",
-    justifyContent: "space-between",
   },
 
   textInputStyle: {
-    borderColor: "black",
-    width: "100%",
-    borderWidth: 2,
-    borderRadius: 0,
-    padding: 10,
-    color: "black",
-    margin: 5,
+    width: screenWidth - 50,
+    borderWidth: 0,
+    borderRadius: 15,
+    padding: 20,
+    backgroundColor: '#F3F3F3',
+    marginTop: 20,
+    height : 60,
+    fontFamily: "Outfit-Medium",
+    fontSize: 15,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 2,
   },
 
   buttonView: {
-    marginTop: 50,
+    marginTop: 20,
   },
 
   loginButtonStyle: {
-    marginTop: 60,
-    paddingTop: 10,
-    paddingBottom: 10,
-    marginLeft: 60,
-    marginRight: 60,
-    borderRadius: 19,
-    borderWidth: 3,
-    borderColor: "#0066cc",
+    width: screenWidth - 50,
+    borderWidth: 0,
+    borderRadius: 15,
+    overflow: 'hidden',
+    paddingTop: 16,
+    backgroundColor: '#0066CC',
+    marginTop: 20,
+    height : 60,
+    fontFamily: "Outfit-Bold",
+    fontSize: 22,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 2,
     textAlign: "center",
+    alignSelf: "center",
+    color: "#ffffff",
   },
   registerButtonStyle: {
-    marginTop: 15,
-    paddingTop: 10,
-    paddingBottom: 10,
-    marginLeft: 60,
-    marginRight: 60,
-    borderRadius: 19,
-    borderWidth: 3,
-    borderColor: "#0066cc",
-    textAlign: "center",
+    margin: 12,
+
   },
   forgotButtonStyle: {
+
+    paddingRight: 25,
+    alignSelf: "flex-end",
     height: 30,
-    marginTop: 90,
-    alignItems: "center",
-    color: "#0066cc",
-    paddingHorizontal: 125,
-    alignSelf: "center",
+    color: "#2D2626",
+    fontFamily: "Outfit-Medium",
+    fontSize: 15,
   },
+  registerView: {
+    display: "flex",
+    justifyContent: "space-around",
+    flexDirection: "row",
+    marginTop: 20,
+  },
+  forgotLeft: {
+    height: 3,
+    width: screenWidth/2 - 100,
+    marginTop: 20,
+    marginLeft: 20,
+  },
+  forgotRight: {
+    height: 3,
+    width: screenWidth/2 - 100,
+    marginTop: 20,
+    marginRight: 20,
+  }
+
 });

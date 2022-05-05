@@ -66,7 +66,6 @@ const styles = StyleSheet.create({
   imageStyle: {
     width: screenWidth - 18,
     height: screenHeight * 0.50,
-
   },
   textView: {
     marginTop: 10,
@@ -81,7 +80,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontFamily: "Outfit-Light",
     fontSize: 13,
-    padding: 10,
+    padding: 30,
   },
   buttonView: {
     flex: 1,
@@ -98,6 +97,15 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 15,
     borderWidth: 0,
     borderColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 2,
   },
   loginText: {
     paddingTop: 19,
@@ -107,13 +115,21 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   registerButton: {
-    backgroundColor: "#cacbcd",
+    backgroundColor: "#F3F3F3",
     height: 65,
     width: 170,
     borderBottomRightRadius: 15,
     borderTopRightRadius: 15,
     borderWidth: 0,
-    borderColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 2,
   },
   registerText: {
     paddingTop: 19,
