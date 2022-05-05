@@ -17,7 +17,10 @@ const Stack = createStackNavigator();
 
 const Auth = () => {
   return (
-    <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{cardStyle: {backgroundColor: '#FFFFFF'}}}>
+    <Stack.Navigator
+      initialRouteName="HomeScreen"
+      screenOptions={{ cardStyle: { backgroundColor: "#FFFFFF" } }}
+    >
       <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}

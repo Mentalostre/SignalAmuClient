@@ -35,9 +35,9 @@ const MapScreen = ({ navigation }) => {
           <Image
             source={require("../assets/logo.png")}
             style={styles.reportLogo}
-          />
-        </TouchableOpacity>
-      </View>
+          />{" "}
+        </TouchableOpacity>{" "}
+      </View>{" "}
     </View>
   );
 };

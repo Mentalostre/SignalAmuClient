@@ -9,10 +9,11 @@ import {
   Keyboard,
   TouchableOpacity,
   KeyboardAvoidingView,
-  SafeAreaView, Dimensions,
+  SafeAreaView,
+  Dimensions,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import {LinearGradient} from "expo-linear-gradient";
+import { LinearGradient } from "expo-linear-gradient";
 
 const RegisterScreen = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState(" ");
@@ -26,17 +27,17 @@ const RegisterScreen = ({ navigation }) => {
       <KeyboardAvoidingView behavior="padding">
         <View style={styles.logoView}>
           <TouchableOpacity
-              onPress={() => navigation.goBack()}
-              style={styles.backButtonStyle}
+            onPress={() => navigation.goBack()}
+            style={styles.backButtonStyle}
           >
             <AntDesign name="arrowleft" size={32} color="#0066cc" />
-          </TouchableOpacity>
+          </TouchableOpacity>{" "}
           <Image
-              style={styles.logoStyle}
-              source={require("../assets/logo.png")}
-          />
-          <Text style={styles.appNameStyle}>Signal'AMU</Text>
-        </View>
+            style={styles.logoStyle}
+            source={require("../assets/logo.png")}
+          />{" "}
+          <Text style={styles.appNameStyle}> Signal 'AMU</Text>{" "}
+        </View>{" "}
         <View style={styles.textInputView}>
           <TextInput
             style={styles.textInputStyle}
@@ -46,7 +47,6 @@ const RegisterScreen = ({ navigation }) => {
             placeholder="Email"
             onChangeText={(userEmail) => setUserEmail(userEmail)}
           />
-
           <TextInput
             style={styles.textInputStyle}
             placeholderTextColor="#3983cd"
@@ -55,7 +55,6 @@ const RegisterScreen = ({ navigation }) => {
             secureTextEntry={true}
             onChangeText={(userPassword) => setUserPassword(userPassword)}
           />
-
           <TextInput
             style={styles.textInputStyle}
             placeholderTextColor="#3983cd"
@@ -63,27 +62,35 @@ const RegisterScreen = ({ navigation }) => {
             placeholder="Confirmer le mot de passe"
             secureTextEntry={true}
             onChangeText={(userPassword) => setUserPassword(userPassword)}
-          />
-        </View>
-      </KeyboardAvoidingView>
+          />{" "}
+        </View>{" "}
+      </KeyboardAvoidingView>{" "}
       <TouchableOpacity onPress={() => navigation.navigate("MainScreens")}>
-          <Text style={styles.registerButton}>S'inscrire</Text>
-        </TouchableOpacity>
+        <Text style={styles.registerButton}> S 'inscrire</Text>{" "}
+      </TouchableOpacity>{" "}
       <View style={styles.alreadyView}>
-        <LinearGradient colors={['#FFFFFF', '#0066CC']} style={styles.alreadyLeft}
-                        start={[0, 0]}
-                        end={[1, 0]}>
-          <Text> </Text></LinearGradient>
+        <LinearGradient
+          colors={["#FFFFFF", "#0066CC"]}
+          style={styles.alreadyLeft}
+          start={[0, 0]}
+          end={[1, 0]}
+        >
+          <Text> </Text>
+        </LinearGradient>
 
         <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
-          <Text style={styles.alreadyButtonStyle}>Déjà inscrit ?</Text>
+          <Text style={styles.alreadyButtonStyle}> Déjà inscrit ? </Text>{" "}
         </TouchableOpacity>
 
-        <LinearGradient colors={['#0066CC', '#FFFFFF' ]} style={styles.alreadyRight}
-                        start={[0, 0]}
-                        end={[1, 0]}>
-          <Text> </Text></LinearGradient>
-      </View>
+        <LinearGradient
+          colors={["#0066CC", "#FFFFFF"]}
+          style={styles.alreadyRight}
+          start={[0, 0]}
+          end={[1, 0]}
+        >
+          <Text> </Text>
+        </LinearGradient>
+      </View>{" "}
     </SafeAreaView>
   );
 };
@@ -121,9 +128,9 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderRadius: 15,
     padding: 20,
-    backgroundColor: '#F3F3F3',
+    backgroundColor: "#F3F3F3",
     marginTop: 20,
-    height : 60,
+    height: 60,
     fontFamily: "Outfit-Medium",
     fontSize: 15,
     shadowColor: "#000",
@@ -139,11 +146,11 @@ const styles = StyleSheet.create({
     width: screenWidth - 50,
     borderWidth: 0,
     borderRadius: 15,
-    overflow: 'hidden',
+    overflow: "hidden",
     paddingTop: 16,
-    backgroundColor: '#0066CC',
+    backgroundColor: "#0066CC",
     marginTop: 20,
-    height : 60,
+    height: 60,
     fontFamily: "Outfit-Bold",
     fontSize: 22,
     shadowColor: "#000",
@@ -160,13 +167,13 @@ const styles = StyleSheet.create({
   },
   alreadyLeft: {
     height: 3,
-    width: screenWidth/2 - 100,
+    width: screenWidth / 2 - 100,
     marginTop: 20,
     marginLeft: 20,
   },
   alreadyRight: {
     height: 3,
-    width: screenWidth/2 - 100,
+    width: screenWidth / 2 - 100,
     marginTop: 20,
     marginRight: 20,
   },
