@@ -21,22 +21,30 @@ const Auth = () => {
       <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         name="RegisterScreen"
         component={RegisterScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         name="MainScreen"
         component={MainScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+        }}
       />
     </Stack.Navigator>
   );
@@ -48,12 +56,33 @@ const MainScreen = () => {
       <Stack.Screen
         name="MapScreen"
         component={MapScreen}
-        options={{ headerShown: false, title: "Carte" }}
+        options={{
+          headerShown: false,
+          title: "Carte",
+        }}
       />
+      <Stack.Screen
+        name="ReportingScreens"
+        component={ReportingScreens}
+        options={{
+          headerShown: true,
+          title: "Signalement d'un incident",
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const ReportingScreens = () => {
+  return (
+    <Stack.Navigator initialRouteName="ReportScreen">
       <Stack.Screen
         name="ReportScreen"
         component={ReportScreen}
-        options={{ headerShown: true, title: "Signalement d'un incident" }}
+        options={{
+          headerShown: false,
+          title: "Signalement d'un incident",
+        }}
       />
     </Stack.Navigator>
   );
@@ -61,20 +90,20 @@ const MainScreen = () => {
 
 const getFonts = () =>
   Font.loadAsync({
-      "Roboto-Black": require("./assets/fonts/Roboto/Roboto-Black.ttf"),
-      "Roboto-BlackItalic": require("./assets/fonts/Roboto/Roboto-BlackItalic.ttf"),
-      "Roboto-Bold": require("./assets/fonts/Roboto/Roboto-Bold.ttf"),
-      "Roboto-BoldItalic": require("./assets/fonts/Roboto/Roboto-BoldItalic.ttf"),
-      "Roboto-Italic": require("./assets/fonts/Roboto/Roboto-Italic.ttf"),
-      "Roboto-Light": require("./assets/fonts/Roboto/Roboto-Light.ttf"),
-      "Roboto-LightItalic": require("./assets/fonts/Roboto/Roboto-LightItalic.ttf"),
-      "Roboto-Medium": require("./assets/fonts/Roboto/Roboto-Medium.ttf"),
-      "Roboto-MediumItalic": require("./assets/fonts/Roboto/Roboto-MediumItalic.ttf"),
-      "Roboto-Regular": require("./assets/fonts/Roboto/Roboto-Regular.ttf"),
-      "Roboto-Thin": require("./assets/fonts/Roboto/Roboto-Thin.ttf"),
-      "Roboto-ThinItalic": require("./assets/fonts/Roboto/Roboto-ThinItalic.ttf"),
-      "Outfit-Light": require("./assets/fonts/Outfit/Outfit-Light.ttf"),
-      "Outfit-Bold": require("./assets/fonts/Outfit/Outfit-Bold.ttf"),
+    "Roboto-Black": require("./assets/fonts/Roboto/Roboto-Black.ttf"),
+    "Roboto-BlackItalic": require("./assets/fonts/Roboto/Roboto-BlackItalic.ttf"),
+    "Roboto-Bold": require("./assets/fonts/Roboto/Roboto-Bold.ttf"),
+    "Roboto-BoldItalic": require("./assets/fonts/Roboto/Roboto-BoldItalic.ttf"),
+    "Roboto-Italic": require("./assets/fonts/Roboto/Roboto-Italic.ttf"),
+    "Roboto-Light": require("./assets/fonts/Roboto/Roboto-Light.ttf"),
+    "Roboto-LightItalic": require("./assets/fonts/Roboto/Roboto-LightItalic.ttf"),
+    "Roboto-Medium": require("./assets/fonts/Roboto/Roboto-Medium.ttf"),
+    "Roboto-MediumItalic": require("./assets/fonts/Roboto/Roboto-MediumItalic.ttf"),
+    "Roboto-Regular": require("./assets/fonts/Roboto/Roboto-Regular.ttf"),
+    "Roboto-Thin": require("./assets/fonts/Roboto/Roboto-Thin.ttf"),
+    "Roboto-ThinItalic": require("./assets/fonts/Roboto/Roboto-ThinItalic.ttf"),
+    "Outfit-Light": require("./assets/fonts/Outfit/Outfit-Light.ttf"),
+    "Outfit-Bold": require("./assets/fonts/Outfit/Outfit-Bold.ttf"),
   });
 
 const App = () => {
@@ -87,17 +116,23 @@ const App = () => {
           <Stack.Screen
             name="SplashScreen"
             component={SplashScreen}
-            options={{ headerShown: false }}
+            options={{
+              headerShown: false,
+            }}
           />
           <Stack.Screen
             name="Auth"
             component={Auth}
-            options={{ headerShown: false }}
+            options={{
+              headerShown: false,
+            }}
           />
           <Stack.Screen
             name="DrawerNavigationRoutes"
             component={DrawerNavigationRoutes}
-            options={{ headerShown: false }}
+            options={{
+              headerShown: false,
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
