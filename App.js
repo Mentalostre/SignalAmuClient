@@ -17,11 +17,11 @@ const Stack = createStackNavigator();
 
 const Auth = () => {
   return (
-    <Stack.Navigator initialRouteName="HomeScreen">
+    <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{cardStyle: {backgroundColor: '#FFFFFF'}}}>
       <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{ headerShown: false }}
+        options={{ headerShown: false}}
       />
       <Stack.Screen
         name="LoginScreen"
@@ -75,6 +75,7 @@ const getFonts = () =>
       "Roboto-ThinItalic": require("./assets/fonts/Roboto/Roboto-ThinItalic.ttf"),
       "Outfit-Light": require("./assets/fonts/Outfit/Outfit-Light.ttf"),
       "Outfit-Bold": require("./assets/fonts/Outfit/Outfit-Bold.ttf"),
+      "Outfit-Medium": require("./assets/fonts/Outfit/Outfit-Medium.ttf"),
   });
 
 const App = () => {
