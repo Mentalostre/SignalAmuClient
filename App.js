@@ -21,22 +21,30 @@ const Auth = () => {
       <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{ headerShown: false}}
+        options={{
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         name="RegisterScreen"
         component={RegisterScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         name="MainScreen"
         component={MainScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+        }}
       />
     </Stack.Navigator>
   );
@@ -48,12 +56,33 @@ const MainScreen = () => {
       <Stack.Screen
         name="MapScreen"
         component={MapScreen}
-        options={{ headerShown: false, title: "Carte" }}
+        options={{
+          headerShown: false,
+          title: "Carte",
+        }}
       />
+      <Stack.Screen
+        name="ReportingScreens"
+        component={ReportingScreens}
+        options={{
+          headerShown: true,
+          title: "Signalement d'un incident",
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const ReportingScreens = () => {
+  return (
+    <Stack.Navigator initialRouteName="ReportScreen">
       <Stack.Screen
         name="ReportScreen"
         component={ReportScreen}
-        options={{ headerShown: true, title: "Signalement d'un incident" }}
+        options={{
+          headerShown: false,
+          title: "Signalement d'un incident",
+        }}
       />
     </Stack.Navigator>
   );
@@ -88,17 +117,23 @@ const App = () => {
           <Stack.Screen
             name="SplashScreen"
             component={SplashScreen}
-            options={{ headerShown: false }}
+            options={{
+              headerShown: false,
+            }}
           />
           <Stack.Screen
             name="Auth"
             component={Auth}
-            options={{ headerShown: false }}
+            options={{
+              headerShown: false,
+            }}
           />
           <Stack.Screen
             name="DrawerNavigationRoutes"
             component={DrawerNavigationRoutes}
-            options={{ headerShown: false }}
+            options={{
+              headerShown: false,
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>

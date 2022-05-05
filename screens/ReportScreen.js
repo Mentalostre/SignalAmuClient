@@ -32,7 +32,5 @@ const styles = StyleSheet.create({
   mainBody: {
     flex: 1,
   },
-  itemStyle: {
-    padding: 40,
-  },
+  itemStyle: {},
 });
