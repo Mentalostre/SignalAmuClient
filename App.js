@@ -17,13 +17,17 @@ const Stack = createStackNavigator();
 
 const Auth = () => {
   return (
-    <Stack.Navigator initialRouteName="HomeScreen">
+    <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{cardStyle: {backgroundColor: '#FFFFFF'}}}>
       <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
+<<<<<<< HEAD
         options={{
           headerShown: false,
         }}
+=======
+        options={{ headerShown: false}}
+>>>>>>> a8a4261cf72598d60b77bf53cc82724671d8de81
       />
       <Stack.Screen
         name="LoginScreen"
@@ -90,6 +94,7 @@ const ReportingScreens = () => {
 
 const getFonts = () =>
   Font.loadAsync({
+<<<<<<< HEAD
     "Roboto-Black": require("./assets/fonts/Roboto/Roboto-Black.ttf"),
     "Roboto-BlackItalic": require("./assets/fonts/Roboto/Roboto-BlackItalic.ttf"),
     "Roboto-Bold": require("./assets/fonts/Roboto/Roboto-Bold.ttf"),
@@ -104,6 +109,23 @@ const getFonts = () =>
     "Roboto-ThinItalic": require("./assets/fonts/Roboto/Roboto-ThinItalic.ttf"),
     "Outfit-Light": require("./assets/fonts/Outfit/Outfit-Light.ttf"),
     "Outfit-Bold": require("./assets/fonts/Outfit/Outfit-Bold.ttf"),
+=======
+      "Roboto-Black": require("./assets/fonts/Roboto/Roboto-Black.ttf"),
+      "Roboto-BlackItalic": require("./assets/fonts/Roboto/Roboto-BlackItalic.ttf"),
+      "Roboto-Bold": require("./assets/fonts/Roboto/Roboto-Bold.ttf"),
+      "Roboto-BoldItalic": require("./assets/fonts/Roboto/Roboto-BoldItalic.ttf"),
+      "Roboto-Italic": require("./assets/fonts/Roboto/Roboto-Italic.ttf"),
+      "Roboto-Light": require("./assets/fonts/Roboto/Roboto-Light.ttf"),
+      "Roboto-LightItalic": require("./assets/fonts/Roboto/Roboto-LightItalic.ttf"),
+      "Roboto-Medium": require("./assets/fonts/Roboto/Roboto-Medium.ttf"),
+      "Roboto-MediumItalic": require("./assets/fonts/Roboto/Roboto-MediumItalic.ttf"),
+      "Roboto-Regular": require("./assets/fonts/Roboto/Roboto-Regular.ttf"),
+      "Roboto-Thin": require("./assets/fonts/Roboto/Roboto-Thin.ttf"),
+      "Roboto-ThinItalic": require("./assets/fonts/Roboto/Roboto-ThinItalic.ttf"),
+      "Outfit-Light": require("./assets/fonts/Outfit/Outfit-Light.ttf"),
+      "Outfit-Bold": require("./assets/fonts/Outfit/Outfit-Bold.ttf"),
+      "Outfit-Medium": require("./assets/fonts/Outfit/Outfit-Medium.ttf"),
+>>>>>>> a8a4261cf72598d60b77bf53cc82724671d8de81
   });
 
 const App = () => {
