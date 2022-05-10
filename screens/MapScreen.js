@@ -33,7 +33,7 @@ const MapScreen = ({ navigation }) => {
       <View style={styles.logoArea}>
         <TouchableOpacity onPress={() => setState}>
           <Image
-            source={require("../assets/logo.png")}
+            source={require("../assets/images/logo.png")}
             style={styles.reportLogo}
           />
         </TouchableOpacity>

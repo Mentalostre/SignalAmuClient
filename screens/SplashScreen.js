@@ -47,7 +47,7 @@ const SplashScreen = ({ navigation }) => {
       />
       <Image
         style={styles.splashImage}
-        source={require("../assets/logo.png")}
+        source={require("../assets/images/logo.png")}
       />
       <Text style={styles.logo}>Signal’AMU</Text>
       <Text style={styles.copyrightText}>

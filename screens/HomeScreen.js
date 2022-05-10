@@ -20,7 +20,7 @@ const HomeScreen = ({ navigation }) => {
       <View style={styles.imageView}>
         <Image
           style={styles.imageStyle}
-          source={require("../assets/handphone.png")}
+          source={require("../assets/images/handphone.png")}
         />
       </View>
       <View style={styles.textView}>
