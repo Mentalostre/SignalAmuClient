@@ -34,7 +34,7 @@ const LoginScreen = ({ navigation }) => {
           </TouchableOpacity>
           <Image
             style={styles.logoStyle}
-            source={require("../assets/logo.png")}
+            source={require("../assets/images/logo.png")}
           />
           <Text style={styles.appNameStyle}>Signal'AMU</Text>
         </View>
