@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { handleSignupPost } from "../api/signup";
 
 const RegisterScreen = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState(" ");
@@ -31,13 +32,13 @@ const RegisterScreen = ({ navigation }) => {
             style={styles.backButtonStyle}
           >
             <AntDesign name="arrowleft" size={32} color="#0066cc" />
-          </TouchableOpacity>{" "}
+          </TouchableOpacity>
           <Image
             style={styles.logoStyle}
             source={require("../assets/logo.png")}
-          />{" "}
-          <Text style={styles.appNameStyle}> Signal 'AMU</Text>{" "}
-        </View>{" "}
+          />
+          <Text style={styles.appNameStyle}> Signal 'AMU</Text>
+        </View>
         <View style={styles.textInputView}>
           <TextInput
             style={styles.textInputStyle}
@@ -45,6 +46,7 @@ const RegisterScreen = ({ navigation }) => {
             textAlign={"left"}
             keyboardType="email-address"
             placeholder="Email"
+            autoCapitalize="none"
             onChangeText={(userEmail) => setUserEmail(userEmail)}
           />
           <TextInput
@@ -61,13 +63,14 @@ const RegisterScreen = ({ navigation }) => {
             textAlign={"left"}
             placeholder="Confirmer le mot de passe"
             secureTextEntry={true}
-            onChangeText={(userPassword) => setUserPassword(userPassword)}
-          />{" "}
-        </View>{" "}
-      </KeyboardAvoidingView>{" "}
-      <TouchableOpacity onPress={() => navigation.navigate("MainScreens")}>
-        <Text style={styles.registerButton}> S 'inscrire</Text>{" "}
-      </TouchableOpacity>{" "}
+          />
+        </View>
+      </KeyboardAvoidingView>
+      <TouchableOpacity
+        onPress={() => handleSignupPost(userEmail, userPassword)}
+      >
+        <Text style={styles.registerButton}> S 'inscrire</Text>
+      </TouchableOpacity>
       <View style={styles.alreadyView}>
         <LinearGradient
           colors={["#FFFFFF", "#0066CC"]}
@@ -79,7 +82,7 @@ const RegisterScreen = ({ navigation }) => {
         </LinearGradient>
 
         <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
-          <Text style={styles.alreadyButtonStyle}> Déjà inscrit ? </Text>{" "}
+          <Text style={styles.alreadyButtonStyle}> Déjà inscrit ? </Text>
         </TouchableOpacity>
 
         <LinearGradient
@@ -90,7 +93,7 @@ const RegisterScreen = ({ navigation }) => {
         >
           <Text> </Text>
         </LinearGradient>
-      </View>{" "}
+      </View>
     </SafeAreaView>
   );
 };
