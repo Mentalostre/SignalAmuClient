@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { handleSignupPost } from "../api/signup";
 
 const RegisterScreen = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState(" ");
@@ -45,6 +46,7 @@ const RegisterScreen = ({ navigation }) => {
             textAlign={"left"}
             keyboardType="email-address"
             placeholder="Email"
+            autoCapitalize="none"
             onChangeText={(userEmail) => setUserEmail(userEmail)}
           />
           <TextInput
@@ -61,11 +63,12 @@ const RegisterScreen = ({ navigation }) => {
             textAlign={"left"}
             placeholder="Confirmer le mot de passe"
             secureTextEntry={true}
-            onChangeText={(userPassword) => setUserPassword(userPassword)}
           />
         </View>
       </KeyboardAvoidingView>
-      <TouchableOpacity onPress={() => navigation.navigate("MainScreens")}>
+      <TouchableOpacity
+        onPress={() => handleSignupPost(userEmail, userPassword)}
+      >
         <Text style={styles.registerButton}> S 'inscrire</Text>
       </TouchableOpacity>
       <View style={styles.alreadyView}>
