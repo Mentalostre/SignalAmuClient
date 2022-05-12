@@ -6,14 +6,18 @@ import {
   FlatList,
   Image,
   StyleSheet,
+  Dimensions,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as Location from "expo-location";
 import { AntDesign } from "@expo/vector-icons";
+import { map } from "../api/map";
+import WebView from "react-native-webview";
 
 const MapScreen = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [mapRef, setMapRef] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -30,6 +34,13 @@ const MapScreen = ({ navigation }) => {
 
   return (
     <View style={styles.mainArea}>
+      <WebView
+        ref={(webViewRef) => {
+          setMapRef(webViewRef);
+        }}
+        source={{ html: map }}
+        style={styles.mapStyle}
+      />
       <View style={styles.logoArea}>
         <TouchableOpacity onPress={() => setState}>
           <Image
@@ -41,6 +52,9 @@ const MapScreen = ({ navigation }) => {
     </View>
   );
 };
+
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   mainArea: {
@@ -68,6 +82,12 @@ const styles = StyleSheet.create({
   },
   reportButton3: {
     display: "flex",
+  },
+  mapStyle: {
+    height: screenHeight,
+    width: screenWidth,
+    justifyContent: "flex-start",
+    alignItems: "stretch",
   },
 });
 
