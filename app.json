@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "signalamu",
+    "name": "Signal\'AMU",
     "slug": "signalamu",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,7 +8,7 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FFFFFF"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

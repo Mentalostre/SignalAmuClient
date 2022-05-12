@@ -2,94 +2,16 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
 import * as Font from "expo-font";
-import React, { useState } from "react";
-import Apploading from "expo-app-loading";
+import React, {useCallback, useEffect, useState} from "react";
 
-import SplashScreen from "./screens/SplashScreen";
-import LoginScreen from "./screens/LoginScreen";
-import RegisterScreen from "./screens/RegisterScreen";
-import MapScreen from "./screens/MapScreen";
-import DrawerNavigationRoutes from "./screens/DrawerNavigationRoute";
-import ReportScreen from "./screens/ReportScreen";
-import HomeScreen from "./screens/HomeScreen";
+import * as SplashScreen from 'expo-splash-screen';
+import 'react-native-gesture-handler';
+
+
+import Splash from "./screens/SplashScreen";
+import AuthStack from "./navigation/AuthStack";
 
 const Stack = createStackNavigator();
-
-const Auth = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="HomeScreen"
-      screenOptions={{ cardStyle: { backgroundColor: "#FFFFFF" } }}
-    >
-      <Stack.Screen
-        name="HomeScreen"
-        component={HomeScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="LoginScreen"
-        component={LoginScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="RegisterScreen"
-        component={RegisterScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="MainScreen"
-        component={MainScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-    </Stack.Navigator>
-  );
-};
-
-const MainScreen = () => {
-  return (
-    <Stack.Navigator initialRouteName="MapScreen">
-      <Stack.Screen
-        name="MapScreen"
-        component={MapScreen}
-        options={{
-          headerShown: false,
-          title: "Carte",
-        }}
-      />
-      <Stack.Screen
-        name="ReportingScreens"
-        component={ReportingScreens}
-        options={{
-          headerShown: true,
-          title: "Signalement d'un incident",
-        }}
-      />
-    </Stack.Navigator>
-  );
-};
-
-const ReportingScreens = () => {
-  return (
-    <Stack.Navigator initialRouteName="ReportScreen">
-      <Stack.Screen
-        name="ReportScreen"
-        component={ReportScreen}
-        options={{
-          headerShown: false,
-          title: "Signalement d'un incident",
-        }}
-      />
-    </Stack.Navigator>
-  );
-};
 
 const getFonts = () =>
   Font.loadAsync({
@@ -110,48 +32,53 @@ const getFonts = () =>
       "Outfit-Medium": require("./assets/fonts/Outfit/Outfit-Medium.ttf"),
   });
 
-const App = () => {
-  const [fontsloaded, setFontsLoaded] = useState(false);
+export default function App() {
+    const [appIsReady, setAppIsReady] = useState(false);
 
-  if (fontsloaded) {
+    useEffect(() => {
+        async function prepare() {
+            try {
+                await SplashScreen.preventAutoHideAsync();
+                await getFonts();
+            } catch (e) {
+                console.warn(e);
+            } finally{
+                setAppIsReady(true);
+                console.log(appIsReady);
+                await SplashScreen.hideAsync(); //work around splash screen doesn't leave after loading
+            }
+        }
+        prepare();
+    },[]);
+
+    const onLayoutRootView = useCallback(async () => {
+        if (appIsReady) {
+            console.log(appIsReady);
+            await SplashScreen.hideAsync();
+        }
+    }, [appIsReady]);
+
+    if (!appIsReady){
+        return null;
+    }
     return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="SplashScreen">
-          <Stack.Screen
-            name="SplashScreen"
-            component={SplashScreen}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="Auth"
-            component={Auth}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="DrawerNavigationRoutes"
-            component={DrawerNavigationRoutes}
-            options={{
-              headerShown: false,
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName="SplashScreen" onLayout={onLayoutRootView}>
+                <Stack.Screen
+                    name="SplashScreen"
+                    component={Splash}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name="Auth"
+                    component={AuthStack}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+            </Stack.Navigator>
+        </NavigationContainer>
     );
-  } else {
-    return (
-      <Apploading
-        startAsync={getFonts}
-        onFinish={() => {
-          setFontsLoaded(true);
-        }}
-        onError={console.warn}
-      />
-    );
-  }
 };
-
-export default App;

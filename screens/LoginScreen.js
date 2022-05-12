@@ -61,7 +61,7 @@ const LoginScreen = ({ navigation }) => {
         <TouchableOpacity>
           <Text style={styles.forgotButtonStyle}>Mot de passe oublié ?</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("MainScreen")}>
+        <TouchableOpacity onPress={() => navigation.navigate("MapScreen")}>
           <Text style={styles.loginButtonStyle}>Se connecter</Text>
         </TouchableOpacity>
       </View>
