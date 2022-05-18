@@ -9,7 +9,6 @@ import {
   Keyboard,
   TouchableOpacity,
   KeyboardAvoidingView,
-  SafeAreaView,
   Dimensions,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
@@ -24,7 +23,7 @@ const RegisterScreen = ({ navigation }) => {
   const [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
 
   return (
-    <SafeAreaView style={styles.mainBody}>
+    <View style={styles.mainBody}>
       <KeyboardAvoidingView behavior="padding">
         <View style={styles.logoView}>
           <TouchableOpacity
@@ -94,7 +93,7 @@ const RegisterScreen = ({ navigation }) => {
           <Text> </Text>
         </LinearGradient>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -110,7 +109,7 @@ const styles = StyleSheet.create({
     left: 20,
   },
   logoView: {
-    marginTop: 20,
+    marginTop: 50,
     alignItems: "center",
   },
   logoStyle: {

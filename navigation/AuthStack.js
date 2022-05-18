@@ -4,15 +4,14 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
-import MapScreen from "../screens/MapScreen";
+import TabNavigator from "./TabNavigator";
 
 const Stack = createNativeStackNavigator();
 
 const AuthStack = () => {
     return (
         <Stack.Navigator
-            initialRouteName="HomeScreen"
-            screenOptions={{ cardStyle: { backgroundColor: "#FFFFFF" } }}>
+            initialRouteName="HomeScreen">
             <Stack.Screen
                 name="HomeScreen"
                 component={HomeScreen}
@@ -35,8 +34,8 @@ const AuthStack = () => {
                 }}
             />
             <Stack.Screen
-                name="MapScreen"
-                component={MapScreen}
+                name="TabNavigator"
+                component={TabNavigator}
                 options={{
                     headerShown:false,
                 }}

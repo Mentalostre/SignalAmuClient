@@ -12,7 +12,6 @@ import {
   ImageBackground, Dimensions,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage/";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const HomeScreen = ({ navigation }) => {
   return (

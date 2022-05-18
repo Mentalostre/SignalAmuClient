@@ -1,5 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
+import {DefaultTheme, NavigationContainer} from "@react-navigation/native";
 
 import * as Font from "expo-font";
 import React, {useCallback, useEffect, useState} from "react";
@@ -32,8 +32,26 @@ const getFonts = () =>
       "Outfit-Medium": require("./assets/fonts/Outfit/Outfit-Medium.ttf"),
   });
 
+const LightTheme = {
+    ...DefaultTheme,
+    colors: {
+        ...DefaultTheme.colors,
+        primary: 'rgb(0,0,0)',
+        background:'#FFFFFF'
+    },
+};
+
+const DarkTheme = {
+    ...DefaultTheme,
+    colors: {
+        ...DefaultTheme.colors,
+        primary: '#FFFFFF',
+        background:'rgb(0,0,0)'
+    },
+};
+
 export default function App() {
-    const [appIsReady, setAppIsReady] = useState(false);
+    let [appIsReady, setAppIsReady] = useState(false);
 
     useEffect(() => {
         async function prepare() {
@@ -62,8 +80,8 @@ export default function App() {
         return null;
     }
     return (
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName="SplashScreen" onLayout={onLayoutRootView}>
+        <NavigationContainer theme={LightTheme}>
+            <Stack.Navigator initialRouteName="SplashScreen" onLayout={onLayoutRootView} >
                 <Stack.Screen
                     name="SplashScreen"
                     component={Splash}

@@ -12,7 +12,6 @@ import {
   ImageBackground, Dimensions,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage/";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
 import {LinearGradient} from "expo-linear-gradient";
 
@@ -23,7 +22,7 @@ const LoginScreen = ({ navigation }) => {
   const [isSubmited, setIsSubmited] = useState(false);
 
   return (
-    <SafeAreaView style={styles.mainBody}>
+    <View style={styles.mainBody}>
       <KeyboardAvoidingView behavior="padding">
         <View style={styles.logoView}>
           <TouchableOpacity
@@ -61,7 +60,7 @@ const LoginScreen = ({ navigation }) => {
         <TouchableOpacity>
           <Text style={styles.forgotButtonStyle}>Mot de passe oublié ?</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("MapScreen")}>
+        <TouchableOpacity onPress={() => navigation.navigate("TabNavigator")}>
           <Text style={styles.loginButtonStyle}>Se connecter</Text>
         </TouchableOpacity>
       </View>
@@ -82,7 +81,7 @@ const LoginScreen = ({ navigation }) => {
       </View>
 
 
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -98,7 +97,7 @@ const styles = StyleSheet.create({
     left: 20,
   },
   logoView: {
-    marginTop: 20,
+    marginTop: 50,
     alignItems: "center",
   },
   logoStyle: {

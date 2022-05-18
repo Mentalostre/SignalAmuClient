@@ -13,7 +13,6 @@ import {
   FlatList,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage/";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const ReportScreen = ({ navigation }) => {
   return (
