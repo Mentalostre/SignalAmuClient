@@ -10,15 +10,9 @@ import WebView from "react-native-webview";
 
 
 const MapScreen = ({ navigation }) => {
-  const [location, setLocation] = useState({});
-    const [mapRef, setMapRef] = useState(null);
-    const [mapRegion, setmapRegion] = useState({
 
-    latitude: 43.23205,
-    longitude: 5.43915,
-    latitudeDelta: 0.01335,
-    longitudeDelta: 0.00795,
-  });
+    const [mapRef, setMapRef] = useState(null);
+
   return (
       <View style={styles.mainArea}>
 
