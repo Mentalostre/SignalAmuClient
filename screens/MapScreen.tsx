@@ -3,8 +3,6 @@ import {View, StyleSheet, Dimensions, Image, Text, TouchableOpacity, TextInput} 
 import * as Location from 'expo-location'
 import {map} from "../api/map";
 import WebView from "react-native-webview";
-import {FadeIn, SlideInDown, SlideOutDown, ZoomIn, ZoomOut} from "react-native-reanimated";
-import Animated from "react-native-reanimated";
 import Modal from "react-native-modal";
 import Slider from '@react-native-community/slider';
 
@@ -44,10 +42,10 @@ const MapScreen = ({navigation}) => {
                 <TouchableOpacity
                     onPress={() => setIsReportMenuOpen(true)}
                 >
-                    <Animated.Image
+                    <Image
                         source={require("../assets/images/logo.png")}
                         style={styles.reportLogo}
-                        entering={FadeIn.delay(400)}
+
                     />
                 </TouchableOpacity>
             </View>
