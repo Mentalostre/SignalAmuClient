@@ -5,6 +5,7 @@ import {map} from "../api/map";
 import WebView from "react-native-webview";
 import Modal from "react-native-modal";
 import Slider from '@react-native-community/slider';
+import * as ImagePicker from 'expo-image-picker';
 
 
 const MapScreen = ({navigation}) => {
@@ -15,7 +16,8 @@ const MapScreen = ({navigation}) => {
 
     //REPORT
     const [reportLevel, setReportLevel] = useState(1)
-
+    const [reportTag, setReportTag] = useState("none")
+    const [reportDesc, setReportDesc] = useState("")
 
     const toggleReportModal = () => {
         setIsReportModalOpen(!isReportModalOpen)
@@ -23,6 +25,33 @@ const MapScreen = ({navigation}) => {
 
     const toggleReportMenu = () => {
         setIsReportMenuOpen(!isReportMenuOpen)
+    }
+
+    const [reportImage, setReportImage] = useState(null);
+
+    const resetReport = () => {
+        toggleReportModal()
+        setReportLevel(1)
+        setReportTag("none")
+        setReportImage(null)
+    }
+
+    const openCamera = async () => {
+        const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+        const result = await ImagePicker.requestCameraPermissionsAsync();
+
+        if (permissionResult.granted === false) {
+            alert("You've refused to allow this app to access your photos!");
+
+        } else {
+            const result = await ImagePicker.launchCameraAsync();
+
+            if (!result.cancelled) {
+                setReportImage(result.uri);
+            }
+
+            return result;
+        }
     }
 
     return (
@@ -57,20 +86,33 @@ const MapScreen = ({navigation}) => {
             >
                 <View style={styles.reportMenu}>
                     <View style={styles.reports}>
-                        <TouchableOpacity onPress={toggleReportModal}>
+                        <TouchableOpacity onPress={() => {
+                            toggleReportModal();
+                            setReportTag("Vandalisme")
+                        }}>
                             <Image
                                 source={require("../assets/images/logo.png")}
                                 style={styles.reportIcon}
                             />
                         </TouchableOpacity>
-                        <Image
+                        <TouchableOpacity onPress={() => {
+                            toggleReportModal();
+                            setReportTag("Danger")
+                        }}>
+                            <Image
                             source={require("../assets/images/logo.png")}
                             style={styles.reportIcon}
                         />
-                        <Image
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => {
+                            toggleReportModal();
+                            setReportTag("Intendance");
+                        }}>
+                            <Image
                             source={require("../assets/images/logo.png")}
                             style={styles.reportIcon}
                         />
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <TouchableOpacity style={styles.closeReportMenuView}
@@ -79,14 +121,8 @@ const MapScreen = ({navigation}) => {
                            animationInTiming={400} animationOutTiming={400}
                            deviceHeight={screenHeight} deviceWidth={screenWidth}
                            style={{ margin: 0 }}
-                           onBackdropPress={() => {
-                               toggleReportModal()
-                               setReportLevel(1)
-                    }}
-                           onSwipeComplete={() => {
-                               toggleReportModal()
-                               setReportLevel(1)
-                           }}
+                           onBackdropPress={resetReport}
+                           onSwipeComplete={resetReport}
                            swipeDirection="down"
                     >
                         <View style={styles.reportModalView}>
@@ -98,7 +134,10 @@ const MapScreen = ({navigation}) => {
                                     style={styles.textInputStyle}
                                     placeholderTextColor="#3983cd"
                                     textAlign={"left"}
+                                    textAlignVertical={"top"}
+                                    multiline={true}
                                     placeholder="Description"
+                                    onChangeText={(reportDesc) => setReportDesc(reportDesc)}
                                 />
 
                             </TouchableOpacity>
@@ -106,12 +145,19 @@ const MapScreen = ({navigation}) => {
                                 minimumValue={1}
                                 maximumValue={5}
                                 step={1}
-                                style={{width: 200, height: 40}}
+                                style={{width: screenWidth - 60, height: 40}}
                                 onValueChange={(value) => {
                                     setReportLevel(value);
                                 }}
                             />
-                            <Text style={{color: 'white', fontSize: 20}}>{reportLevel}</Text>
+                            <Text style={{color: '#000000FF', fontSize: 20}}>{reportLevel}</Text>
+                            <TouchableOpacity onPress={openCamera}>
+                                <Text>
+                                    Envoyer
+                                </Text>
+                            </TouchableOpacity>
+                            {reportImage && <Image source={{ uri: reportImage }} style={{ width: 200, height: 200 }} />}
+
                         </View>
                     </Modal>
 
@@ -156,7 +202,7 @@ const styles = StyleSheet.create({
         margin: 0,
         height: screenHeight,
         width: screenWidth,
-        backgroundColor: 'grey',
+        backgroundColor: '#FFFFFF',
         flex: 1,
     },
     closeReportMenu: {
@@ -177,15 +223,16 @@ const styles = StyleSheet.create({
         alignItems: "flex-start",
     },
     reportIcon: {
-        height: 90,
-        width: 90,
-        flexDirection: "row",
-        justifyContent: "space-around",
-        alignItems: "flex-start"
+        height: ((screenWidth - 50) /3) - 40,
+        width: ((screenWidth - 50) /3) - 40,
+
     },
     reports: {
         paddingTop: 150,
         padding: 50,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "flex-start"
     },
     centeredView: {
         justifyContent: "center",
@@ -199,7 +246,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 20,
         margin:10,
-        backgroundColor: "blue",
+        backgroundColor: "#F3F3F3",
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -210,13 +257,14 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     textInputStyle: {
-        width: screenWidth - 50,
+        width: screenWidth - 60,
         borderWidth: 0,
         borderRadius: 15,
         padding: 20,
+        paddingTop: 20,
         backgroundColor: '#F3F3F3',
         marginTop: 20,
-        height : 60,
+        height : screenHeight /3,
         fontFamily: "Outfit-Medium",
         fontSize: 15,
         shadowColor: "#000",
