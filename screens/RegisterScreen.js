@@ -96,7 +96,7 @@ const RegisterScreen = ({ navigation }) => {
           <Text> </Text>
         </LinearGradient>
 
-        <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
+        <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
           <Text style={styles.alreadyButtonStyle}> Déjà inscrit ? </Text>
         </TouchableOpacity>
 
