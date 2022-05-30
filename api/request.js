@@ -1,4 +1,4 @@
-const SERVER_URL = "http://192.168.1.56:3000"
+const SERVER_URL = "http://192.168.1.89:3000"
 
 const request_encoded_post = async (data, route) => {
     let d = encode_data(data);
@@ -11,10 +11,25 @@ const request_encoded_post = async (data, route) => {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
         })
-        return await r.json();
+        let result = await r.json();
+        let cookies = get_set_cookies(r.headers);
+        if(cookies){
+            result.cookie = cookies[0];
+        }
+        return result;
     } catch (err) {
         console.log("Error fetching request_encoded_post :  " + err.stack)
     }
+}
+
+const get_set_cookies = function(headers) {
+    const set_cookies = []
+    for (const [name, value] of headers) {
+        if (name === "set-cookie") {
+            set_cookies.push(value)
+        }
+    }
+    return set_cookies
 }
 
 const encode_data = (dataToSend) => {
