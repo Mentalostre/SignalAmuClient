@@ -17,7 +17,6 @@ const TabNavigator = () => {
             <Tabs.Navigator screenOptions={{headerShown:false}}>
                 <Tabs.Screen name="Home" component={MapScreen} />
                 <Tabs.Screen name="Settings" component={SettingsScreen} />
-
             </Tabs.Navigator>
     );
 }

@@ -13,8 +13,7 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { handleSignupPost } from "../api/signup";
-
+import { handleSignupPost } from "../../../../WebstormProjects/signal-amu-clientmabite/api/signup";
 
 const RegisterScreen = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState(" ");
@@ -63,9 +62,9 @@ const RegisterScreen = ({ navigation }) => {
         </View>
       </KeyboardAvoidingView>
       <TouchableOpacity
-        onPress={ async() => {
-          let result = await handleSignupPost(userEmail, userPassword)
-          switch (result){
+        onPress={async () => {
+          let result = await handleSignupPost(userEmail, userPassword);
+          switch (result) {
             case 1:
               navigation.navigate("LoginScreen");
               alert("Validez votre email pour pouvoir vous connecter");
@@ -74,13 +73,14 @@ const RegisterScreen = ({ navigation }) => {
               alert("Veillez à remplir tous les champs");
               break;
             case 25:
-              alert("Veuillez rentrer une email de la faccultée valide");
+              alert("Veuillez rentrer une email de la faculté valide");
               break;
             case 100:
-              alert("Cette adresse mail est déjà utilisé");
+              alert("Cette adresse mail est déjà utilisée");
               break;
             default:
               alert("ERROR");
+              break;
           }
         }}
       >
@@ -96,7 +96,7 @@ const RegisterScreen = ({ navigation }) => {
           <Text> </Text>
         </LinearGradient>
 
-        <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+        <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
           <Text style={styles.alreadyButtonStyle}> Déjà inscrit ? </Text>
         </TouchableOpacity>
 

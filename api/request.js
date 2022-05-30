@@ -1,23 +1,23 @@
-const SERVER_URL = "http://192.168.1.89:3000"
+const SERVER_URL = "http://192.168.1.54:3000"
 
-const request_encoded_post = async (data, route)=>{
+const request_encoded_post = async (data, route) => {
     let d = encode_data(data);
     let path = SERVER_URL + route;
     try {
         let r = await fetch(path, {
-            method:"POST",
+            method: "POST",
             body: d,
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
         })
         return await r.json();
-    }catch (err){
+    } catch (err) {
         console.log("Error fetching request_encoded_post :  " + err.stack)
     }
 }
 
-const encode_data=(dataToSend)=>{
+const encode_data = (dataToSend) => {
     var formBody = [];
     for (var data in dataToSend) {
         var encodedKey = encodeURIComponent(data);
@@ -29,4 +29,6 @@ const encode_data=(dataToSend)=>{
 }
 
 
-export {request_encoded_post}
+export {
+    request_encoded_post
+}

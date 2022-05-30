@@ -9,25 +9,28 @@ import {
   Keyboard,
   TouchableOpacity,
   KeyboardAvoidingView,
-  ImageBackground, Dimensions,
+  ImageBackground,
+  Dimensions,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage/";
 import { AntDesign } from "@expo/vector-icons";
-import {LinearGradient} from "expo-linear-gradient";
+import { LinearGradient } from "expo-linear-gradient";
+import { handleSigninPost } from "../../../../WebstormProjects/signal-amu-clientmabite/api/signin";
+import { getSessionCookie } from "../../../../WebstormProjects/signal-amu-clientmabite/api/cookie";
 
 const LoginScreen = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState(" ");
   const [userPassword, setUserPassword] = useState(" ");
-  const [errorText, setErrorText] = useState({});
-  const [isSubmited, setIsSubmited] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <View style={styles.mainBody}>
       <KeyboardAvoidingView behavior="padding">
         <View style={styles.logoView}>
           <TouchableOpacity
-              onPress={() => navigation.goBack()}
-              style={styles.backButtonStyle}
+            onPress={() => navigation.goBack()}
+            style={styles.backButtonStyle}
           >
             <AntDesign name="arrowleft" size={32} color="#0066cc" />
           </TouchableOpacity>
@@ -42,6 +45,7 @@ const LoginScreen = ({ navigation }) => {
             style={styles.textInputStyle}
             placeholderTextColor="#3983cd"
             textAlign={"left"}
+            autoCapitalize="none"
             keyboardType="email-address"
             placeholder="E-mail"
             onChangeText={(userEmail) => setUserEmail(userEmail)}
@@ -60,27 +64,57 @@ const LoginScreen = ({ navigation }) => {
         <TouchableOpacity>
           <Text style={styles.forgotButtonStyle}>Mot de passe oublié ?</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("TabNavigator")}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("TabNavigator");
+          }}
+
+          /*async () => {
+            let result = await handleSigninPost(userEmail, userPassword);
+            switch (result) {
+              case 1:
+                navigation.navigate("TabNavigator");
+                break;
+              case 50:
+                alert("Veillez à remplir tous les champs");
+                break;
+              case 25:
+                alert("Veuillez rentrer une email de la faculté valide");
+                break;
+              case 13:
+                alert("Mauvais mot de passe");
+              default:
+                alert("ERROR");
+                break;
+            }
+          }*/
+        >
           <Text style={styles.loginButtonStyle}>Se connecter</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.registerView}>
-        <LinearGradient colors={['#FFFFFF', '#0066CC']} style={styles.forgotLeft}
-                        start={[0, 0]}
-                        end={[1, 0]}>
-          <Text> </Text></LinearGradient>
+        <LinearGradient
+          colors={["#FFFFFF", "#0066CC"]}
+          style={styles.forgotLeft}
+          start={[0, 0]}
+          end={[1, 0]}
+        >
+          <Text> </Text>
+        </LinearGradient>
 
         <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}>
           <Text style={styles.registerButtonStyle}>Pas encore inscrit ?</Text>
         </TouchableOpacity>
 
-        <LinearGradient colors={['#0066CC', '#FFFFFF' ]} style={styles.forgotRight}
-                        start={[0, 0]}
-                        end={[1, 0]}>
-          <Text> </Text></LinearGradient>
+        <LinearGradient
+          colors={["#0066CC", "#FFFFFF"]}
+          style={styles.forgotRight}
+          start={[0, 0]}
+          end={[1, 0]}
+        >
+          <Text> </Text>
+        </LinearGradient>
       </View>
-
-
     </View>
   );
 };
@@ -120,9 +154,9 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderRadius: 15,
     padding: 20,
-    backgroundColor: '#F3F3F3',
+    backgroundColor: "#F3F3F3",
     marginTop: 20,
-    height : 60,
+    height: 60,
     fontFamily: "Outfit-Medium",
     fontSize: 15,
     shadowColor: "#000",
@@ -143,11 +177,11 @@ const styles = StyleSheet.create({
     width: screenWidth - 50,
     borderWidth: 0,
     borderRadius: 15,
-    overflow: 'hidden',
+    overflow: "hidden",
     paddingTop: 16,
-    backgroundColor: '#0066CC',
+    backgroundColor: "#0066CC",
     marginTop: 20,
-    height : 60,
+    height: 60,
     fontFamily: "Outfit-Bold",
     fontSize: 22,
     shadowColor: "#000",
@@ -164,10 +198,8 @@ const styles = StyleSheet.create({
   },
   registerButtonStyle: {
     margin: 12,
-
   },
   forgotButtonStyle: {
-
     paddingRight: 25,
     alignSelf: "flex-end",
     height: 30,
@@ -183,15 +215,14 @@ const styles = StyleSheet.create({
   },
   forgotLeft: {
     height: 3,
-    width: screenWidth/2 - 100,
+    width: screenWidth / 2 - 100,
     marginTop: 20,
     marginLeft: 20,
   },
   forgotRight: {
     height: 3,
-    width: screenWidth/2 - 100,
+    width: screenWidth / 2 - 100,
     marginTop: 20,
     marginRight: 20,
-  }
-
+  },
 });
