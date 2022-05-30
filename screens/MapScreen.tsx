@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Dimensions, Image, Text, TouchableOpacity, TextInput} from 'react-native';
 import * as Location from 'expo-location'
 import {map} from "../api/map";
@@ -8,11 +8,26 @@ import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
 
 
+
 const MapScreen = ({navigation}) => {
 
     const [isReportMenuOpen, setIsReportMenuOpen] = useState(false);
     const [isReportModalOpen, setIsReportModalOpen] = useState(false);
     const [mapRef, setMapRef] = useState(null);
+    const [location, setLocation] = useState(null);
+
+    useEffect(() => {
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                alert("You've refused to allow this app to access your location!");
+                return;
+            }
+
+            let location = await Location.getCurrentPositionAsync({});
+            setLocation(location);
+        })();
+    }, []);
 
     //REPORT
     const [reportLevel, setReportLevel] = useState(1)
@@ -41,7 +56,7 @@ const MapScreen = ({navigation}) => {
         const result = await ImagePicker.requestCameraPermissionsAsync();
 
         if (permissionResult.granted === false) {
-            alert("You've refused to allow this app to access your photos!");
+            alert("You've refused to allow this app to access your camera!");
 
         } else {
             const result = await ImagePicker.launchCameraAsync();
@@ -85,34 +100,60 @@ const MapScreen = ({navigation}) => {
                    style={{margin: 0}}
             >
                 <View style={styles.reportMenu}>
-                    <View style={styles.reports}>
+                    <View style={styles.reportsFirstRow}>
                         <TouchableOpacity onPress={() => {
                             toggleReportModal();
                             setReportTag("Vandalisme")
                         }}>
                             <Image
-                                source={require("../assets/images/logo.png")}
+                                source={require("../assets/images/reports/vandalism.png")}
                                 style={styles.reportIcon}
                             />
+                            <Text style={styles.reportName}>Vandalisme</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => {
                             toggleReportModal();
-                            setReportTag("Danger")
+                            setReportTag("Informatif")
                         }}>
                             <Image
-                                source={require("../assets/images/logo.png")}
+                                source={require("../assets/images/reports/informatif.png")}
                                 style={styles.reportIcon}
                             />
+                            <Text style={styles.reportName}>Informatif</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => {
                             toggleReportModal();
                             setReportTag("Intendance");
                         }}>
                             <Image
-                                source={require("../assets/images/logo.png")}
+                                source={require("../assets/images/reports/intendance.png")}
                                 style={styles.reportIcon}
                             />
+                            <Text style={styles.reportName}>Intendance</Text>
                         </TouchableOpacity>
+                    </View>
+                    <View style={styles.reportsSecondRow}>
+                        <TouchableOpacity onPress={() => {
+                            toggleReportModal();
+                            setReportTag("Technique");
+                        }}>
+                            <Image
+                                source={require("../assets/images/reports/technique.png")}
+                                style={styles.reportIcon}
+                            />
+                            <Text style={styles.reportName}>Technique</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => {
+                            toggleReportModal();
+                            setReportTag("Propreté");
+                        }}>
+                            <Image
+                                source={require("../assets/images/reports/proprete.png")}
+                                style={styles.reportIcon}
+                            />
+                            <Text style={styles.reportName}>Propreté</Text>
+                        </TouchableOpacity>
+
                     </View>
                 </View>
                 <TouchableOpacity style={styles.closeReportMenuView}
@@ -253,15 +294,24 @@ const styles = StyleSheet.create({
     reportIcon: {
         height: ((screenWidth - 50) / 3) - 40,
         width: ((screenWidth - 50) / 3) - 40,
-
+        marginBottom: 10,
     },
-    reports: {
+    reportsFirstRow: {
         paddingTop: 150,
         padding: 50,
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems: "flex-start"
+        alignItems: "flex-start",
+        flexWrap: "wrap"
     },
+    reportsSecondRow: {
+        paddingHorizontal: 50,
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "flex-start",
+        flexWrap: "wrap"
+    },
+
     centeredView: {
         justifyContent: "center",
         alignItems: "center",
@@ -343,6 +393,10 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
     },
+    reportName: {
+        textAlign: "center",
+        fontFamily: "Outfit-Medium"
+    }
 
 
 });
