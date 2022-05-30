@@ -1,3 +1,6 @@
 node_modules
 .expo/packager-info.json
 /.idea/
+/package-lock.json
+/.expo/
+/.expo-shared/
