@@ -82,7 +82,7 @@ const MapScreen = ({navigation}) => {
                    animationInTiming={400} animationOutTiming={400}
                    onBackButtonPress={toggleReportMenu}
                    deviceHeight={screenHeight} deviceWidth={screenWidth}
-                   style={{ margin: 0 }}
+                   style={{margin: 0}}
             >
                 <View style={styles.reportMenu}>
                     <View style={styles.reports}>
@@ -100,18 +100,18 @@ const MapScreen = ({navigation}) => {
                             setReportTag("Danger")
                         }}>
                             <Image
-                            source={require("../assets/images/logo.png")}
-                            style={styles.reportIcon}
-                        />
+                                source={require("../assets/images/logo.png")}
+                                style={styles.reportIcon}
+                            />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => {
                             toggleReportModal();
                             setReportTag("Intendance");
                         }}>
                             <Image
-                            source={require("../assets/images/logo.png")}
-                            style={styles.reportIcon}
-                        />
+                                source={require("../assets/images/logo.png")}
+                                style={styles.reportIcon}
+                            />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -120,7 +120,7 @@ const MapScreen = ({navigation}) => {
                     <Modal isVisible={isReportModalOpen}
                            animationInTiming={400} animationOutTiming={400}
                            deviceHeight={screenHeight} deviceWidth={screenWidth}
-                           style={{ margin: 0 }}
+                           style={{margin: 0}}
                            onBackdropPress={resetReport}
                            onSwipeComplete={resetReport}
                            swipeDirection="down"
@@ -145,19 +145,41 @@ const MapScreen = ({navigation}) => {
                                 minimumValue={1}
                                 maximumValue={5}
                                 step={1}
-                                style={{width: screenWidth - 60, height: 40}}
+                                thumbTintColor={'#0066CC'}
+                                minimumTrackTintColor={'#FFCC00'}
+
+                                style={styles.slider}
                                 onValueChange={(value) => {
                                     setReportLevel(value);
                                 }}
                             />
-                            <Text style={{color: '#000000FF', fontSize: 20}}>{reportLevel}</Text>
-                            <TouchableOpacity onPress={openCamera}>
-                                <Text>
-                                    Envoyer
-                                </Text>
-                            </TouchableOpacity>
-                            {reportImage && <Image source={{ uri: reportImage }} style={{ width: 200, height: 200 }} />}
+                            <Text style={styles.sliderText}>
+                                Niveau d'importance : <Text style={styles.primaryColor}>{reportLevel}</Text>
+                            </Text>
+                            <View style={styles.reportFooter}>
+                                {
+                                    !reportImage &&
+                                    <TouchableOpacity onPress={openCamera}>
+                                        <Image style={styles.reportImage}
+                                               source={require("../assets/images/reports/image-plus.png")}/>
+                                    </TouchableOpacity>
+                                }
+                                {
+                                    reportImage &&
+                                    <TouchableOpacity onPress={() => setReportImage(null)}>
+                                        <Image source={require("../assets/images/reports/image-minus.png")}
+                                               style={styles.reportImage}/>
+                                    </TouchableOpacity>
+                                }
 
+                                <TouchableOpacity onPress={() => {
+                                    console.log("Image: "+ reportImage +"\nDesc: "+ reportDesc +"\nTag: "+ reportTag +"\nLevel: "+ reportLevel)
+                                }}>
+                                    <Text style={styles.sendReport}>
+                                        Envoyer
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </Modal>
 
@@ -181,6 +203,12 @@ const styles = StyleSheet.create({
     mainArea: {
         flex: 1,
         justifyContent: "flex-end",
+    },
+    primaryColor: {
+        color: '#0066CC',
+    },
+    secondaryColor: {
+        color: '#FFCC00',
     },
     logoArea: {
         position: "absolute",
@@ -223,8 +251,8 @@ const styles = StyleSheet.create({
         alignItems: "flex-start",
     },
     reportIcon: {
-        height: ((screenWidth - 50) /3) - 40,
-        width: ((screenWidth - 50) /3) - 40,
+        height: ((screenWidth - 50) / 3) - 40,
+        width: ((screenWidth - 50) / 3) - 40,
 
     },
     reports: {
@@ -241,11 +269,11 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     reportModalView: {
-        height: 1 / 2 * screenHeight,
+        height: screenHeight / 2,
         width: screenWidth - 20,
         borderRadius: 20,
         padding: 20,
-        margin:10,
+        margin: 10,
         backgroundColor: "#F3F3F3",
         shadowColor: '#000',
         shadowOffset: {
@@ -264,7 +292,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         backgroundColor: '#F3F3F3',
         marginTop: 20,
-        height : screenHeight /3,
+        height: (screenHeight / 3) - 50,
         fontFamily: "Outfit-Medium",
         fontSize: 15,
         shadowColor: "#000",
@@ -275,6 +303,45 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.22,
         shadowRadius: 2.22,
         elevation: 2,
+    },
+    slider: {
+        width: screenWidth - 60,
+        height: 40,
+        marginTop: 8,
+    },
+    sliderText: {
+        color: '#000000FF',
+        fontSize: 16,
+        marginLeft: 5,
+    },
+    reportImage: {
+        height: 35,
+        width: 35
+    },
+    reportFooter: {
+        marginTop: 10,
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "flex-start"
+    },
+    sendReport: {
+        height: 35,
+        width: 80,
+        backgroundColor: '#0066CC',
+        textAlign: "center",
+        textAlignVertical: "center",
+        color: '#F3F3F3',
+        fontFamily: "Outfit-Medium",
+        fontSize: 14,
+        borderRadius: 20,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
     },
 
 
