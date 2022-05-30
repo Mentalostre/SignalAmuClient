@@ -6,11 +6,6 @@ import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import TabNavigator from "./TabNavigator";
-import { checkSessionCookie, getSessionCookie } from "../../../../WebstormProjects/signal-amu-clientmabite/api/cookie";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { handleSigninPost } from "../../../../WebstormProjects/signal-amu-clientmabite/api/signin";
-import { handleSignupPost } from "../../../../WebstormProjects/signal-amu-clientmabite/api/signup";
-import { NavigationContainer } from "@react-navigation/native";
 
 const Stack = createNativeStackNavigator();
 

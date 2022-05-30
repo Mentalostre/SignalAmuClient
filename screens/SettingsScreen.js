@@ -1,6 +1,6 @@
 import { Image, View, StyleSheet, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { disconnect } from "../../../../WebstormProjects/signal-amu-clientmabite/api/disconnect";
+import { disconnect } from "../api/disconnect";
 import { useState, useEffect } from "react";
 
 const SettingsScreen = ({ navigation }) => {

@@ -8,7 +8,6 @@ import {
   Text,
   Dimensions,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SplashScreen = ({ navigation }) => {
   const [timePassed, setTimePassed] = useState(false);

@@ -1,6 +1,3 @@
-import {Dimensions} from "react-native";
-
-let screenHeight = Dimensions.get("window").height;
 export const map = String.raw `
 <!DOCTYPE html>
 <html>

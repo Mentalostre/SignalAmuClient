@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { handleSignupPost } from "../../../../WebstormProjects/signal-amu-clientmabite/api/signup";
+import { handleSignupPost } from "../api/signup";
 
 const RegisterScreen = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState(" ");

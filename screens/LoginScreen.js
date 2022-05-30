@@ -12,11 +12,9 @@ import {
   ImageBackground,
   Dimensions,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage/";
 import { AntDesign } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { handleSigninPost } from "../../../../WebstormProjects/signal-amu-clientmabite/api/signin";
-import { getSessionCookie } from "../../../../WebstormProjects/signal-amu-clientmabite/api/cookie";
+
 
 const LoginScreen = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState(" ");

@@ -12,7 +12,6 @@ import {
   ImageBackground,
   FlatList,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage/";
 
 const ReportScreen = ({ navigation }) => {
   return (
