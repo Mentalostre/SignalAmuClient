@@ -15,13 +15,10 @@ import { AntDesign } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { handleSignupPost } from "../api/signup";
 
+
 const RegisterScreen = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState(" ");
   const [userPassword, setUserPassword] = useState(" ");
-  const [errorText, setErrorText] = useState({});
-  const [isSubmited, setIsSubmited] = useState(false);
-  const [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
-
   return (
     <View style={styles.mainBody}>
       <KeyboardAvoidingView behavior="padding">
@@ -66,7 +63,26 @@ const RegisterScreen = ({ navigation }) => {
         </View>
       </KeyboardAvoidingView>
       <TouchableOpacity
-        onPress={() => handleSignupPost(userEmail, userPassword)}
+        onPress={ async() => {
+          let result = await handleSignupPost(userEmail, userPassword)
+          switch (result){
+            case 1:
+              navigation.navigate("LoginScreen");
+              alert("Validez votre email pour pouvoir vous connecter");
+              break;
+            case 50:
+              alert("Veillez à remplir tous les champs");
+              break;
+            case 25:
+              alert("Veuillez rentrer une email de la faccultée valide");
+              break;
+            case 100:
+              alert("Cette adresse mail est déjà utilisé");
+              break;
+            default:
+              alert("ERROR");
+          }
+        }}
       >
         <Text style={styles.registerButton}> S 'inscrire</Text>
       </TouchableOpacity>
