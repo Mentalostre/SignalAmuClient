@@ -8,7 +8,7 @@ import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
 
 
-import Map from './map'
+import Map from './map/map'
 
 const MapScreen = ({navigation}) => {
 
