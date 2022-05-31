@@ -1,41 +1,38 @@
+import {
+    request_encoded_post
+} from "./request";
 
-export const handleReportPost = function (
-    description,
+export const handleReportPost = async function (
+    desc,
     level,
-    latitude,
-    longitude,
-    tag_id,
+    location_lat,
+    location_long,
+    tag_id
 ) {
+
     var dataToSend = {
-        desc: description,
+        desc: desc,
         level: level,
-        location_lat: latitude,
-        location_long: longitude,
+        location_lat: location_lat,
+        location_long: location_long,
         tag_id: tag_id,
     };
-    var formBody = [];
-    for (var data in dataToSend) {
-        var encodedKey = encodeURIComponent(data);
-        var encodedValue = encodeURIComponent(dataToSend[data]);
-        formBody.push(encodedKey + "=" + encodedValue);
-    }
-    formBody = formBody.join("&");
-    fetch("http://192.168.1.54:3000/api/report", {
-            method: "POST",
-            body: formBody,
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-        })
-        .then(response => {
-            return response.json();
-        }).then(json => {
-            switch (json.res) {
-                case 1:
-                    console.log('report ok');
-            }
-        })
-        .catch((err) => console.log(err));
+
+    let result = await request_encoded_post(dataToSend, "/api/report")
+    return result.res
 };
 
 
+export const handleReportImagePost = async function (
+    image,
+    report_id
+) {
+    var dataToSend = {
+        image: image,
+        report_id: report_id
+    }
+
+    let result = await request_encoded_post(dataToSend, "/api/report/image/")
+    return result.res
+
+}
