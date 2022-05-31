@@ -8,6 +8,7 @@ import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
 
 
+import Map from './map'
 
 const MapScreen = ({navigation}) => {
 
@@ -72,14 +73,7 @@ const MapScreen = ({navigation}) => {
     return (
         <View style={styles.mainArea}>
 
-            <WebView
-                ref={(webViewRef) => {
-                    setMapRef(webViewRef);
-                }}
-                source={{html: map}}
-                style={styles.mapStyle}
-
-            />
+           <Map/>
 
 
             <View style={styles.logoArea}>
