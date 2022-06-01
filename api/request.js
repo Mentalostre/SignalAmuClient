@@ -1,3 +1,5 @@
+import {getSessionCookie} from "./cookie";
+
 const SERVER_URL = "http://192.168.1.89:3000"
 
 const request_encoded_post = async (data, route) => {
@@ -16,6 +18,26 @@ const request_encoded_post = async (data, route) => {
         if(cookies){
             result.cookie = cookies[0];
         }
+        return result;
+    } catch (err) {
+        console.log("Error fetching request_encoded_post :  " + err.stack)
+    }
+}
+
+export const request_encoded_post_cookie = async (data, route) => {
+    let d = encode_data(data);
+    let path = SERVER_URL + route;
+    let cookie = await getSessionCookie();
+    let h = new Headers();
+    h.append("Cookie", cookie);
+    h.append("Content-Type", "application/x-www-form-urlencoded");
+    try {
+        let r = await fetch(path, {
+            method: "POST",
+            body: d,
+            headers: h
+        })
+        let result = await r.json();
         return result;
     } catch (err) {
         console.log("Error fetching request_encoded_post :  " + err.stack)
