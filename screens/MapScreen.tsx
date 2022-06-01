@@ -9,6 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 
 
 import Map from './map/map'
+import {handleReportPost} from "../api/report";
 
 const MapScreen = ({navigation}) => {
 
@@ -208,7 +209,22 @@ const MapScreen = ({navigation}) => {
                                 }
 
                                 <TouchableOpacity onPress={() => {
+
+                                    //handleReportPost(reportDesc,reportLevel,)
+
+                                    console.log(location)
+                                    let lat = location.coords.latitude;
+                                    let long = location.coords.longitude;
+                                    handleReportPost(reportDesc,reportLevel, lat,long, 5).then(
+                                        ()=>{
+                                            alert("Success")}
+                                    ).catch((err)=>{
+                                        alert("ERROR")
+                                        console.log(err);
+                                    });
                                     console.log("Image: "+ reportImage +"\nDesc: "+ reportDesc +"\nTag: "+ reportTag +"\nLevel: "+ reportLevel)
+
+
                                 }}>
                                     <Text style={styles.sendReport}>
                                         Envoyer
