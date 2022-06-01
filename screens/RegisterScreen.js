@@ -84,7 +84,7 @@ const RegisterScreen = ({ navigation }) => {
           }
         }}
       >
-        <Text style={styles.registerButton}> S 'inscrire</Text>
+        <Text style={styles.registerButton}> S'inscrire</Text>
       </TouchableOpacity>
       <View style={styles.alreadyView}>
         <LinearGradient
