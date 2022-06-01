@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Dimensions, Image, Text, TouchableOpacity, TextInput} from 'react-native';
+import {View, StyleSheet, Dimensions, Image, Text, TouchableOpacity, TextInput, KeyboardAvoidingView} from 'react-native';
 import * as Location from 'expo-location'
 import {map} from "../api/map";
 import WebView from "react-native-webview";
@@ -152,6 +152,7 @@ const MapScreen = ({navigation}) => {
                 </View>
                 <TouchableOpacity style={styles.closeReportMenuView}
                                   onPress={toggleReportMenu}>
+
                     <Modal isVisible={isReportModalOpen}
                            animationInTiming={400} animationOutTiming={400}
                            deviceHeight={screenHeight} deviceWidth={screenWidth}
@@ -160,11 +161,14 @@ const MapScreen = ({navigation}) => {
                            onSwipeComplete={resetReport}
                            swipeDirection="down"
                     >
+                        <KeyboardAvoidingView behavior="padding">
                         <View style={styles.reportModalView}>
+
                             <TouchableOpacity
                                 onPress={() => {
                                     toggleReportModal()
                                 }}>
+
                                 <TextInput
                                     style={styles.textInputStyle}
                                     placeholderTextColor="#3983cd"
@@ -209,6 +213,7 @@ const MapScreen = ({navigation}) => {
 
                                 <TouchableOpacity onPress={() => {
                                     console.log("Image: "+ reportImage +"\nDesc: "+ reportDesc +"\nTag: "+ reportTag +"\nLevel: "+ reportLevel)
+                                    resetReport()
                                 }}>
                                     <Text style={styles.sendReport}>
                                         Envoyer
@@ -216,6 +221,7 @@ const MapScreen = ({navigation}) => {
                                 </TouchableOpacity>
                             </View>
                         </View>
+                        </KeyboardAvoidingView>
                     </Modal>
 
                     <Text style={styles.closeReportMenu}>
