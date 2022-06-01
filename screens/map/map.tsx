@@ -41,7 +41,20 @@ const initialPosition = {
 
 const initialMapMarker: MapMarker[] = [];
 
-
+export const add_marker = (lat, long, mapMarker) => {
+    let newMapMarker: MapMarker[] = [];
+    for (let i = 0; i < mapMarker.length; i++) {
+        newMapMarker.push(mapMarker[i]);
+    }
+    let marker: MapMarker = {
+        id: lat.toString(),
+        position: {lat: lat, lng: long},
+        icon: '📍',
+        size: [32, 32],
+    }
+    newMapMarker.push(marker);
+    return newMapMarker
+}
 
 export default function Map() {
     const a: MapMarker[] = [
@@ -63,20 +76,7 @@ export default function Map() {
 
     let i = 100;
 
-    const add_marker = (lat, long) => {
-        let newMapMarker: MapMarker[] = [];
-        for (let i = 0; i < mapMarker.length; i++) {
-            newMapMarker.push(mapMarker[i]);
-        }
-        let marker: MapMarker = {
-            id: lat.toString(),
-            position: {lat: lat, lng: long},
-            icon: '📍',
-            size: [32, 32],
-        }
-        newMapMarker.push(marker);
-        return newMapMarker
-    }
+
 
     const remove_marker = (id)=>{
         let newMapMarker: MapMarker[]= [];
@@ -97,14 +97,10 @@ export default function Map() {
 
 
     useEffect(() => {
-
-
-
-
         const getLocationAsync = async () => {
             let { status } = await Location.requestForegroundPermissionsAsync()
             if (status !== 'granted') {
-                console.warn('Permission to access location was denied')
+                alert('Permission to access location was denied')
             }
 
             let location = await Location.getCurrentPositionAsync({})
@@ -115,7 +111,6 @@ export default function Map() {
                 })
             }
         }
-
         getLocationAsync().catch((error) => {
             console.error(error)
         })
@@ -145,7 +140,7 @@ export default function Map() {
 
                                 break
                             case 'onMapClicked':
-                                let newMarker: MapMarker[] = add_marker(message.location.lat,message.location.lng)
+                                let newMarker: MapMarker[] = add_marker(message.location.lat,message.location.lng, mapMarker)
                                 setMapMarker(newMarker)
                                 break
                             case 'onMoveEnd':
@@ -162,17 +157,10 @@ export default function Map() {
 
                         }
                     }}
-                    //zoom={zoom}
                 />
             </View>
-            <Button
-                onPress={() => {
-                    console.log("center")
-                    setMapCenterPosition(ownPosition)
-                    setZoom(7)
-                }}
-                title="Reset Map"
-            />
+
+
         </SafeAreaView>
     )
 }
