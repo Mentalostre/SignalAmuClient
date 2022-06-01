@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Dimensions, Image, Text, TouchableOpacity, TextInput} from 'react-native';
+import {View, StyleSheet, Dimensions, Image, Text, TouchableOpacity, TextInput, KeyboardAvoidingView} from 'react-native';
 import * as Location from 'expo-location'
 import {map} from "../api/map";
 import WebView from "react-native-webview";
@@ -161,6 +161,7 @@ const MapScreen = ({navigation}) => {
                            onSwipeComplete={resetReport}
                            swipeDirection="down"
                     >
+                        <KeyboardAvoidingView behavior="padding">
                         <View style={styles.reportModalView}>
                             <TouchableOpacity
                                 onPress={() => {
@@ -217,13 +218,13 @@ const MapScreen = ({navigation}) => {
                                     let long = location.coords.longitude;
                                     handleReportPost(reportDesc,reportLevel, lat,long, 5).then(
                                         ()=>{
+                                            resetReport()
                                             alert("Success")}
                                     ).catch((err)=>{
                                         alert("ERROR")
                                         console.log(err);
                                     });
                                     console.log("Image: "+ reportImage +"\nDesc: "+ reportDesc +"\nTag: "+ reportTag +"\nLevel: "+ reportLevel)
-
 
                                 }}>
                                     <Text style={styles.sendReport}>
@@ -232,6 +233,7 @@ const MapScreen = ({navigation}) => {
                                 </TouchableOpacity>
                             </View>
                         </View>
+                        </KeyboardAvoidingView>
                     </Modal>
 
                     <Text style={styles.closeReportMenu}>
