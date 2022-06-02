@@ -178,6 +178,7 @@ const MapScreen = ({navigation}) => {
                                 />
 
                             </TouchableOpacity>
+                            <View style={styles.reportSlideView}>
                             <Slider
                                 minimumValue={1}
                                 maximumValue={5}
@@ -190,10 +191,6 @@ const MapScreen = ({navigation}) => {
                                     setReportLevel(value);
                                 }}
                             />
-                            <Text style={styles.sliderText}>
-                                Niveau d'importance : <Text style={styles.primaryColor}>{reportLevel}</Text>
-                            </Text>
-                            <View style={styles.reportFooter}>
                                 {
                                     !reportImage &&
                                     <TouchableOpacity onPress={openCamera}>
@@ -208,6 +205,12 @@ const MapScreen = ({navigation}) => {
                                                style={styles.reportImage}/>
                                     </TouchableOpacity>
                                 }
+                            </View>
+                            <Text style={styles.sliderText}>
+                                Niveau d'importance : <Text style={styles.primaryColor}>{reportLevel}</Text>
+                            </Text>
+                            <View style={styles.reportFooter}>
+
 
                                 <TouchableOpacity onPress={() => {
 
@@ -227,9 +230,11 @@ const MapScreen = ({navigation}) => {
                                     console.log("Image: "+ reportImage +"\nDesc: "+ reportDesc +"\nTag: "+ reportTag +"\nLevel: "+ reportLevel)
 
                                 }}>
+                                    <View style={styles.sendReportTopRadius}>
                                     <Text style={styles.sendReport}>
-                                        Envoyer
+                                        ENVOYER
                                     </Text>
+                                    </View>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -367,48 +372,54 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     slider: {
-        width: screenWidth - 60,
+        width: screenWidth - 100,
         height: 40,
         marginTop: 8,
     },
     sliderText: {
         color: '#000000FF',
         fontSize: 16,
-        marginLeft: 5,
+        marginLeft: 10,
     },
     reportImage: {
-        height: 35,
-        width: 35
+        height: 25,
+        width: 25,
+        marginTop: 15,
+        marginRight: 10
     },
     reportFooter: {
         marginTop: 10,
-        flexDirection: "row",
-        justifyContent: "space-around",
-        alignItems: "flex-start"
+        bottom: 0,
+        position: "absolute"
     },
     sendReport: {
-        height: 35,
-        width: 80,
-        backgroundColor: '#0066CC',
+        width: screenWidth - 20,
+        paddingTop: 16,
+        height: 50,
+        fontFamily: "Outfit-Bold",
+        fontSize: 16,
         textAlign: "center",
-        textAlignVertical: "center",
+        alignSelf: "center",
         color: '#F3F3F3',
-        fontFamily: "Outfit-Medium",
-        fontSize: 14,
-        borderRadius: 20,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
+    },
+    sendReportTopRadius: {
+        width: screenWidth - 20,
+        height: 50,
+        overflow: "hidden",
+        borderBottomRightRadius: 15,
+        borderBottomLeftRadius: 15,
+        backgroundColor: '#0066CC',
     },
     reportName: {
         textAlign: "center",
         fontFamily: "Outfit-Medium"
-    }
+    },
+    reportSlideView: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+    },
+
 
 
 });
