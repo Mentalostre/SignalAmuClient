@@ -9,6 +9,7 @@ const Tabs = createBottomTabNavigator();
 import LottieView from "lottie-react-native";
 import SettingsScreen from "../screens/SettingsScreen";
 import MapScreen from "../screens/MapScreen";
+import InfoScreen from "../screens/InfoScreen";
 
 
 
@@ -17,6 +18,7 @@ const TabNavigator = () => {
             <Tabs.Navigator screenOptions={{headerShown:false}}>
                 <Tabs.Screen name="Home" component={MapScreen} />
                 <Tabs.Screen name="Settings" component={SettingsScreen} />
+                <Tabs.Screen name="Informations" component={InfoScreen}/>
             </Tabs.Navigator>
     );
 }

@@ -9,6 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 
 
 import Map from './map/map'
+import {handleReportPost} from "../api/report";
 
 const MapScreen = ({navigation}) => {
 
@@ -152,7 +153,6 @@ const MapScreen = ({navigation}) => {
                 </View>
                 <TouchableOpacity style={styles.closeReportMenuView}
                                   onPress={toggleReportMenu}>
-
                     <Modal isVisible={isReportModalOpen}
                            animationInTiming={400} animationOutTiming={400}
                            deviceHeight={screenHeight} deviceWidth={screenWidth}
@@ -163,12 +163,10 @@ const MapScreen = ({navigation}) => {
                     >
                         <KeyboardAvoidingView behavior="padding">
                         <View style={styles.reportModalView}>
-
                             <TouchableOpacity
                                 onPress={() => {
                                     toggleReportModal()
                                 }}>
-
                                 <TextInput
                                     style={styles.textInputStyle}
                                     placeholderTextColor="#3983cd"
@@ -215,8 +213,22 @@ const MapScreen = ({navigation}) => {
 
 
                                 <TouchableOpacity onPress={() => {
+
+                                    //handleReportPost(reportDesc,reportLevel,)
+
+                                    console.log(location)
+                                    let lat = location.coords.latitude;
+                                    let long = location.coords.longitude;
+                                    handleReportPost(reportDesc,reportLevel, lat,long, 5).then(
+                                        ()=>{
+                                            resetReport()
+                                            alert("Success")}
+                                    ).catch((err)=>{
+                                        alert("ERROR")
+                                        console.log(err);
+                                    });
                                     console.log("Image: "+ reportImage +"\nDesc: "+ reportDesc +"\nTag: "+ reportTag +"\nLevel: "+ reportLevel)
-                                    resetReport()
+
                                 }}>
                                     <View style={styles.sendReportTopRadius}>
                                     <Text style={styles.sendReport}>

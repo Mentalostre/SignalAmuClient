@@ -1,12 +1,20 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const getSessionCookie = async (cookie) => {
+export const setSessionCookie = async (cookie) => {
     try {
-        const jsonCookie = JSON.stringify(cookie);
+        const jsonCookie = JSON.stringify(cookie).replaceAll("path=/;", "").replaceAll("httponly", "").replaceAll(" ", "").replaceAll(",", "");
         await AsyncStorage.setItem("cookie", jsonCookie);
-        console.log("allo : ", jsonCookie);
     } catch (e) {
-        console.log("erreur : ", e);
+        console.log("erreur set cookie : ", e);
+    }
+};
+
+export const getSessionCookie = async () => {
+    try {
+        return await (await AsyncStorage.getItem("cookie"));
+    } catch (e) {
+        console.log("erreur get cookie : ", e);
+        return null;
     }
 };
 
