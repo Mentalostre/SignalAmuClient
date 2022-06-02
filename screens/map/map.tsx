@@ -2,6 +2,7 @@ import { ExpoLeaflet, MapMarker} from 'expo-leaflet'
 import * as Location from 'expo-location'
 import type { LatLngLiteral } from 'leaflet'
 import React, { useEffect, useState } from 'react'
+import { EventRegister } from 'react-native-event-listeners'
 
 import {
     ActivityIndicator,
@@ -16,6 +17,9 @@ import {
 import { MapLayer } from 'expo-leaflet'
 import {marker} from "leaflet";
 import {reloadAsync} from "expo-updates";
+import * as events from "events";
+import asyncStorage from "@react-native-async-storage/async-storage/src/AsyncStorage";
+import {getReport, reloadMapReport, setReportInAsyncStorage} from "../../api/report";
 
 
 const mapLayers: Array<MapLayer> = [
@@ -55,28 +59,53 @@ export const add_marker = (lat, long, mapMarker) => {
     newMapMarker.push(marker);
     return newMapMarker
 }
+const a: MapMarker[] = [
+    {
+        id: '1',
+        title: 'mon titre',
+        position: { lat: 43.23205, lng: 5.43915 },
+        icon: '📍',
+        size: [32, 32],
+    }
+]
+
+
 
 export default function Map() {
-    const a: MapMarker[] = [
-        {
-            id: '1',
-            title: 'mon titre',
-            position: { lat: 43.23205, lng: 5.43915 },
-            icon: '📍',
-            size: [32, 32],
-        }
-    ]
+
     const [zoom, setZoom] = useState(14)
     const [mapCenterPosition, setMapCenterPosition] = useState(initialPosition)
     const [ownPosition, setOwnPosition] = useState<null | LatLngLiteral>(null)
     const [mapMarker, setMapMarker] = useState<null | MapMarker[]>(a)
 
+    const [reportDesc, setReportDesc] = useState(null);
+    const [reportLvl, setReportLvl] = useState(null);
+    const [reportDate, setReportDate] = useState(null);
+    const [tagName, setTagName] = useState(null); // pour l'instant c'est tjr le meme je le changerai dans le serveur apres
+    const [firstName, setFirstName] = useState(null);
+    const [lastName, setLastName] = useState(null);
+    const [userEmail, setUserEmail] = useState(null);
 
 
+    EventRegister.addEventListener('report', (data)=>{
+        let newMapMarker: MapMarker[] = [];
+        for(let i =0; i<data.length; i++){
+            let d = data[i];
+            let marker = getM(d.location_lat, d.location_long, d.id);
+            newMapMarker.push(marker);
+        }
+        setMapMarker(newMapMarker);
+    })
 
-    let i = 100;
-
-
+    const getM = (lat,long,id)=>{
+        let m:MapMarker = {
+            id:id,
+            position:{lat:lat,lng:long},
+            icon: '📍',
+            size: [32, 32],
+        };
+        return m;
+    }
 
     const remove_marker = (id)=>{
         let newMapMarker: MapMarker[]= [];
@@ -87,15 +116,7 @@ export default function Map() {
         }
         console.log(newMapMarker)
         return newMapMarker;
-
     }
-
-
-
-
-
-
-
     useEffect(() => {
         const getLocationAsync = async () => {
             let { status } = await Location.requestForegroundPermissionsAsync()
@@ -119,6 +140,9 @@ export default function Map() {
 
     return (
         <SafeAreaView style={styles.container}>
+
+            {/*TODO INSERT MODAL HERE*/}
+
             <View style={{ flex: 1, position: 'relative' }}>
                 <ExpoLeaflet
                     loadingIndicator={() => <ActivityIndicator />}
@@ -132,22 +156,23 @@ export default function Map() {
 
                         switch (message.tag) {
                             case "MapReady":
-                                //setMapCenterPosition(ownPosition)
+                                reloadMapReport().then(()=> {
+                                    return;
+                                })
                                 break;
                             case 'onMapMarkerClicked':
-                                let newMapMarker: MapMarker[] = remove_marker(message.mapMarkerId);
-                                setMapMarker(newMapMarker);
+                                let markerId = message.mapMarkerId;
+                                getReport(markerId).then((report)=>{
+                                    setReportDate(report.date);
+                                    setReportDesc(report.description);
+                                    setFirstName(report.first_name);
+                                    setLastName(report.last_name);
+                                    setReportLvl(report.level);
+                                    setTagName(report.tag_name);
+                                    setUserEmail(report.user_email);
+                                    // TODO ACTIVER LE MODAL
+                                });
 
-                                break
-                            case 'onMapClicked':
-                                let newMarker: MapMarker[] = add_marker(message.location.lat,message.location.lng, mapMarker)
-                                setMapMarker(newMarker)
-                                break
-                            case 'onMoveEnd':
-                                //setMapCenterPosition(message.mapCenter)
-                                break
-                            case 'onZoomEnd':
-                                //setZoom(message.zoom)
                                 break
                             default:
                                 console.log(message)
@@ -159,7 +184,13 @@ export default function Map() {
                     }}
                 />
             </View>
+            <Button
+                onPress={async() => {
 
+
+                }}
+                title="Reset Map"
+            />
 
         </SafeAreaView>
     )
