@@ -1,7 +1,9 @@
 import {
     request_encoded_post
 } from "./request";
-import {setSessionCookie} from "./cookie";
+import {
+    setSessionCookie
+} from "./cookie";
 
 export const handleSigninPost = async function (userEmail, userPassword) {
 
@@ -12,9 +14,9 @@ export const handleSigninPost = async function (userEmail, userPassword) {
 
     let result = await request_encoded_post(dataToSend, "/api/signin")
 
-    let cookies = result.cookie; //TODO store cookie in async storage
+    let cookie = result.cookie; //TODO store cookie in async storage
 
-    await setSessionCookie(cookies);
+    await setSessionCookie(cookie);
 
     return result.res
 };

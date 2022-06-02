@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-
+import { handleSigninPost } from "../api/signin";
 
 const LoginScreen = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState(" ");
@@ -63,10 +63,28 @@ const LoginScreen = ({ navigation }) => {
           <Text style={styles.forgotButtonStyle}>Mot de passe oublié ?</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("TabNavigator");
+          onPress={async () => {
+            {
+              let result = await handleSigninPost(userEmail, userPassword);
+              console.log("response : ", result);
+              switch (result) {
+                case 1:
+                  navigation.navigate("TabNavigator");
+                  break;
+                case 50:
+                  alert("Veillez à remplir tous les champs");
+                  break;
+                case 25:
+                  alert("Veuillez rentrer une email de la faculté valide");
+                  break;
+                case 13:
+                  alert("Mauvais mot de passe");
+                default:
+                  alert("ERROR");
+                  break;
+              }
+            }
           }}
-
           /*async () => {
             let result = await handleSigninPost(userEmail, userPassword);
             switch (result) {

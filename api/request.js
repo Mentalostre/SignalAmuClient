@@ -1,6 +1,8 @@
-import {getSessionCookie} from "./cookie";
+import {
+    getSessionCookie
+} from "./cookie";
 
-const SERVER_URL = "http://192.168.1.89:3000"
+const SERVER_URL = "http://192.168.1.54:3000"
 
 const request_encoded_post = async (data, route) => {
     let d = encode_data(data);
@@ -15,7 +17,7 @@ const request_encoded_post = async (data, route) => {
         })
         let result = await r.json();
         let cookies = get_set_cookies(r.headers);
-        if(cookies){
+        if (cookies) {
             result.cookie = cookies[0];
         }
         return result;
@@ -24,7 +26,7 @@ const request_encoded_post = async (data, route) => {
     }
 }
 
-export const request_get_cookie = async (route)=>{
+export const request_get_cookie = async (route) => {
     let path = SERVER_URL + route;
     let cookie = await getSessionCookie();
     let h = new Headers();
@@ -32,7 +34,7 @@ export const request_get_cookie = async (route)=>{
     try {
         let r = await fetch(path, {
             method: "GET",
-            headers: h
+            headers: "cookie :" + cookie
         })
         let result = await r.json();
         return result;
@@ -46,7 +48,7 @@ export const request_encoded_post_cookie = async (data, route) => {
     let path = SERVER_URL + route;
     let cookie = await getSessionCookie();
     let h = new Headers();
-    h.append("Cookie", cookie);
+    h.append("cookie", cookie);
     h.append("Content-Type", "application/x-www-form-urlencoded");
     try {
         let r = await fetch(path, {
@@ -61,7 +63,7 @@ export const request_encoded_post_cookie = async (data, route) => {
     }
 }
 
-const get_set_cookies = function(headers) {
+const get_set_cookies = function (headers) {
     const set_cookies = []
     for (const [name, value] of headers) {
         if (name === "set-cookie") {
