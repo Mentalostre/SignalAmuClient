@@ -9,19 +9,16 @@ const SettingsScreen = ({ navigation }) => {
   return (
     <View style={styles.mainArea}>
       <View style={styles.logoArea}>
-        <TouchableOpacity>
-          <Image
-            source={require("../assets/images/handphone.png")}
-            style={styles.reportLogo}
-          />
-        </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             disconnect();
             navigation.navigate("HomeScreen");
           }}
         >
-          <Text>Se déconnecter</Text>
+          <Image
+            source={require("../assets/images/handphone.png")}
+            style={styles.reportLogo}
+          />
         </TouchableOpacity>
       </View>
     </View>
