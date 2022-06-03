@@ -193,7 +193,7 @@ export default function Map() {
                     mapOptions={mapOptions}
                     mapMarkers={mapMarker}
                     maxZoom={18}
-                    zoom={18}
+                    zoom={17}
                     onMessage={(message) => {
 
                         switch (message.tag) {
