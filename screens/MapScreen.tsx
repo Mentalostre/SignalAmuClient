@@ -22,7 +22,7 @@ const MapScreen = ({navigation}) => {
         (async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
-                alert("You've refused to allow this app to access your location!");
+                alert("Veuillez accorder l'accès à votre localisation dans les paramètres!");
                 return;
             }
 
@@ -58,7 +58,7 @@ const MapScreen = ({navigation}) => {
         const result = await ImagePicker.requestCameraPermissionsAsync();
 
         if (permissionResult.granted === false) {
-            alert("You've refused to allow this app to access your camera!");
+            alert("Veuillez accorder l'accès à votre caméra dans les paramètres!");
 
         } else {
             const result = await ImagePicker.launchCameraAsync();
