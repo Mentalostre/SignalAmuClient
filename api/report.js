@@ -34,8 +34,13 @@ const getAllReport = async ()=>{
     if(result.res === 1){
         reports = result.reports;
     }
-    if(!reports) return null;
-    else return reports;
+    if(!reports) {
+        return null;
+    }
+    else
+    {
+        return reports;
+    }
 }
 
 export const reloadMapReport = async()=>{

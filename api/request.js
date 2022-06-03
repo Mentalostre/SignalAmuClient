@@ -2,7 +2,7 @@ import {
     getSessionCookie
 } from "./cookie";
 
-const SERVER_URL = "http://192.168.1.54:3000"
+const SERVER_URL = "http://192.168.1.89:3000"
 
 const request_encoded_post = async (data, route) => {
     let d = encode_data(data);

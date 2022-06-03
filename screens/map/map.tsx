@@ -73,10 +73,12 @@ const a: MapMarker[] = [
 
 export default function Map() {
 
+    const initialMapMarker:MapMarker[] = []
+
     const [zoom, setZoom] = useState(14)
     const [mapCenterPosition, setMapCenterPosition] = useState(initialPosition)
     const [ownPosition, setOwnPosition] = useState<null | LatLngLiteral>(null)
-    const [mapMarker, setMapMarker] = useState<null | MapMarker[]>(a)
+    const [mapMarker, setMapMarker] = useState<null | MapMarker[]>(initialMapMarker)
 
     const [reportDesc, setReportDesc] = useState(null);
     const [reportLvl, setReportLvl] = useState(null);
@@ -85,6 +87,7 @@ export default function Map() {
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
     const [userEmail, setUserEmail] = useState(null);
+    const [vote, setVote] = useState(null);
 
 
     EventRegister.addEventListener('report', (data)=>{
@@ -170,12 +173,12 @@ export default function Map() {
                                     setReportLvl(report.level);
                                     setTagName(report.tag_name);
                                     setUserEmail(report.user_email);
+                                    setVote(report.vote_count);
                                     // TODO ACTIVER LE MODAL
                                 });
 
                                 break
                             default:
-                                console.log(message)
                                 if (['onMove'].includes(message.tag)) {
                                     return
                                 }
@@ -186,10 +189,10 @@ export default function Map() {
             </View>
             <Button
                 onPress={async() => {
-
+                    await reloadMapReport()
 
                 }}
-                title="Reset Map"
+                title="Reload map"
             />
 
         </SafeAreaView>

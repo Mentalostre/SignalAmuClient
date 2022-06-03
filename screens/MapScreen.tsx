@@ -6,7 +6,7 @@ import WebView from "react-native-webview";
 import Modal from "react-native-modal";
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
-
+import Socket from "./map/socketIo";
 
 import Map from './map/map'
 import {handleReportPost} from "../api/report";
@@ -64,6 +64,7 @@ const MapScreen = ({navigation}) => {
             const result = await ImagePicker.launchCameraAsync();
 
             if (!result.cancelled) {
+                // @ts-ignore
                 setReportImage(result.uri);
             }
 
@@ -74,7 +75,9 @@ const MapScreen = ({navigation}) => {
     return (
         <View style={styles.mainArea}>
 
-           <Map/>
+            <Map/>
+
+            <Socket/>
 
 
             <View style={styles.logoArea}>

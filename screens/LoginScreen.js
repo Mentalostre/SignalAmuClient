@@ -66,7 +66,6 @@ const LoginScreen = ({ navigation }) => {
           onPress={async () => {
             {
               let result = await handleSigninPost(userEmail, userPassword);
-              console.log("response : ", result);
               switch (result) {
                 case 1:
                   navigation.navigate("TabNavigator");
