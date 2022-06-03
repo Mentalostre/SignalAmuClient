@@ -110,6 +110,7 @@ export default function Map() {
             position:{lat:lat,lng:long},
             icon: '📍',
             size: [32, 32],
+            iconAnchor: [10, 40]
         };
         return m;
     }
