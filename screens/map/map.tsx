@@ -7,7 +7,7 @@ import { EventRegister } from 'react-native-event-listeners'
 import {
     ActivityIndicator,
     Alert,
-    Button,
+    Button, Dimensions, Image,
     Platform,
     SafeAreaView,
     StyleSheet,
@@ -20,6 +20,7 @@ import {reloadAsync} from "expo-updates";
 import * as events from "events";
 import asyncStorage from "@react-native-async-storage/async-storage/src/AsyncStorage";
 import {getReport, reloadMapReport, setReportInAsyncStorage} from "../../api/report";
+import Modal from "react-native-modal";
 
 
 const mapLayers: Array<MapLayer> = [
@@ -85,6 +86,11 @@ export default function Map() {
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
     const [userEmail, setUserEmail] = useState(null);
+    const [reportImage, setReportImage] = useState(null);
+
+    const [isReportPingModalOpen, setIsReportPingModalOpen] = useState(false);
+
+
 
 
     EventRegister.addEventListener('report', (data)=>{
@@ -138,10 +144,45 @@ export default function Map() {
     }, [])
 
 
+    const toggleReportPingModal = () => {
+        setIsReportPingModalOpen(!isReportPingModalOpen)
+    }
+
+    const resetReportPingModal = () => {
+        toggleReportPingModal()
+
+    }
+
     return (
         <SafeAreaView style={styles.container}>
 
-            {/*TODO INSERT MODAL HERE*/}
+            <Modal isVisible={isReportPingModalOpen}
+                   animationInTiming={400} animationOutTiming={400}
+                   deviceHeight={screenHeight} deviceWidth={screenWidth}
+                   style={{margin: 0}}
+                   onBackdropPress={resetReportPingModal}
+                   onSwipeComplete={resetReportPingModal}
+                   swipeDirection="down"
+            >
+                <View style={styles.reportPingModal}>
+                    <View style={styles.reportPingModalHeader}>
+                        <Image source={require("../../assets/images/reports/vandalism.png")} style={styles.reportPingModalHeaderIcon}></Image>
+                        <Text style={styles.reportPingModalHeaderText}>{tagName}</Text>
+                        <Text style={styles.reportPingModalLevel}>{"Niveau " + reportLvl}</Text>
+                    </View>
+                    <View style={styles.reportPingModalContent}>
+                        {
+                            reportImage &&
+                            <Image source={{ uri: reportImage }} style={styles.reportPingModalImage}/>
+                        }
+                        <Text style={styles.reportPingModalOwner}>{firstName + " " + lastName + " le " + reportDate}</Text>
+                        <Text style={styles.reportPingModalDesc}>{reportDesc}</Text>
+                    </View>
+                    <View style={styles.reportPingModalFooter}>
+
+                    </View>
+                </View>
+            </Modal>
 
             <View style={{ flex: 1, position: 'relative' }}>
                 <ExpoLeaflet
@@ -170,15 +211,10 @@ export default function Map() {
                                     setReportLvl(report.level);
                                     setTagName(report.tag_name);
                                     setUserEmail(report.user_email);
-                                    // TODO ACTIVER LE MODAL
+                                    toggleReportPingModal()
                                 });
 
                                 break
-                            default:
-                                console.log(message)
-                                if (['onMove'].includes(message.tag)) {
-                                    return
-                                }
 
                         }
                     }}
@@ -199,7 +235,8 @@ export default function Map() {
 
 
 
-
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -238,4 +275,67 @@ const styles = StyleSheet.create({
     mapButtonEmoji: {
         fontSize: 28,
     },
+
+    /*  <ReportPingModal>   */
+    reportPingModal: {
+        height: 2 * screenHeight / 3,
+        width: screenWidth - 20,
+        borderRadius: 20,
+        padding: 20,
+        margin: 10,
+        backgroundColor: "#FFFFFF",
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    reportPingModalHeader: {
+        flexWrap: "wrap",
+        flexDirection: "row"
+    },
+    reportPingModalHeaderText: {
+        fontFamily: "Outfit-Bold",
+        fontSize: 22,
+        lineHeight: 35,
+        marginLeft: 20,
+    },
+    reportPingModalHeaderIcon: {
+        marginLeft: 10,
+        height: 35,
+        width: 35,
+    },
+    reportPingModalContent: {
+        marginTop: 10,
+    },
+    reportPingModalImage: {
+        height: screenHeight/3,
+        width: screenWidth - 60,
+        resizeMode: "cover",
+        borderRadius: 5,
+        overflow: 'hidden',
+        backgroundColor: '#e3e3e3'
+    },
+    reportPingModalOwner: {
+        marginTop: 8,
+        fontFamily: "Roboto-Italic",
+    },
+    reportPingModalLevel: {
+        position: "absolute",
+        right: 0,
+        lineHeight: 35,
+        fontFamily: "Outfit-Medium",
+    },
+    reportPingModalDesc: {
+        fontFamily: "Roboto-Medium",
+        marginTop: 10,
+        fontSize: 16
+    },
+    reportPingModalFooter: {
+
+    }
+    /*  <ReportPingModal/>   */
 })
