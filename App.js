@@ -62,7 +62,6 @@ export default function App() {
                 console.warn(e);
             } finally{
                 setAppIsReady(true);
-                console.log(appIsReady);
                 await SplashScreen.hideAsync(); //work around splash screen doesn't leave after loading
             }
         }
@@ -71,7 +70,6 @@ export default function App() {
 
     const onLayoutRootView = useCallback(async () => {
         if (appIsReady) {
-            console.log(appIsReady);
             await SplashScreen.hideAsync();
         }
     }, [appIsReady]);
