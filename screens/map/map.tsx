@@ -27,7 +27,15 @@ const mapLayers: Array<MapLayer> = [
         baseLayerName: 'OpenStreetMap',
         layerType: 'TileLayer',
         url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    }
+    },
+    {
+        baseLayerIsChecked: true,
+        baseLayer: true,
+        baseLayerName: 'Mapbox',
+        layerType: 'TileLayer',
+        url: `https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoiam9obmtvbmRvIiwiYSI6ImNsM3lpMmN0OTBpb3MzZGpqMnM4ZWNmaHcifQ.E3xd9GKzNR_h8zO1vJpYKg`,
+    },
+
 ]
 
 const mapOptions = {
