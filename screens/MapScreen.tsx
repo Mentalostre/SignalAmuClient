@@ -7,9 +7,11 @@ import Modal from "react-native-modal";
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
 import Socket from "./map/socketIo";
+import LottieView from 'lottie-react-native';
 
 import Map from './map/map'
 import {handleReportPost} from "../api/report";
+import {getLocation} from "./map/location";
 
 const MapScreen = ({navigation}) => {
 
@@ -35,6 +37,8 @@ const MapScreen = ({navigation}) => {
     const [reportLevel, setReportLevel] = useState(1)
     const [reportTag, setReportTag] = useState("none")
     const [reportDesc, setReportDesc] = useState("")
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const toggleReportModal = () => {
         setIsReportModalOpen(!isReportModalOpen)
@@ -91,6 +95,7 @@ const MapScreen = ({navigation}) => {
                     />
                 </TouchableOpacity>
             </View>
+
             <Modal isVisible={isReportMenuOpen}
                    animationInTiming={400} animationOutTiming={400}
                    onBackButtonPress={toggleReportMenu}
@@ -154,8 +159,13 @@ const MapScreen = ({navigation}) => {
 
                     </View>
                 </View>
-                <TouchableOpacity style={styles.closeReportMenuView}
-                                  onPress={toggleReportMenu}>
+                <TouchableOpacity
+                    style={styles.closeReportMenuView}
+                    onPress={toggleReportMenu}
+                    disabled={isLoading}
+                >
+
+
                     <Modal isVisible={isReportModalOpen}
                            animationInTiming={400} animationOutTiming={400}
                            deviceHeight={screenHeight} deviceWidth={screenWidth}
@@ -213,19 +223,26 @@ const MapScreen = ({navigation}) => {
                                 Niveau d'importance : <Text style={styles.primaryColor}>{reportLevel}</Text>
                             </Text>
                             <View style={styles.reportFooter}>
-
-
-                                <TouchableOpacity onPress={() => {
-
-                                    //handleReportPost(reportDesc,reportLevel,)
-
+                                <TouchableOpacity onPress={ async () => {
+                                    setIsLoading(true)
+                                    setIsReportModalOpen(false);
+                                    let location = await getLocation();
+                                    let lat = location.lat;
+                                    let long = location.lng;
                                     console.log(location)
-                                    let lat = location.coords.latitude;
-                                    let long = location.coords.longitude;
                                     handleReportPost(reportDesc,reportLevel, lat,long, 5).then(
-                                        ()=>{
-                                            resetReport()
-                                            alert("Success")}
+                                        (res)=>{
+                                            if(res!=1){
+                                                alert("Impossible de poster un report")
+                                                setIsLoading(false)
+                                            }
+                                            else{
+                                                resetReport()
+                                                alert("Success")}
+                                            setIsLoading(false)
+
+                                            }
+
                                     ).catch((err)=>{
                                         alert("ERROR")
                                         console.log(err);
@@ -242,12 +259,16 @@ const MapScreen = ({navigation}) => {
                             </View>
                         </View>
                         </KeyboardAvoidingView>
+
                     </Modal>
 
                     <Text style={styles.closeReportMenu}>
                         FERMER
                     </Text>
+
                 </TouchableOpacity>
+                <LoadingView isLoading={isLoading}/>
+
             </Modal>
 
         </View>
@@ -259,6 +280,7 @@ export default MapScreen;
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
+
 
 const styles = StyleSheet.create({
     mainArea: {
@@ -426,3 +448,37 @@ const styles = StyleSheet.create({
 
 
 });
+
+const loadingViewStyle = StyleSheet.create({
+    loadingView: {
+        flex:1,
+        position:"absolute",
+        left:0,
+        right:0,
+        bottom:0,
+        top:0,
+        backgroundColor:'rgba(84, 104, 140, 0.5)',
+        alignItems:"center",
+        justifyContent:"center"
+    }
+})
+
+const LoadingView = (props)=>{
+
+    if(props.isLoading) return (
+        <View style={
+            loadingViewStyle.loadingView
+        }>
+            <LottieView
+                source={require('./../assets/lottie/loading.json')}
+                autoPlay
+                style={{
+                    width: 200,
+                    height: 200,
+                    backgroundColor: 'transparant',
+                }}
+            ></LottieView>
+        </View>
+    )
+    else return null;
+}

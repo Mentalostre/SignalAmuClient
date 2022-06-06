@@ -15,10 +15,6 @@ import {
     View,
 } from 'react-native'
 import { MapLayer } from 'expo-leaflet'
-import {marker} from "leaflet";
-import {reloadAsync} from "expo-updates";
-import * as events from "events";
-import asyncStorage from "@react-native-async-storage/async-storage/src/AsyncStorage";
 import {getReport, reloadMapReport, setReportInAsyncStorage} from "../../api/report";
 import Modal from "react-native-modal";
 
@@ -44,40 +40,13 @@ const initialPosition = {
     lng: 5.43915,
 }
 
-const initialMapMarker: MapMarker[] = [];
-
-export const add_marker = (lat, long, mapMarker) => {
-    let newMapMarker: MapMarker[] = [];
-    for (let i = 0; i < mapMarker.length; i++) {
-        newMapMarker.push(mapMarker[i]);
-    }
-    let marker: MapMarker = {
-        id: lat.toString(),
-        position: {lat: lat, lng: long},
-        icon: '📍',
-        size: [32, 32],
-    }
-    newMapMarker.push(marker);
-    return newMapMarker
-}
-const a: MapMarker[] = [
-    {
-        id: '1',
-        title: 'mon titre',
-        position: { lat: 43.23205, lng: 5.43915 },
-        icon: '📍',
-        size: [32, 32],
-    }
-]
-
-
 
 export default function Map() {
 
     const [zoom, setZoom] = useState(14)
     const [mapCenterPosition, setMapCenterPosition] = useState(initialPosition)
     const [ownPosition, setOwnPosition] = useState<null | LatLngLiteral>(null)
-    const [mapMarker, setMapMarker] = useState<null | MapMarker[]>(a)
+    const [mapMarker, setMapMarker] = useState<null | MapMarker[]>([])
 
     const [reportDesc, setReportDesc] = useState(null);
     const [reportLvl, setReportLvl] = useState(null);
@@ -114,16 +83,7 @@ export default function Map() {
         return m;
     }
 
-    const remove_marker = (id)=>{
-        let newMapMarker: MapMarker[]= [];
-        for (let i = 0; i < mapMarker.length; i++) {
-            if(!(mapMarker[i].id === id)){
-                newMapMarker.push(mapMarker[i]);
-            }
-        }
-        console.log(newMapMarker)
-        return newMapMarker;
-    }
+
     useEffect(() => {
         const getLocationAsync = async () => {
             let { status } = await Location.requestForegroundPermissionsAsync()
