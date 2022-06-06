@@ -1,17 +1,34 @@
-import { Image, View, StyleSheet, Text, FlatList } from "react-native";
+import {
+  Image,
+  View,
+  StyleSheet,
+  Text,
+  FlatList,
+  Dimensions,
+} from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { useState, useEffect } from "react";
 import { handleGetInfo } from "../api/info";
+import Modal from "react-native-modal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const Item = ({ item, onPress }) => (
+  <TouchableOpacity onPress={onPress} style={[styles.itemStyle]}>
+    <Text style={[styles.infoName]}>
+      {item.first_name} {item.last_name}
+    </Text>
+    <Text style={styles.infoDesc}>{item.info_desc}</Text>
+  </TouchableOpacity>
+);
 
 const InfoScreen = ({ navigation }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [info, setInfo] = useState([]);
-  /*const [firstName, setFirstName] = useState(" ");
-  const [lastName, setLastName] = useState(" ");
-  const [infoDesc, setInfoDesc] = useState(" ");
-  const [phoneNumber, setPhoneNumber] = useState(" ");
-  const [email, setEmail] = useState(" ");*/
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+
+  const toggleInfoModal = () => {
+    setIsInfoModalOpen(!isInfoModalOpen);
+  };
 
   const getInfo = async () => {
     try {
@@ -29,32 +46,43 @@ const InfoScreen = ({ navigation }) => {
 
   console.log(info);
 
+  const renderItem = ({ item }) => {
+    return (
+      <Item
+        item={item}
+        onPress={() => console.log(item.tel, item.user_email, item.info_email)}
+      />
+    );
+  };
+
   return (
     <View style={styles.mainArea}>
-      <FlatList
-        data={info}
-        renderItem={({ item }) => (
-          <View style={styles.renderArea}>
-            <Text style={styles.infoText}>{item.last_name}</Text>
-            <Text style={styles.infoText}>{item.first_name}</Text>
-            <Text style={styles.infoText}>{item.user_email}</Text>
-            <Text style={styles.infoText}>{item.tel}</Text>
-            <Text style={styles.infoText}>{item.info_desc}</Text>
-          </View>
-        )}
-      />
+      <FlatList data={info} renderItem={renderItem} />
     </View>
   );
 };
+
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
 
 export default InfoScreen;
 
 const styles = StyleSheet.create({
   mainArea: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "flex-end",
+    alignItems: "flex-start",
   },
   renderArea: {},
-  infoText: { top: 40 },
+  infoName: {
+    top: 60,
+    fontSize: 20,
+    fontFamily: "Outfit-Bold",
+    paddingBottom: 40,
+  },
+  infoDesc: {
+    marginTop: 20,
+    fontFamily: "Roboto-Italic",
+  },
+  itemStyle: {},
 });
