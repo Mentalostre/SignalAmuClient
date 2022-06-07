@@ -142,6 +142,11 @@ export default function Map() {
         return new Date(date).toLocaleDateString().slice(3,5) + " " + monthNames[month] + " 20" + new Date(date).toLocaleDateString().slice(6,8)
     }
 
+    const upperCaseFirstLetter = (str) => {
+        return str.charAt(0).toUpperCase() + str.slice(1)
+    }
+
+
     useEffect(() => {
         const getLocationAsync = async () => {
             let { status } = await Location.requestForegroundPermissionsAsync()
@@ -225,9 +230,9 @@ export default function Map() {
                                 getReport(markerId).then((report)=>{
                                     pickReportTagImage(report.tag_name);
                                     setReportDate(formatDate(+report.date));
-                                    setReportDesc(report.description);
-                                    setFirstName(report.first_name.slice(0, 1).toUpperCase() + report.first_name.slice(1));
-                                    setLastName(report.last_name.slice(0, 1).toUpperCase() + report.last_name.slice(1));
+                                    setReportDesc(upperCaseFirstLetter(report.description));
+                                    setFirstName(upperCaseFirstLetter(report.first_name));
+                                    setLastName(upperCaseFirstLetter(report.last_name));
                                     setReportLvl(report.level);
                                     setTagName(report.tag_name);
                                     setUserEmail(report.user_email);
@@ -354,7 +359,7 @@ const styles = StyleSheet.create({
     reportPingModalDesc: {
         fontFamily: "Roboto-Medium",
         marginTop: 10,
-        fontSize: 16
+        fontSize: 16,
     },
     reportPingModalFooter: {
 
