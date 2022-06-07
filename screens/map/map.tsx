@@ -201,7 +201,6 @@ export default function Map() {
                             reportImage &&
                             <Image source={{ uri: reportImage }} style={styles.reportPingModalImage}/>
                         }
-                        <Image source={require('../../assets/images/edeb1a30f33464304c0be796777856ec.png')} style={styles.reportPingModalImage}/>
                         <Text style={styles.reportPingModalOwner}>{firstName + " " + lastName + " le " + reportDate}</Text>
                         <Text style={styles.reportPingModalDesc}>{reportDesc}</Text>
                     </View>
