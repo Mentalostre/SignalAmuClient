@@ -82,7 +82,6 @@ export default function Map() {
     })
 
     const getM = (lat,long,id, icon)=>{
-        console.log(icon)
         let m:MapMarker = {
             id:id,
             position:{lat:lat,lng:long},
@@ -132,6 +131,15 @@ export default function Map() {
                 setReportTagImage(require('../../assets/images/reports/vandalism.png'))
                 break
         }
+    }
+
+    const monthNames = [
+        "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+]
+
+    const formatDate = (date) => {
+        const month = +new Date(date).toLocaleDateString().slice(0,2)
+        return new Date(date).toLocaleDateString().slice(3,5) + " " + monthNames[month] + " 20" + new Date(date).toLocaleDateString().slice(6,8)
     }
 
     useEffect(() => {
@@ -216,10 +224,10 @@ export default function Map() {
                                 let markerId = message.mapMarkerId;
                                 getReport(markerId).then((report)=>{
                                     pickReportTagImage(report.tag_name);
-                                    setReportDate(report.date);
+                                    setReportDate(formatDate(+report.date));
                                     setReportDesc(report.description);
-                                    setFirstName(report.first_name);
-                                    setLastName(report.last_name);
+                                    setFirstName(report.first_name.slice(0, 1).toUpperCase() + report.first_name.slice(1));
+                                    setLastName(report.last_name.slice(0, 1).toUpperCase() + report.last_name.slice(1));
                                     setReportLvl(report.level);
                                     setTagName(report.tag_name);
                                     setUserEmail(report.user_email);
@@ -237,7 +245,6 @@ export default function Map() {
             </View>
             <Button
                 onPress={async() => {
-
 
                 }}
                 title="Reset Map"
