@@ -65,9 +65,9 @@ export default function Map() {
     const [userEmail, setUserEmail] = useState(null);
     const [vote, setVote] = useState(null);
     const [reportImage, setReportImage] = useState(null);
+    const [reportTagImage, setReportTagImage] = useState(null);
 
     const [isReportPingModalOpen, setIsReportPingModalOpen] = useState(false);
-
 
 
 
@@ -75,23 +75,64 @@ export default function Map() {
         let newMapMarker: MapMarker[] = [];
         for(let i =0; i<data.length; i++){
             let d = data[i];
-            let marker = getM(d.location_lat, d.location_long, d.id);
+            let marker = getM(d.location_lat, d.location_long, d.id, pingIcon(d.tag_name));
             newMapMarker.push(marker);
         }
         setMapMarker(newMapMarker);
     })
 
-    const getM = (lat,long,id)=>{
+    const getM = (lat,long,id, icon)=>{
+        console.log(icon)
         let m:MapMarker = {
             id:id,
             position:{lat:lat,lng:long},
-            icon: '📍',
+            icon: icon,
             size: [32, 32],
             iconAnchor: [10, 40]
         };
         return m;
     }
 
+    const pingIcon = (tag_name) =>{
+        switch (tag_name){
+            case "Vandalisme" :
+                return "https://i.imgur.com/92PjlaV.png"
+            case "Technique" :
+                return "https://i.imgur.com/6HshbJd.png"
+            case "Propreté" :
+                return "https://i.imgur.com/yMTkisa.png"
+            case "Intendance" :
+                return "https://i.imgur.com/11N60dL.png"
+            case "Informatif" :
+                return "https://i.imgur.com/0LqDPVb.png"
+            default :
+                return "https://i.imgur.com/92PjlaV.png"
+        }
+    }
+
+
+    const pickReportTagImage = (tag_name) => {
+        switch (tag_name){
+            case "Vandalisme" :
+                setReportTagImage(require('../../assets/images/reports/vandalism.png'))
+                break
+            case "Technique" :
+                setReportTagImage(require('../../assets/images/reports/technique.png'))
+                break
+            case "Propreté" :
+                setReportTagImage(require('../../assets/images/reports/proprete.png'))
+                break
+            case "Intendance" :
+                setReportTagImage(require('../../assets/images/reports/intendance.png'))
+                break
+            case "Informatif" :
+                setReportTagImage(require('../../assets/images/reports/informatif.png'))
+                break
+            default :
+                setReportTagImage(require('../../assets/images/reports/vandalism.png'))
+                break
+        }
+    }
 
     useEffect(() => {
         const getLocationAsync = async () => {
@@ -136,7 +177,8 @@ export default function Map() {
             >
                 <View style={styles.reportPingModal}>
                     <View style={styles.reportPingModalHeader}>
-                        <Image source={require("../../assets/images/reports/vandalism.png")} style={styles.reportPingModalHeaderIcon}></Image>
+                        <Image source={reportTagImage} style={styles.reportPingModalHeaderIcon}/>
+
                         <Text style={styles.reportPingModalHeaderText}>{tagName}</Text>
                         <Text style={styles.reportPingModalLevel}>{"Niveau " + reportLvl}</Text>
                     </View>
@@ -174,6 +216,7 @@ export default function Map() {
                             case 'onMapMarkerClicked':
                                 let markerId = message.mapMarkerId;
                                 getReport(markerId).then((report)=>{
+                                    pickReportTagImage(report.tag_name);
                                     setReportDate(report.date);
                                     setReportDesc(report.description);
                                     setFirstName(report.first_name);
