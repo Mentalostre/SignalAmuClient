@@ -161,7 +161,6 @@ export default function Map() {
 
     const resetReportPingModal = () => {
         toggleReportPingModal()
-
     }
 
     return (
