@@ -1,6 +1,4 @@
-import {
-    getSessionCookie
-} from "./cookie";
+import {getSessionCookie} from "./cookie";
 
 const SERVER_URL = "http://192.168.1.89:3000"
 
@@ -36,11 +34,24 @@ export const request_get_cookie = async (route) => {
             method: "GET",
             headers: "cookie :" + cookie
         })
-        let result = await r.json();
-        return result;
+        return await r.json();
     } catch (err) {
         console.log("Error fetching request_encoded_get :  " + err.stack)
     }
+}
+export const request_post_image = async (imagePath, reportId)=>{
+    try {
+        let body = new FormData();
+        body.append('picture', {uri:imagePath, name:'picture', type:'image/png'});
+        let r = await fetch(SERVER_URL + '/api/report/image/'+reportId, {
+            method:'POST',
+            body:body
+        });
+        return await r.json();
+    }catch (err){
+        console.log("\"Error fetching request_post_image :  " + err.stack)
+    }
+
 }
 
 export const request_encoded_post_cookie = async (data, route) => {

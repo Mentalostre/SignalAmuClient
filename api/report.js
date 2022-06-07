@@ -1,5 +1,5 @@
 import {
-    request_encoded_post_cookie, request_get_cookie
+    request_encoded_post_cookie, request_get_cookie, request_post_image
 } from "./request";
 import asyncStorage from "@react-native-async-storage/async-storage/src/AsyncStorage";
 import { EventRegister } from 'react-native-event-listeners'
@@ -10,19 +10,28 @@ export const handleReportPost = async function (
     level,
     location_lat,
     location_long,
-    tag_id
+    tag_name,
+    imagePath
 ) {
-    var dataToSend = {
+    let dataToSend = {
         desc: desc,
         level: level,
         location_lat: location_lat,
         location_long: location_long,
-        tag_id: tag_id,
+        tag_name: tag_name,
     };
     let result = await request_encoded_post_cookie(dataToSend, "/api/report")
     if(!(result.res ===1)){
         return -1;
     }
+    let lastId = result.lastId;
+    if(imagePath!=null){
+        result = await request_post_image(imagePath, lastId)
+        if(!(result.res ===1)){
+            return -1;
+        }
+    }
+
     await reloadMapReport()
     return 1
 };

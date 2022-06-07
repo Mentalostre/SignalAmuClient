@@ -177,7 +177,7 @@ export default function Map() {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
 
             <Modal isVisible={isReportPingModalOpen}
                    animationInTiming={400} animationOutTiming={400}
@@ -248,14 +248,9 @@ export default function Map() {
                     }}
                 />
             </View>
-            <Button
-                onPress={async() => {
 
-                }}
-                title="Reset Map"
-            />
 
-        </SafeAreaView>
+        </View>
     )
 }
 

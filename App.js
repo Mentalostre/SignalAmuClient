@@ -1,3 +1,6 @@
+
+import {LogBox} from "react-native";  LogBox.ignoreLogs([ "exported from 'deprecated-react-native-prop-types'.", ])
+
 import { createStackNavigator } from "@react-navigation/stack";
 import {DefaultTheme, NavigationContainer} from "@react-navigation/native";
 
@@ -12,6 +15,8 @@ import Splash from "./screens/SplashScreen";
 import AuthStack from "./navigation/AuthStack";
 
 const Stack = createStackNavigator();
+
+
 
 const getFonts = () =>
   Font.loadAsync({

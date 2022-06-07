@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Dimensions, Image, Text, TouchableOpacity, TextInput, KeyboardAvoidingView} from 'react-native';
 import * as Location from 'expo-location'
-import {map} from "../api/map";
-import WebView from "react-native-webview";
 import Modal from "react-native-modal";
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
 import Socket from "./map/socketIo";
+
+
 import LottieView from 'lottie-react-native';
+
+
 
 import Map from './map/map'
 import {handleReportPost} from "../api/report";
@@ -41,7 +43,14 @@ const MapScreen = ({navigation}) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const toggleReportModal = () => {
+        resetVar();
         setIsReportModalOpen(!isReportModalOpen)
+    }
+
+    const resetVar = ()=>{
+        setReportImage(null);
+        setReportDesc(null);
+        setReportLevel(null);
     }
 
     const toggleReportMenu = () => {
@@ -57,23 +66,39 @@ const MapScreen = ({navigation}) => {
         setReportImage(null)
     }
 
-    const openCamera = async () => {
-        const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-        const result = await ImagePicker.requestCameraPermissionsAsync();
+    const checkNotEmptyField = ()=>{
+        return (reportDesc == null || reportLevel == null);
+    }
+    
+    const handleReport =async () => {
+        if(checkNotEmptyField()) {
+            alert("Remplissez tous les champs")
+            return;
+        }
+        setIsLoading(true)
+        setIsReportModalOpen(false);
+        let location = await getLocation();
+        let lat = location.lat;
+        let long = location.lng;
 
-        if (permissionResult.granted === false) {
-            alert("Veuillez accorder l'accès à votre caméra dans les paramètres!");
-
-        } else {
-            const result = await ImagePicker.launchCameraAsync();
-
-            if (!result.cancelled) {
-                // @ts-ignore
-                setReportImage(result.uri);
+        handleReportPost(reportDesc,reportLevel, lat,long, reportTag, reportImage).then(
+            (res)=>{
+                if(res!=1){
+                    alert("Impossible de poster un report")
+                    setIsLoading(false)
+                }
+                else{
+                    resetReport()
+                    alert("Success")}
+                setIsLoading(false)
             }
 
-            return result;
-        }
+        ).catch((err)=>{
+            alert("ERROR")
+            setIsLoading(false)
+            console.log('handleReportPost', err);
+        });
+
     }
 
     return (
@@ -204,51 +229,14 @@ const MapScreen = ({navigation}) => {
                                     setReportLevel(value);
                                 }}
                             />
-                                {
-                                    !reportImage &&
-                                    <TouchableOpacity onPress={openCamera}>
-                                        <Image style={styles.reportImage}
-                                               source={require("../assets/images/reports/image-plus.png")}/>
-                                    </TouchableOpacity>
-                                }
-                                {
-                                    reportImage &&
-                                    <TouchableOpacity onPress={() => setReportImage(null)}>
-                                        <Image source={require("../assets/images/reports/image-minus.png")}
-                                               style={styles.reportImage}/>
-                                    </TouchableOpacity>
-                                }
+                                <PickImage onChange={(imageUri)=>{setReportImage(imageUri)}}/>
                             </View>
                             <Text style={styles.sliderText}>
                                 Niveau d'importance : <Text style={styles.primaryColor}>{reportLevel}</Text>
                             </Text>
                             <View style={styles.reportFooter}>
                                 <TouchableOpacity onPress={ async () => {
-                                    setIsLoading(true)
-                                    setIsReportModalOpen(false);
-                                    let location = await getLocation();
-                                    let lat = location.lat;
-                                    let long = location.lng;
-                                    console.log(location)
-                                    handleReportPost(reportDesc,reportLevel, lat,long, 5).then(
-                                        (res)=>{
-                                            if(res!=1){
-                                                alert("Impossible de poster un report")
-                                                setIsLoading(false)
-                                            }
-                                            else{
-                                                resetReport()
-                                                alert("Success")}
-                                            setIsLoading(false)
-
-                                            }
-
-                                    ).catch((err)=>{
-                                        alert("ERROR")
-                                        console.log(err);
-                                    });
-                                    console.log("Image: "+ reportImage +"\nDesc: "+ reportDesc +"\nTag: "+ reportTag +"\nLevel: "+ reportLevel)
-
+                                    await handleReport();
                                 }}>
                                     <View style={styles.sendReportTopRadius}>
                                     <Text style={styles.sendReport}>
@@ -449,6 +437,51 @@ const styles = StyleSheet.create({
 
 });
 
+const PickImage = ({onChange})=>{
+    const [isImage, setIsImage] = useState(false)
+
+
+
+    const openCamera = async () => {
+        const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+        const result = await ImagePicker.requestCameraPermissionsAsync();
+
+        if (permissionResult.granted === false) {
+            alert("Veuillez accorder l'accès à votre caméra dans les paramètres!");
+
+        } else {
+            const result = await ImagePicker.launchCameraAsync();
+
+            if (!result.cancelled) {
+                setIsImage(true)
+                // @ts-ignore
+                onChange(result.uri)
+
+            }
+
+            return result;
+        }
+    }
+
+    if(isImage){
+        return (
+            <TouchableOpacity onPress={()=>{setIsImage(false); onChange(null)}}>
+                <Image style={styles.reportImage}
+                       source={require("../assets/images/reports/image-minus.png")}/>
+            </TouchableOpacity>
+        )
+    }
+    else{
+        return (
+            <TouchableOpacity onPress={openCamera}>
+                <Image style={styles.reportImage}
+                       source={require("../assets/images/reports/image-plus.png")}/>
+            </TouchableOpacity>
+        )
+    }
+}
+
+
 const loadingViewStyle = StyleSheet.create({
     loadingView: {
         flex:1,
@@ -463,6 +496,7 @@ const loadingViewStyle = StyleSheet.create({
     }
 })
 
+
 const LoadingView = (props)=>{
 
     if(props.isLoading) return (
@@ -475,10 +509,12 @@ const LoadingView = (props)=>{
                 style={{
                     width: 200,
                     height: 200,
-                    backgroundColor: 'transparant',
+                    backgroundColor: 'transparent',
                 }}
             ></LottieView>
         </View>
     )
     else return null;
 }
+
+
