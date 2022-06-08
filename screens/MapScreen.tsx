@@ -4,7 +4,7 @@ import * as Location from 'expo-location'
 import Modal from "react-native-modal";
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
-import Socket from "./map/socketIo";
+
 
 
 import LottieView from 'lottie-react-native';
@@ -20,8 +20,6 @@ const MapScreen = ({navigation}) => {
 
     const [isReportMenuOpen, setIsReportMenuOpen] = useState(false);
     const [isReportModalOpen, setIsReportModalOpen] = useState(false);
-    const [mapRef, setMapRef] = useState(null);
-    const [location, setLocation] = useState(null);
 
 
     useEffect(() => {
@@ -101,9 +99,6 @@ const MapScreen = ({navigation}) => {
         <View style={styles.mainArea}>
 
             <Map/>
-
-            <Socket/>
-
 
             <View style={styles.logoArea}>
                 <TouchableOpacity
