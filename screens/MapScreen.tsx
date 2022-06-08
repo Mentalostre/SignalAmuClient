@@ -63,7 +63,7 @@ const MapScreen = ({navigation}) => {
     const checkNotEmptyField = ()=>{
         return (reportDesc == null || reportLevel == null);
     }
-
+    
     const handleReport =async () => {
         if(checkNotEmptyField()) {
             alert("Remplissez tous les champs")
@@ -192,6 +192,10 @@ const MapScreen = ({navigation}) => {
                     >
                         <KeyboardAvoidingView behavior="padding">
                         <View style={styles.reportModalView}>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    toggleReportModal()
+                                }}>
                                 <TextInput
                                     style={styles.textInputStyle}
                                     placeholderTextColor="#3983cd"
@@ -200,8 +204,9 @@ const MapScreen = ({navigation}) => {
                                     multiline={true}
                                     placeholder="Description"
                                     onChangeText={(reportDesc) => setReportDesc(reportDesc)}
-                                    maxLength={255}
                                 />
+
+                            </TouchableOpacity>
                             <View style={styles.reportSlideView}>
                             <Slider
                                 minimumValue={1}
