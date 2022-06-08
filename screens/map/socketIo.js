@@ -14,7 +14,11 @@ const Socket =  ()=>{
 
     useEffect(()=>{
 
-
+        const socket = io(SOCKET_URL);
+        socket.connect()
+        socket.on("connect", ()=>{
+            console.log("socket", socket.connected)
+        })
 
     })
 
