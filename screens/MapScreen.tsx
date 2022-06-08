@@ -26,7 +26,6 @@ const MapScreen = ({navigation}) => {
 
     useEffect(() => {
         const socket = io('http://192.168.1.89:3001')
-        console.log(socket)
         socket.on("report", async ()=>{
             await reloadMapReport()
         })
