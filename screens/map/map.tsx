@@ -3,15 +3,17 @@ import * as Location from 'expo-location'
 import type { LatLngLiteral } from 'leaflet'
 import React, { useEffect, useState } from 'react'
 import { EventRegister } from 'react-native-event-listeners'
+import Svg, { SvgProps, Path } from "react-native-svg"
 
 import {
     ActivityIndicator,
     Alert,
-    Button, Dimensions, Image,
+    Dimensions,
+    Image,
     Platform,
-    SafeAreaView,
     StyleSheet,
     Text,
+    TouchableOpacity,
     View,
 } from 'react-native'
 import { MapLayer } from 'expo-leaflet'
@@ -203,7 +205,13 @@ export default function Map() {
                         <Text style={styles.reportPingModalDesc}>{reportDesc}</Text>
                     </View>
                     <View style={styles.reportPingModalFooter}>
-
+                        <TouchableOpacity onPress={() => console.log("ahhhhh là on s'entend le couz")}>
+                            <UpVote></UpVote>
+                        </TouchableOpacity>
+                        <Text style={styles.reportVoteCount}>{vote}</Text>
+                        <TouchableOpacity onPress={() => console.log("écoute moi bien tu vas pas mettre un downvote comme ça mon petit")} >
+                            <DownVote></DownVote>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
@@ -254,7 +262,39 @@ export default function Map() {
     )
 }
 
+const UpVote = (props: SvgProps) => (
+    <Svg
+        style={{
+            width: 24,
+            height: 24,
+        }}
+        viewBox="0 0 24 24"
+        {...props}
+    >
+        <Path
+            fill="#0066CC"
+            d="M23 10a2 2 0 0 0-2-2h-6.32l.96-4.57c.02-.1.03-.21.03-.32 0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.58C7.22 7.95 7 8.45 7 9v10a2 2 0 0 0 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2M1 21h4V9H1v12Z"
+        />
 
+    </Svg>
+)
+
+const DownVote = (props: SvgProps) => (
+    <Svg
+        style={{
+            width: 24,
+            height: 24,
+        }}
+        viewBox="0 0 24 24"
+        {...props}
+    >
+        <Path
+            fill="#0066CC"
+            d="M19,15H23V3H19M15,3H6C5.17,3 4.46,3.5 4.16,4.22L1.14,11.27C1.05,11.5 1,11.74 1,12V14A2,2 0 0,0 3,16H9.31L8.36,20.57C8.34,20.67 8.33,20.77 8.33,20.88C8.33,21.3 8.5,21.67 8.77,21.94L9.83,23L16.41,16.41C16.78,16.05 17,15.55 17,15V5C17,3.89 16.1,3 15,3Z"
+        />
+
+    </Svg>
+)
 
 
 const screenWidth = Dimensions.get("window").width;
@@ -354,10 +394,17 @@ const styles = StyleSheet.create({
     reportPingModalDesc: {
         fontFamily: "Roboto-Medium",
         marginTop: 10,
-        fontSize: 16,
+        fontSize: 15,
     },
     reportPingModalFooter: {
-
-    }
+        position: "absolute",
+        bottom: 10,
+        right: 15,
+        flexDirection: "row",
+    },
+    reportVoteCount: {
+        marginHorizontal: 10
+    },
     /*  <ReportPingModal/>   */
+
 })
