@@ -4,7 +4,7 @@ import * as Location from 'expo-location'
 import Modal from "react-native-modal";
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
-import Socket from "./map/socketIo";
+
 
 
 import LottieView from 'lottie-react-native';
@@ -12,27 +12,21 @@ import LottieView from 'lottie-react-native';
 
 
 import Map from './map/map'
-import {handleReportPost} from "../api/report";
+import {handleReportPost, reloadMapReport} from "../api/report";
 import {getLocation} from "./map/location";
-
+import io from "socket.io-client";
+const SOCKET_URL = "http://localhost:3001"
 const MapScreen = ({navigation}) => {
 
     const [isReportMenuOpen, setIsReportMenuOpen] = useState(false);
     const [isReportModalOpen, setIsReportModalOpen] = useState(false);
-    const [mapRef, setMapRef] = useState(null);
-    const [location, setLocation] = useState(null);
+
 
     useEffect(() => {
-        (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-                alert("Veuillez accorder l'accès à votre localisation dans les paramètres!");
-                return;
-            }
-
-            let location = await Location.getCurrentPositionAsync({});
-            setLocation(location);
-        })();
+        const socket = io('http://192.168.1.89:3001')
+        socket.on("report", async ()=>{
+            await reloadMapReport()
+        })
     }, []);
 
     //REPORT
@@ -105,9 +99,6 @@ const MapScreen = ({navigation}) => {
         <View style={styles.mainArea}>
 
             <Map/>
-
-            <Socket/>
-
 
             <View style={styles.logoArea}>
                 <TouchableOpacity

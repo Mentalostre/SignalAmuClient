@@ -32,7 +32,7 @@ export const handleReportPost = async function (
         }
     }
 
-    await reloadMapReport()
+    //await reloadMapReport()
     return 1
 };
 
