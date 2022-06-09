@@ -204,7 +204,7 @@ export default function Map() {
         request_get('/api/report/image/' + reportId).then((response)=>{
             if(response.res ==1){
                 if(response.images_name.length != 0){
-                    let imageNames = response.images_name[0] + '.png'
+                    let imageNames = response.images_name[0]
                     console.log(imageNames)
                     setReportImage('http://192.168.1.89:3000/api/image/upload/' + imageNames);
                 }
