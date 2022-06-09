@@ -190,12 +190,8 @@ export default function Map() {
         }
         let result = await request_encoded_post(data, '/api/vote');
         if(result.res == 1){
-            setIsLoading(true);
-            await reloadMapReportStorage()
-            getReport(reportId).then((report)=>{
-                setVote(report.vote_count);
-            })
-            setIsLoading(false);
+
+            alert("Vote enregistré");
         }
         return;
     }
@@ -240,7 +236,8 @@ export default function Map() {
                         <Text style={styles.reportPingModalDesc}>{reportDesc}</Text>
                     </View>
                     <View style={styles.reportPingModalFooter}>
-                        <TouchableOpacity onPress={async () =>{await processVote(1)}}>
+                        <TouchableOpacity onPress={async () =>{
+                            await processVote(1)}}>
                             <UpVote></UpVote>
                         </TouchableOpacity>
                         <Text style={styles.reportVoteCount}>{vote}</Text>
