@@ -77,7 +77,6 @@ export const getReport = async(id)=>{
 
 
 export const setReportInAsyncStorage = async()=>{
-    console.log("allo")
     await reloadMapReport()
 }
 
