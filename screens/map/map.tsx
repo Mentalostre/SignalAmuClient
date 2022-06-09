@@ -89,7 +89,7 @@ export default function Map() {
             position:{lat:lat,lng:long},
             icon: icon,
             size: [32, 32],
-            iconAnchor: [10, 40]
+            iconAnchor: [0, 32]
         };
         return m;
     }
@@ -141,7 +141,7 @@ export default function Map() {
 
     const formatDate = (date) => {
         const month = +new Date(date).toLocaleDateString().slice(0,2)
-        return new Date(date).toLocaleDateString().slice(3,5) + " " + monthNames[month] + " 20" + new Date(date).toLocaleDateString().slice(6,8)
+        return new Date(date).toLocaleDateString().slice(3,5) + " " + monthNames[month-1] + " 20" + new Date(date).toLocaleDateString().slice(6,8)
     }
 
     const upperCaseFirstLetter = (str) => {
