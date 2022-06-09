@@ -1,6 +1,5 @@
 import { Image, View, StyleSheet, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { disconnect } from "../api/disconnect";
 import { useState, useEffect } from "react";
 
 const SettingsScreen = ({ navigation }) => {
@@ -11,7 +10,6 @@ const SettingsScreen = ({ navigation }) => {
       <View style={styles.logoArea}>
         <TouchableOpacity
           onPress={() => {
-            disconnect();
             navigation.navigate("HomeScreen");
           }}
         >
