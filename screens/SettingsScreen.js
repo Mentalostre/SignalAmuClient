@@ -4,22 +4,45 @@ import Modal from "react-native-modal";
 
 import { handleGetMyInfo } from "../api/myinfo";
 
+const upperCaseFirstLetter = (str) => {
+    let result;
+    str ? result = str.charAt(0).toUpperCase() + str.slice(1) : null
+    return result
+}
 
 const SettingsScreen = ({ navigation }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
-    const [info, setInfo] = useState([]);
     const [isSettingModalOpen, setIsSettingModalOpen] = useState(false);
+    const [consumerID, setConsumerID] = useState(null)
+    const [firstName, setFirstName] = useState(null)
+    const [lastName, setLastName] = useState(null)
+    const [infoDesc, setInfoDesc] = useState(null)
+    const [infoEmail, setInfoEmail] = useState(null)
+    const [phone, setPhone] = useState(null)
 
+    const [data, setData] = useState(null)
+    const [dataDesc, setDataDesc] = useState(null)
+    const [doubleData, setDoubleData] = useState(null)
+
+
+    const setInfo = (json) => {
+        setConsumerID(json.consumer_id)
+        setFirstName(json.first_name)
+        setLastName(json.last_name)
+        setInfoDesc(json.info_desc)
+        setInfoEmail(json.info_email)
+        setPhone(json.tel)
+    }
 
     const toggleSettingModalOpen = () => {
         setIsSettingModalOpen(!isSettingModalOpen)
     }
 
+
     const getInfo = async () => {
         try {
             const json = await handleGetMyInfo();
             setInfo(json);
-            console.log(json)
         } catch (e) {
             console.log("error : ", e);
         }
@@ -31,14 +54,25 @@ const SettingsScreen = ({ navigation }) => {
 
   return (
     <View style={styles.mainArea}>
-        <SettingsModal toggleModal={toggleSettingModalOpen} modal={isSettingModalOpen} isConsumer={null}/>
+    <SettingsModal toggleModal={toggleSettingModalOpen} modal={isSettingModalOpen} isConsumer={consumerID}
+                   data={data} doubledata={doubleData} dataDesc={dataDesc}/>
       <View style={styles.header}>
         <Text style={styles.headerText}>Paramètres</Text>
+        <Text style={styles.welcome}>{"Bienvenue " + upperCaseFirstLetter(firstName) + " " + upperCaseFirstLetter(lastName) + ","}</Text>
       </View>
       <View>
-        <TouchableOpacity onPress={toggleSettingModalOpen}>
-                <Text style={styles.boxText}>Ne fait rien</Text>
-        </TouchableOpacity>
+          {
+              consumerID? <>
+                  <TouchableOpacity onPress={() => {
+                      toggleSettingModalOpen()
+                      setDoubleData(null)
+                      setDataDesc("numéro de téléphone")
+                      setData(phone)
+                  }}>
+                      <Text style={styles.boxText}>Modifier mon numéro de téléphone</Text>
+                  </TouchableOpacity>
+              </>:null
+          }
         <TouchableOpacity onPress={() => {
             navigation.navigate("HomeScreen");
         }}>
@@ -52,8 +86,8 @@ const SettingsScreen = ({ navigation }) => {
 export default SettingsScreen;
 
 
-const SettingsModal = ({toggleModal, modal, isConsumer}) => {
-
+const SettingsModal = ({toggleModal, modal, isConsumer, data, dataDesc, doubledata }) => {
+    const [dataToSend, setDataToSend] = useState(data)
     return (
         <Modal isVisible={modal}
                animationInTiming={400} animationOutTiming={400}
@@ -64,21 +98,32 @@ const SettingsModal = ({toggleModal, modal, isConsumer}) => {
                swipeDirection="down"
         >
             <View style={styles.settingsModal}>
-                { isConsumer &&
+                { doubledata?
                     <><View style={styles.settingsModalHeader}>
-                        <Text style={styles.settingsModalHeaderText}>Coucou</Text>
+                        <Text style={styles.settingsModalHeaderText}>{dataDesc}</Text>
+                    </View><View style={styles.settingsModalContent}>
+                        <Text>{data}</Text>
+                        <Text style={styles.settingsModalDesc}>{doubledata}</Text>
+                    </View>
+                    </>
+                    :
+                    <>
+                    <View style={styles.settingsModalHeader}>
+                        <Text style={styles.settingsModalHeaderText}>{"Votre " + dataDesc}</Text>
                     </View><View style={styles.settingsModalContent}>
                         <TextInput
                             style={styles.textInputStyle}
-                            placeholderTextColor="#3983cd"
                             textAlign={"left"}
-                            textAlignVertical={"top"}
-                            multiline={true}
-                            placeholder="Description"
-                            maxLength={255}/>
-                        <Text style={styles.settingsModalDesc}>Tocard</Text>
+                            maxLength={12}
+                            placeholder={data}
+                            onChangeText={(newData) => setDataToSend(newData)}
+                        />
                     </View><View style={styles.settingsModalFooter}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={
+                            () => {
+                                console.log(dataToSend)
+                            }
+                        }>
                             <View style={styles.settingsModalSendView}>
                                 <Text style={styles.settingsModalSend}>Mettre à jour</Text>
                             </View>
@@ -113,12 +158,13 @@ const styles = StyleSheet.create({
      fontSize: 18,
      fontFamily: "Outfit-Medium",
      paddingLeft: 10,
-     backgroundColor: "#F4F4F4"
+     backgroundColor: "#F4F4F4",
+     marginBottom: 8,
     },
 
     /*  <settingsModal>   */
     settingsModal: {
-        height: 2 * screenHeight / 3,
+        height: screenHeight / 3,
         width: screenWidth - 20,
         borderRadius: 15,
         padding: 20,
@@ -142,7 +188,6 @@ const styles = StyleSheet.create({
     settingsModalHeaderText: {
         fontFamily: "Outfit-Bold",
         fontSize: 22,
-        textTransform: "capitalize",
     },
     settingsModalContent: {
         marginTop: 10,
@@ -190,7 +235,6 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         backgroundColor: '#F3F3F3',
         marginTop: 20,
-        height: (screenHeight / 4),
         fontFamily: "Outfit-Medium",
         fontSize: 15,
         shadowColor: "#000",
@@ -203,6 +247,12 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     /*  <settingsModal/>   */
+    welcome: {
+        marginTop: 20,
+        marginBottom: 15,
+        fontSize: 18,
+        fontFamily: "Outfit-Medium"
+    },
 
 
 });
