@@ -508,4 +508,5 @@ const LoadingView = (props)=>{
     else return null;
 }
 
+export {LoadingView}
 

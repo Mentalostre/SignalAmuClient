@@ -58,6 +58,11 @@ export const reloadMapReport = async()=>{
     EventRegister.emit('report', reports);
 }
 
+export const reloadMapReportStorage = async()=>{
+    let reports = await getAllReport();
+    await asyncStorage.setItem('report', JSON.stringify(reports))
+}
+
 export const getReport = async(id)=>{
     let reportString = await asyncStorage.getItem('report');
     let report = (JSON.parse(reportString));
