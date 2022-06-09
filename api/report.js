@@ -1,6 +1,5 @@
 import {
-    request_encoded_post,
-    request_encoded_post_cookie, request_get_cookie, request_post_image
+    request_encoded_post, request_get, request_post_image
 } from "./request";
 import asyncStorage from "@react-native-async-storage/async-storage/src/AsyncStorage";
 import { EventRegister } from 'react-native-event-listeners'
@@ -39,7 +38,7 @@ export const handleReportPost = async function (
 
 
 const getAllReport = async ()=>{
-    let result = await request_get_cookie("/api/report");
+    let result = await request_get("/api/report");
     let reports = null;
     if(result.res === 1){
         reports = result.reports;
