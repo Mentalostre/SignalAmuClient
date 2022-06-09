@@ -295,14 +295,6 @@ export default function Map() {
                     }}
                 />
             </View>
-            <Button
-                onPress={async()=>{
-                    let result = await request_get('/api/myinfo')
-                    console.log(result.data.first_name)
-                }}
-                title="Reset Map"
-            />
-
         </View>
     )
 }
