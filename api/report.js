@@ -1,4 +1,5 @@
 import {
+    request_encoded_post,
     request_encoded_post_cookie, request_get_cookie, request_post_image
 } from "./request";
 import asyncStorage from "@react-native-async-storage/async-storage/src/AsyncStorage";
@@ -20,7 +21,7 @@ export const handleReportPost = async function (
         location_long: location_long,
         tag_name: tag_name,
     };
-    let result = await request_encoded_post_cookie(dataToSend, "/api/report")
+    let result = await request_encoded_post(dataToSend, "/api/report")
     if(!(result.res ===1)){
         return -1;
     }

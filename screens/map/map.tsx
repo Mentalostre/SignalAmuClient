@@ -7,7 +7,7 @@ import Svg, { SvgProps, Path } from "react-native-svg"
 
 import {
     ActivityIndicator,
-    Alert,
+    Alert, Button,
     Dimensions,
     Image,
     Platform,
@@ -17,8 +17,10 @@ import {
     View,
 } from 'react-native'
 import { MapLayer } from 'expo-leaflet'
-import {getReport, reloadMapReport, setReportInAsyncStorage} from "../../api/report";
+import {getReport, reloadMapReport, reloadMapReportStorage, setReportInAsyncStorage} from "../../api/report";
 import Modal from "react-native-modal";
+import {request_encoded_post, request_get} from "../../api/request";
+import {LoadingView} from "../MapScreen";
 
 
 const mapLayers: Array<MapLayer> = [
@@ -68,7 +70,8 @@ export default function Map() {
     const [vote, setVote] = useState(null);
     const [reportImage, setReportImage] = useState(null);
     const [reportTagImage, setReportTagImage] = useState(null);
-
+    const [reportId, setReportId] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const [isReportPingModalOpen, setIsReportPingModalOpen] = useState(false);
 
 
@@ -178,6 +181,23 @@ export default function Map() {
         toggleReportPingModal()
     }
 
+    const processVote = async (voteValue)=>{
+        let data = {
+            report_id: reportId,
+            vote_value:  voteValue
+        }
+        let result = await request_encoded_post(data, '/api/vote');
+        if(result.res == 1){
+            setIsLoading(true);
+            await reloadMapReportStorage()
+            getReport(reportId).then((report)=>{
+                setVote(report.vote_count);
+            })
+            setIsLoading(false);
+        }
+        return;
+    }
+
     return (
         <View style={styles.container}>
 
@@ -205,15 +225,17 @@ export default function Map() {
                         <Text style={styles.reportPingModalDesc}>{reportDesc}</Text>
                     </View>
                     <View style={styles.reportPingModalFooter}>
-                        <TouchableOpacity onPress={() => console.log("ahhhhh là on s'entend le couz")}>
+                        <TouchableOpacity onPress={async () =>{await processVote(1)}}>
                             <UpVote></UpVote>
                         </TouchableOpacity>
                         <Text style={styles.reportVoteCount}>{vote}</Text>
-                        <TouchableOpacity onPress={() => console.log("écoute moi bien tu vas pas mettre un downvote comme ça mon petit")} >
+                        <TouchableOpacity onPress={async () =>{await processVote(0)}} >
                             <DownVote></DownVote>
                         </TouchableOpacity>
                     </View>
                 </View>
+                <LoadingView isLoading={isLoading}/>
+
             </Modal>
 
             <View style={{ flex: 1, position: 'relative' }}>
@@ -245,7 +267,7 @@ export default function Map() {
                                     setTagName(report.tag_name);
                                     setUserEmail(report.user_email);
                                     setVote(report.vote_count);
-
+                                    setReportId(markerId);
 
                                     toggleReportPingModal()
                                 });
@@ -256,10 +278,20 @@ export default function Map() {
                     }}
                 />
             </View>
-
+            <Button
+                onPress={async()=>{
+                    let result = await request_get('/api/myinfo')
+                    console.log(result.data.first_name)
+                }}
+                title="Reset Map"
+            />
 
         </View>
     )
+}
+
+const processUpVote = ()=>{
+
 }
 
 const UpVote = (props: SvgProps) => (

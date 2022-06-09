@@ -78,6 +78,7 @@ const LoginScreen = ({ navigation }) => {
                   break;
                 case 13:
                   alert("Mauvais mot de passe");
+                  break;
                 default:
                   alert("ERROR");
                   break;

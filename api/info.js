@@ -1,10 +1,5 @@
-import {
-    request_get_cookie
-} from "./request";
+import {request_get} from "./request";
 
 export const handleGetInfo = async function () {
-
-    let result = await request_get_cookie("/api/info")
-
-    return result
+    return await request_get("/api/info")
 };
