@@ -39,6 +39,19 @@ export const request_get_cookie = async (route) => {
         console.log("Error fetching request_encoded_get :  " + err.stack)
     }
 }
+
+export const request_get = async (route) => {
+    let path = SERVER_URL + route;
+    try {
+        let r = await fetch(path, {
+            method: "GET",
+        })
+        return await r.json();
+    } catch (err) {
+        console.log("Error fetching request_encoded_get :  " + err.stack)
+    }
+}
+
 export const request_post_image = async (imagePath, reportId)=>{
     try {
         let body = new FormData();
