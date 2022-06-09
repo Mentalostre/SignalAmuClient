@@ -63,7 +63,7 @@ export default function Map() {
     const [reportDesc, setReportDesc] = useState(null);
     const [reportLvl, setReportLvl] = useState(null);
     const [reportDate, setReportDate] = useState(null);
-    const [tagName, setTagName] = useState(null); // pour l'instant c'est tjr le meme je le changerai dans le serveur apres
+    const [tagName, setTagName] = useState(null);
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
     const [userEmail, setUserEmail] = useState(null);
@@ -73,7 +73,7 @@ export default function Map() {
     const [reportId, setReportId] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isReportPingModalOpen, setIsReportPingModalOpen] = useState(false);
-
+    const [hasVoted, setHasVoted] = useState(false);
 
 
     EventRegister.addEventListener('report', (data)=>{
@@ -182,6 +182,8 @@ export default function Map() {
     }
 
     const processVote = async (voteValue)=>{
+        if(hasVoted) return;
+        setHasVoted(true);
         let data = {
             report_id: reportId,
             vote_value:  voteValue
@@ -196,6 +198,19 @@ export default function Map() {
             setIsLoading(false);
         }
         return;
+    }
+
+    const getImage = (reportId)=>{
+        request_get('/api/report/image/' + reportId).then((response)=>{
+            if(response.res ==1){
+                if(response.images_name.length != 0){
+                    let imageNames = response.images_name[0] + '.png'
+                    console.log(imageNames)
+                    setReportImage('http://192.168.1.89:3000/api/image/upload/' + imageNames);
+                }
+                else{return;}
+            }
+        })
     }
 
     return (
@@ -219,7 +234,7 @@ export default function Map() {
                     <View style={styles.reportPingModalContent}>
                         {
                             reportImage &&
-                            <Image source={{ uri: reportImage }} style={styles.reportPingModalImage}/>
+                            <Image source={{ uri: reportImage }}  style={styles.reportPingModalImage}/>
                         }
                         <Text style={styles.reportPingModalOwner}>{firstName + " " + lastName + " le " + reportDate}</Text>
                         <Text style={styles.reportPingModalDesc}>{reportDesc}</Text>
@@ -258,6 +273,7 @@ export default function Map() {
                             case 'onMapMarkerClicked':
                                 let markerId = message.mapMarkerId;
                                 getReport(markerId).then((report)=>{
+                                    setReportImage(null);
                                     pickReportTagImage(report.tag_name);
                                     setReportDate(formatDate(+report.date));
                                     setReportDesc(upperCaseFirstLetter(report.description));
@@ -268,7 +284,8 @@ export default function Map() {
                                     setUserEmail(report.user_email);
                                     setVote(report.vote_count);
                                     setReportId(markerId);
-
+                                    getImage(markerId);
+                                    setHasVoted(false);
                                     toggleReportPingModal()
                                 });
 
@@ -293,6 +310,8 @@ export default function Map() {
 const processUpVote = ()=>{
 
 }
+
+
 
 const UpVote = (props: SvgProps) => (
     <Svg
