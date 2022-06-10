@@ -194,6 +194,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderRadius: 11
   },
+  itemStyle: {
+    alignItems: 'center',
+  },
   infoName: {
     fontSize: 18,
     fontFamily: "Outfit-Medium",
@@ -209,9 +212,6 @@ const styles = StyleSheet.create({
     padding: 3,
     paddingHorizontal: 6,
     borderRadius: 5
-  },
-  itemStyle: {
-    alignItems: 'center',
   },
   itemList: {
     flex: 1
