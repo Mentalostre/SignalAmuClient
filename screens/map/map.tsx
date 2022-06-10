@@ -27,6 +27,7 @@ import {
 import Modal from "react-native-modal";
 import {request_encoded_post, request_get} from "../../api/request";
 import {LoadingView} from "../MapScreen";
+import {AntDesign} from "@expo/vector-icons";
 
 
 const mapLayers: Array<MapLayer> = [
@@ -273,6 +274,8 @@ export default function Map({foo}) {
                         <Text style={styles.reportPingModalDesc}>{reportDesc}</Text>
                     </View>
                     <View style={styles.reportPingModalFooter}>
+                        <ValidButton isAdmin={isAdmin} setIsReportPingModalOpen={setIsReportPingModalOpen} reportId={reportId} reloadMapMarker={reloadMapMarker}/>
+
                         <TouchableOpacity onPress={async () =>{
                             await processVote(1)}}>
                             <UpVote></UpVote>
@@ -283,7 +286,6 @@ export default function Map({foo}) {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <ValideButton isAdmin={isAdmin} setIsReportPingModalOpen={setIsReportPingModalOpen} reportId={reportId} reloadMapMarker={reloadMapMarker}/>
                 <LoadingView isLoading={isLoading}/>
 
             </Modal>
@@ -372,6 +374,37 @@ const DownVote = (props: SvgProps) => (
 
     </Svg>
 )
+
+
+const ValidButton = ({isAdmin, reportId, setIsReportPingModalOpen, reloadMapMarker})=>{
+    const postValid = ()=>{
+        request_encoded_post({report_id: reportId}, '/api/report/validate').then(
+            async (result)=>{
+                if(result.res == 1){
+                    await reloadMapReportStorage();
+                    reloadMapMarker(await getReportsStorage())
+                    setIsReportPingModalOpen(false);
+                }
+                else{
+                    alert("Impossible de valider ce report")
+                }
+            }
+        )
+    }
+
+    if(isAdmin){
+        return (
+            <AntDesign name="check" size={24} color="#0066CC" style={{marginRight: screenWidth - 160}}
+                       onPress={() => {
+                           postValid()
+                       }}/>
+
+        )
+    }
+    else {
+        return null
+    }
+}
 
 
 const screenWidth = Dimensions.get("window").width;
@@ -482,37 +515,9 @@ const styles = StyleSheet.create({
     reportVoteCount: {
         marginHorizontal: 10
     },
+    validButton: {
+
+    }
     /*  <ReportPingModal/>   */
 
 })
-
-const ValideButton = ({isAdmin, reportId, setIsReportPingModalOpen, reloadMapMarker})=>{
-    const postValid = ()=>{
-        request_encoded_post({report_id: reportId}, '/api/report/validate').then(
-            async (result)=>{
-                if(result.res == 1){
-                    await reloadMapReportStorage();
-                    reloadMapMarker(await getReportsStorage())
-                    setIsReportPingModalOpen(false);
-                }
-                else{
-                    alert("Impossible de valider ce report")
-                }
-            }
-        )
-    }
-
-    if(isAdmin){
-        return (
-            <Button
-                onPress={() => {
-                    postValid()
-                }}
-                title="valid report"
-            />
-        )
-    }
-    else {
-        return null
-    }
-}
