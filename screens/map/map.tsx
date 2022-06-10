@@ -176,8 +176,24 @@ export default function Map({foo}) {
 ]
 
     const formatDate = (date) => {
-        const month = +new Date(date).toLocaleDateString().slice(0,2)
-        return new Date(date).toLocaleDateString().slice(3,5) + " " + monthNames[month-1] + " 20" + new Date(date).toLocaleDateString().slice(6,8)
+        let tempDate = new Date(date).toLocaleDateString()
+        if (tempDate.charAt(0) === "0") {
+            tempDate = new Date(date).toLocaleDateString()
+        } if (tempDate.charAt(0) !== "0" && tempDate.charAt(1) === "/"){
+            tempDate = "0" + new Date(date).toLocaleDateString()
+        }else
+            tempDate = new Date(date).toLocaleDateString()
+        let month = +tempDate.slice(0,2)
+        tempDate = tempDate.slice(3)
+        let day
+        if (tempDate.charAt(0) === "0" ){
+            day = +tempDate.slice(0,2)
+        } if (tempDate.charAt(0) !== "0" && tempDate.charAt(1) === "/"){
+            day = +tempDate.slice(0,1)
+        }else{
+            day = +tempDate.slice(0,2)
+        }
+        return day + " " + monthNames[month-1] + " 20" + tempDate.slice(tempDate.length-2,tempDate.length)
     }
 
     const upperCaseFirstLetter = (str) => {
