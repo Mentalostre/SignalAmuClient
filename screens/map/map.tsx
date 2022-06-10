@@ -59,7 +59,7 @@ const initialPosition = {
 }
 
 
-export default function Map() {
+export default function Map({foo}) {
 
     const [zoom, setZoom] = useState(14)
     const [mapCenterPosition, setMapCenterPosition] = useState(initialPosition)
@@ -81,9 +81,13 @@ export default function Map() {
     const [isReportPingModalOpen, setIsReportPingModalOpen] = useState(false);
     const [hasVoted, setHasVoted] = useState(false);
 
+    useEffect( ()=>{
+        foo.current = reload
+    })
 
-    EventRegister.addEventListener('report', (data)=>{
-        console.log("ALLO")
+
+    /*EventRegister.addEventListener('report', (data)=>{
+        console.log("allooooooooooooooooooooooo")
         let newMapMarker: MapMarker[] = [];
         for(let i =0; i<data.length; i++){
             let d = data[i];
@@ -91,7 +95,18 @@ export default function Map() {
             newMapMarker.push(marker);
         }
         setMapMarker(newMapMarker);
-    })
+    })*/
+
+    const reload = ()=>{
+        reloadMapReportStorage().then(()=>{
+            getReportsStorage().then((data)=>{
+                console.log("stargoula")
+                reloadMapMarker(data)
+                return;
+            })
+        })
+
+    }
 
     const reloadMapMarker = (data)=>{
         let newMapMarker: MapMarker[] = [];
@@ -208,7 +223,6 @@ export default function Map() {
             if(response.res ==1){
                 if(response.images_name.length != 0){
                     let imageNames = response.images_name[0]
-                    console.log(imageNames)
                     setReportImage('http://192.168.1.89:3000/api/image/upload/' + imageNames);
                 }
                 else{return;}
@@ -271,9 +285,8 @@ export default function Map() {
 
                         switch (message.tag) {
                             case "MapReady":
-                                reloadMapReport().then(()=> {
-                                    return;
-                                })
+                                reload();
+
                                 break;
                             case 'onMapMarkerClicked':
                                 let markerId = message.mapMarkerId;

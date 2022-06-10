@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, StyleSheet, Dimensions, Image, Text, TouchableOpacity, TextInput, KeyboardAvoidingView} from 'react-native';
 import * as Location from 'expo-location'
 import Modal from "react-native-modal";
@@ -25,12 +25,9 @@ const MapScreen = ({navigation}) => {
 
 
     useEffect(() => {
-
-
-
         const socket = io('http://192.168.1.89:3001')
         socket.on("report", async ()=>{
-            await reloadMapReport()
+            foo.current()
         })
     }, []);
 
@@ -69,6 +66,8 @@ const MapScreen = ({navigation}) => {
         return (reportDesc == null || reportLevel == null);
     }
 
+    const foo = useRef(null);
+
     const handleReport =async () => {
         if(checkNotEmptyField()) {
             alert("Remplissez tous les champs")
@@ -88,8 +87,10 @@ const MapScreen = ({navigation}) => {
                 }
                 else{
                     resetReport()
-                    alert("Success")}
-                setIsLoading(false)
+                    setIsLoading(false)
+                    alert("Success")
+                }
+
             }
 
         ).catch((err)=>{
@@ -103,7 +104,7 @@ const MapScreen = ({navigation}) => {
     return (
         <View style={styles.mainArea}>
 
-            <Map/>
+            <Map foo={foo}/>
 
             <View style={styles.logoArea}>
                 <TouchableOpacity
