@@ -15,6 +15,7 @@ import Map from './map/map'
 import {handleReportPost, reloadMapReport} from "../api/report";
 import {getLocation} from "./map/location";
 import io from "socket.io-client";
+import {request_get} from "../api/request";
 const SOCKET_URL = "http://localhost:3001"
 const MapScreen = ({navigation}) => {
 
@@ -22,7 +23,11 @@ const MapScreen = ({navigation}) => {
     const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
 
+
     useEffect(() => {
+
+
+
         const socket = io('http://192.168.1.89:3001')
         socket.on("report", async ()=>{
             await reloadMapReport()

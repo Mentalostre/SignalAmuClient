@@ -5,6 +5,7 @@ import {MaterialCommunityIcons, AntDesign} from '@expo/vector-icons';
 
 
 import {handleGetMyInfo} from "../api/myinfo";
+import {request_encoded_post} from "../api/request";
 
 const upperCaseFirstLetter = (str) => {
     let result;
@@ -27,9 +28,30 @@ const SettingsScreen = ({navigation}) => {
         setConsumerID(json.consumer_id)
         setFirstName(json.first_name)
         setLastName(json.last_name)
-        setInfoDesc(json.info_desc)
-        setInfoEmail(json.info_email)
-        setPhone(json.tel)
+        setInfoDesc(()=>{
+            if(json.info_desc != null){
+                return json.info_desc;
+            }
+            else{
+                return 'Votre description'
+            }
+        })
+        setInfoEmail(()=>{
+            if(json.info_email != null){
+                return json.info_email;
+            }
+            else{
+                return 'Votre adresse mail'
+            }
+        })
+        setPhone(()=>{
+            if(json.tel != null){
+                return json.tel;
+            }
+            else{
+                return 'Votre numéro de téléphone'
+            }
+        })
     }
 
     const [isPhoneEdited, setIsPhoneEdited] = useState(false);
@@ -40,7 +62,16 @@ const SettingsScreen = ({navigation}) => {
     const [temporaryEmail, setTemporaryEmail] = useState(null);
     const [temporaryDesc, setTemporaryDesc] = useState(null);
 
-
+    const post_info = async (p, desc, email)=>{
+        let data =  {
+            tel: p,
+            info_desc: desc,
+            info_email: email
+        }
+        console.log(data)
+        let res = await request_encoded_post(data,'/api/info');
+        return res.res == 1;
+    }
 
     const toggleEdit = (setSetting, setting) => {
         setSetting(!setting)
@@ -50,8 +81,7 @@ const SettingsScreen = ({navigation}) => {
     const getInfo = async () => {
         try {
             const json = await handleGetMyInfo();
-            setInfo(json);
-            setData(json)
+            return json
         } catch (e) {
             console.log("error : ", e);
         }
@@ -62,7 +92,10 @@ const SettingsScreen = ({navigation}) => {
     }
 
     useEffect(() => {
-        getInfo();
+        getInfo().then((result)=>{
+            setInfo(result);
+            setData(result)
+        });
     }, []);
 
     return (
@@ -92,11 +125,24 @@ const SettingsScreen = ({navigation}) => {
                                     </TouchableOpacity>
                                     <TouchableOpacity style={styles.editButton} onPress={() => {
                                         toggleEdit(setIsPhoneEdited, isPhoneEdited)
-                                        console.log(data)
-                                        console.log(data)
-                                        console.log(checkPhoneNumber(temporaryPhone))
                                     }}>
-                                        <AntDesign name="check" size={24} color="#0066CC"/>
+                                        <AntDesign name="check" size={24} color="#0066CC" onPress={()=>{
+                                            if(!checkPhoneNumber(temporaryPhone)){
+                                                alert('Rentrez un numéro en +33')
+                                                return;
+                                            }
+                                            let p = phone;
+                                            setPhone(temporaryPhone)
+                                            post_info(temporaryPhone, infoDesc, infoEmail).then((res)=>{
+                                                if(res){
+                                                    toggleEdit(setIsPhoneEdited, isPhoneEdited)
+                                                }
+                                                else{
+                                                    setPhone(p)
+                                                    alert("impossible de modifier le numéro de téléphone")
+                                                }
+                                            })
+                                        }}/>
                                     </TouchableOpacity>
                                 </View>
                                 </>
@@ -126,9 +172,21 @@ const SettingsScreen = ({navigation}) => {
                                         <TouchableOpacity style={styles.editButton} onPress={() => {
                                             toggleEdit(setIsEmailEdited, isEmailEdited)
                                             data.info_email = temporaryEmail
-                                            console.log(data)
                                         }}>
-                                            <AntDesign name="check" size={24} color="#0066CC"/>
+                                            <AntDesign name="check" size={24} color="#0066CC" onPress={()=>{
+                                                let p = infoEmail;
+                                                setInfoEmail(temporaryEmail)
+                                                post_info(phone, infoDesc, temporaryEmail).then((res)=>{
+                                                    if(res){
+                                                        toggleEdit(setIsEmailEdited, isEmailEdited)
+                                                    }
+                                                    else{
+                                                        setInfoEmail(p)
+                                                        alert("impossible de modifier l'email")
+                                                    }
+                                                })
+                                            }
+                                            }/>
                                         </TouchableOpacity>
                                     </View></>
                                 : <><View>
@@ -159,9 +217,20 @@ const SettingsScreen = ({navigation}) => {
                                     <TouchableOpacity style={styles.editButton} onPress={() => {
                                         toggleEdit(setIsDescEdited, isDescEdited)
                                         data.info_desc = temporaryDesc
-                                        console.log(data)
                                     }}>
-                                        <AntDesign name="check" size={24} color="#0066CC"/>
+                                        <AntDesign name="check" size={24} color="#0066CC" onPress={()=>{
+                                            let p = infoDesc;
+                                            setInfoDesc(temporaryDesc)
+                                            post_info(phone, temporaryDesc, infoEmail).then((res)=>{
+                                                if(res){
+                                                    toggleEdit(setIsDescEdited, isDescEdited)
+                                                }
+                                                else{
+                                                    setInfoDesc(p)
+                                                    alert("impossible de modifier la description")
+                                                }
+                                            })
+                                        }}/>
                                     </TouchableOpacity>
                             </View></>
                                 : <><View>

@@ -63,6 +63,11 @@ export const reloadMapReportStorage = async()=>{
     await asyncStorage.setItem('report', JSON.stringify(reports))
 }
 
+export const getReportsStorage = async()=>{
+    let reportString = await asyncStorage.getItem('report');
+   return (JSON.parse(reportString));
+}
+
 export const getReport = async(id)=>{
     let reportString = await asyncStorage.getItem('report');
     let report = (JSON.parse(reportString));

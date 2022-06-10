@@ -17,7 +17,13 @@ import {
     View,
 } from 'react-native'
 import { MapLayer } from 'expo-leaflet'
-import {getReport, reloadMapReport, reloadMapReportStorage, setReportInAsyncStorage} from "../../api/report";
+import {
+    getReport,
+    getReportsStorage,
+    reloadMapReport,
+    reloadMapReportStorage,
+    setReportInAsyncStorage
+} from "../../api/report";
 import Modal from "react-native-modal";
 import {request_encoded_post, request_get} from "../../api/request";
 import {LoadingView} from "../MapScreen";
@@ -77,6 +83,7 @@ export default function Map() {
 
 
     EventRegister.addEventListener('report', (data)=>{
+        console.log("ALLO")
         let newMapMarker: MapMarker[] = [];
         for(let i =0; i<data.length; i++){
             let d = data[i];
@@ -85,6 +92,17 @@ export default function Map() {
         }
         setMapMarker(newMapMarker);
     })
+
+    const reloadMapMarker = (data)=>{
+        let newMapMarker: MapMarker[] = [];
+        for(let i =0; i<data.length; i++){
+            let d = data[i];
+            let marker = getM(d.location_lat, d.location_long, d.id, pingIcon(d.tag_name));
+            newMapMarker.push(marker);
+        }
+        setMapMarker(newMapMarker);
+    }
+
 
     const getM = (lat,long,id, icon)=>{
         let m:MapMarker = {
@@ -150,26 +168,15 @@ export default function Map() {
     const upperCaseFirstLetter = (str) => {
         return str.charAt(0).toUpperCase() + str.slice(1)
     }
-
+    const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
-        const getLocationAsync = async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync()
-            if (status !== 'granted') {
-                alert('Permission to access location was denied')
+        request_get('/api/isAdmin').then((response)=>{
+            if(response.res == 1){
+                setIsAdmin(true);
             }
-
-            let location = await Location.getCurrentPositionAsync({})
-            if (!ownPosition) {
-                setOwnPosition({
-                    lat: location.coords.latitude,
-                    lng: location.coords.longitude,
-                })
-            }
-        }
-        getLocationAsync().catch((error) => {
-            console.error(error)
         })
+
     }, [])
 
 
@@ -246,6 +253,7 @@ export default function Map() {
                         </TouchableOpacity>
                     </View>
                 </View>
+                <ValideButton isAdmin={isAdmin} setIsReportPingModalOpen={setIsReportPingModalOpen} reportId={reportId} reloadMapMarker={reloadMapMarker}/>
                 <LoadingView isLoading={isLoading}/>
 
             </Modal>
@@ -448,3 +456,31 @@ const styles = StyleSheet.create({
     /*  <ReportPingModal/>   */
 
 })
+
+const ValideButton = ({isAdmin, reportId, setIsReportPingModalOpen, reloadMapMarker})=>{
+    const postValid = ()=>{
+        request_encoded_post({report_id: reportId}, '/api/report/validate').then(
+            async (result)=>{
+                if(result.res == 1){
+                    await reloadMapReportStorage();
+                    reloadMapMarker(await getReportsStorage())
+                    setIsReportPingModalOpen(false);
+                }
+                else{
+                    alert("Impossible de valider ce report")
+                }
+            }
+        )
+    }
+
+    if(isAdmin){
+        return (
+            <Button
+                onPress={() => {
+                    postValid()
+                }}
+                title="valid report"
+            />
+        )
+    }
+}

@@ -8,16 +8,28 @@ import {
   Text,
   Dimensions,
 } from "react-native";
+import {request_get} from "../api/request";
 
 const SplashScreen = ({ navigation }) => {
   const [timePassed, setTimePassed] = useState(false);
   const [animating, setAnimating] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
-      setAnimating(false);
-      navigation.navigate("Auth");
-    }, 2000);
+    request_get('/api/ping').then((response)=>{
+      if(response && response.res == 1){
+        setTimeout(() => {
+          setAnimating(false);
+          navigation.navigate("Auth");
+        }, 2000);
+      }
+      else{
+        alert("Impossible de joindre le serveur. Relancez l'application");
+        return;
+      }
+    }).catch(()=>{
+      alert("Impossible de joindre le serveur. Relancez l'application");
+    })
+
   }, []);
 
   /*TODO QUAND Y'AURA L'AUTH
