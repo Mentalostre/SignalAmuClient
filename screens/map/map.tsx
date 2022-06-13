@@ -101,7 +101,6 @@ export default function Map({foo}) {
     const reload = ()=>{
         reloadMapReportStorage().then(()=>{
             getReportsStorage().then((data)=>{
-                console.log("stargoula")
                 reloadMapMarker(data)
                 return;
             })
