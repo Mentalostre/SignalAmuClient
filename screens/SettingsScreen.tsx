@@ -288,6 +288,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
+        paddingRight: 50
+
     },
     welcome: {
         marginTop: 20,
@@ -317,6 +319,7 @@ const styles = StyleSheet.create({
             width: 0,
             height: 2,
         },
+        lineHeight:34,
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,

@@ -10,24 +10,23 @@ import LottieView from "lottie-react-native";
 import SettingsScreen from "../screens/SettingsScreen";
 import MapScreen from "../screens/MapScreen";
 import InfoScreen from "../screens/InfoScreen";
-
+import {addListener} from "expo-updates";
 
 
 const TabNavigator = () => {
     return (
             <Tabs.Navigator screenOptions={{headerShown:false}}>
-                <Tabs.Screen name="Home" component={MapScreen} />
-                <Tabs.Screen name="Settings" component={SettingsScreen} />
-                <Tabs.Screen name="Informations" component={InfoScreen}/>
+                <Tabs.Screen name="Home" component={MapScreen} options={{tabBarLabelStyle: {display: "none"}, tabBarIcon: ({ focused, color, size }) => {
+                        return <CustomTab focused={focused} color={color} size={size} route={MapScreen}/>
+                    }}}/>
+                <Tabs.Screen name="Settings" component={SettingsScreen} options={{tabBarLabelStyle: {display: "none"}, tabBarIcon: ({ focused, color, size }) => {
+                        return <CustomTab focused={focused} color={color} size={size} route={SettingsScreen}/>
+                    }}}/>
+                <Tabs.Screen name="Informations" component={InfoScreen} options={{tabBarLabelStyle: {display: "none"}, tabBarIcon: ({ focused, color, size }) => {
+                        return <CustomTab focused={focused} color={color} size={size} route={InfoScreen}/>
+                    }}}/>
             </Tabs.Navigator>
     );
-}
-
-export default TabNavigator;
-
-/*
-tabBarIcon: ({ focused, color, size }) => {
-    return <CustomTab focused={focused} color={color} size={size} route={route}/>
 }
 
 
@@ -35,29 +34,28 @@ const CustomTab = ({ focused, color, size, route}) => {
 
     const ref = React.useRef();
     let filePath;
+    let stylePath;
 
     //on focus change the anim will play
     React.useEffect(() => {
         if(focused && ref.current){
+            ref.current?.reset();
             ref.current?.play();
         }
     }, [focused, ref.current]);
 
     switch (route.name) {
-        case 'Home':
-            filePath = require('../tabanimations/hometab.json');
+        case 'MapScreen':
+            filePath = require('../assets/lottie/home.json');
+            stylePath = {width: 70, height: 70 }
             break;
-        case 'Messages':
-            filePath = require('../tabanimations/messagestab.json');
+        case 'SettingsScreen':
+            filePath = require('../assets/lottie/settings.json');
+            stylePath = {width: 45, height: 45 }
             break;
-        case 'Create':
-            filePath = require('../tabanimations/hometab.json');
-            break;
-        case 'Forum':
-            filePath = require('../tabanimations/forumtab.json');
-        case 'Profile':
-            filePath = require('../tabanimations/profiletab.json');
-
+        case 'InfoScreen':
+            filePath = require('../assets/lottie/info.json');
+            stylePath = {width: 70, height: 70}
             break;
     }
 
@@ -66,7 +64,9 @@ const CustomTab = ({ focused, color, size, route}) => {
             ref={ref}
             loop={false}
             source={filePath}
+            style={stylePath}
             autoPlay={false} />
     );
 };
- */
+
+export default TabNavigator;
