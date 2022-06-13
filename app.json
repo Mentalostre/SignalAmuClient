@@ -18,14 +18,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "fr.gatedInc.signalamu"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "fr.gatedInc.signalamu"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
