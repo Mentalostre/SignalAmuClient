@@ -1,9 +1,10 @@
 {
   "expo": {
-    "name": "Signal\'AMU",
+    "name": "Signal'AMU",
     "slug": "signalamu",
     "version": "1.0.0",
     "orientation": "portrait",
+    "owner": "sayrell",
     "icon": "./assets/images/logo.png",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -17,7 +18,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "fr.gatedInc.signalamu"
     },
     "android": {
       "adaptiveIcon": {

@@ -26,8 +26,8 @@ import {
 } from "../../api/report";
 import Modal from "react-native-modal";
 import {request_encoded_post, request_get} from "../../api/request";
-import {LoadingView} from "../MapScreen";
 import {AntDesign} from "@expo/vector-icons";
+import {LoadingView} from "./LoadingView";
 
 
 const mapLayers: Array<MapLayer> = [
@@ -41,7 +41,7 @@ const mapLayers: Array<MapLayer> = [
     },
     {
         baseLayerIsChecked: true,
-        baseLayer: true,
+        baseLayer: false,
         baseLayerName: 'Mapbox',
         layerType: 'TileLayer',
         url: `https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoiam9obmtvbmRvIiwiYSI6ImNsM3lpMmN0OTBpb3MzZGpqMnM4ZWNmaHcifQ.E3xd9GKzNR_h8zO1vJpYKg`,
@@ -412,6 +412,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+        top:25
     },
     header: {
         height: 60,

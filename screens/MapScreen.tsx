@@ -15,7 +15,7 @@ import Map from './map/map'
 import {handleReportPost, reloadMapReport} from "../api/report";
 import {getLocation} from "./map/location";
 import io from "socket.io-client";
-import {request_get} from "../api/request";
+import {LoadingView} from "./map/LoadingView";
 const SOCKET_URL = "http://localhost:3001"
 const MapScreen = ({navigation}) => {
 
@@ -474,40 +474,8 @@ const PickImage = ({onChange})=>{
 }
 
 
-const loadingViewStyle = StyleSheet.create({
-    loadingView: {
-        flex:1,
-        position:"absolute",
-        left:0,
-        right:0,
-        bottom:0,
-        top:0,
-        backgroundColor:'rgba(84, 104, 140, 0.5)',
-        alignItems:"center",
-        justifyContent:"center"
-    }
-})
 
 
-const LoadingView = (props)=>{
 
-    if(props.isLoading) return (
-        <View style={
-            loadingViewStyle.loadingView
-        }>
-            <LottieView
-                source={require('./../assets/lottie/loading.json')}
-                autoPlay
-                style={{
-                    width: 200,
-                    height: 200,
-                    backgroundColor: 'transparent',
-                }}
-            ></LottieView>
-        </View>
-    )
-    else return null;
-}
 
-export {LoadingView}
 
