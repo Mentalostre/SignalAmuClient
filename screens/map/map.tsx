@@ -125,7 +125,7 @@ export default function Map({foo}) {
             id:id,
             position:{lat:lat,lng:long},
             icon: icon,
-            size: [32, 32],
+            size: [36, 36],
             iconAnchor: [0, 32]
         };
         return m;
