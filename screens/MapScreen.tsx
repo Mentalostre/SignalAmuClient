@@ -4,19 +4,11 @@ import * as Location from 'expo-location'
 import Modal from "react-native-modal";
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
-
-
-
-import LottieView from 'lottie-react-native';
-
-
-
 import Map from './map/map'
-import {handleReportPost, reloadMapReport} from "../api/report";
+import {handleReportPost} from "../api/report";
 import {getLocation} from "./map/location";
 import io from "socket.io-client";
 import {LoadingView} from "./map/LoadingView";
-const SOCKET_URL = "http://localhost:3001"
 const MapScreen = ({navigation}) => {
 
     const [isReportMenuOpen, setIsReportMenuOpen] = useState(false);
