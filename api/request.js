@@ -1,5 +1,5 @@
 
-const SERVER_URL = "http://192.168.1.89:3000"
+const SERVER_URL = "http://13.38.197.192:3000"
 
 export const request_encoded_post = async (data, route) => {
     let d = encode_data(data);

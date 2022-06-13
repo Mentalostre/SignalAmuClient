@@ -223,7 +223,7 @@ export default function Map({foo}) {
             if(response.res ==1){
                 if(response.images_name.length != 0){
                     let imageNames = response.images_name[0]
-                    setReportImage('http://192.168.1.89:3000/api/image/upload/' + imageNames);
+                    setReportImage('http://13.38.197.192:3000/api/image/upload/' + imageNames);
                 }
                 else{return;}
             }

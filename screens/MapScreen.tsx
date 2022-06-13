@@ -25,7 +25,7 @@ const MapScreen = ({navigation}) => {
 
 
     useEffect(() => {
-        const socket = io('http://192.168.1.89:3001')
+        const socket = io('http://13.38.197.192:3001')
         socket.on("report", async ()=>{
             foo.current()
         })
