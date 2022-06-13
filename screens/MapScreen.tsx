@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, StyleSheet, Dimensions, Image, Text, TouchableOpacity, TextInput, KeyboardAvoidingView} from 'react-native';
+import {View, StyleSheet, Dimensions, Image, Text, TouchableOpacity, TextInput} from 'react-native';
 import * as Location from 'expo-location'
 import Modal from "react-native-modal";
 import Slider from '@react-native-community/slider';
@@ -195,8 +195,8 @@ const MapScreen = ({navigation}) => {
                            onBackdropPress={resetReport}
                            onSwipeComplete={resetReport}
                            swipeDirection="down"
+                           avoidKeyboard
                     >
-                        <KeyboardAvoidingView behavior="padding">
                         <View style={styles.reportModalView}>
                                 <TextInput
                                     style={styles.textInputStyle}
@@ -238,7 +238,6 @@ const MapScreen = ({navigation}) => {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        </KeyboardAvoidingView>
 
                     </Modal>
 
@@ -423,8 +422,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "flex-start",
-    },
-
+    }, safeAreaView: {
+    }
 
 
 });
