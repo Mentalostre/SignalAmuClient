@@ -1,4 +1,4 @@
-# Signal'AMU Server-Side
+# Signal'AMU - Client side
 
 Projet de fin de licence informatique.
 
